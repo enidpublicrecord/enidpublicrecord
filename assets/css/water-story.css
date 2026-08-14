@@ -4,3 +4,40 @@
 
 /* V17 series navigation + accessibility */
 .breadcrumbs{font-size:.9rem;margin:1rem 0;color:var(--muted)}.breadcrumbs ol{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:.45rem}.breadcrumbs li+li:before{content:"/";margin-right:.45rem;color:#888}.series-nav{background:#fff;border:1px solid var(--line);border-radius:16px;padding:1rem;margin:1.5rem 0;display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;align-items:center}.series-nav .next{text-align:right}.series-progress{font-weight:900;text-align:center}.story-meta{display:flex;flex-wrap:wrap;gap:.7rem;color:var(--muted);font-size:.9rem}.archive-placeholder{border:2px dashed #aaa;border-radius:16px;padding:1.2rem;background:#f4f1ea}.update-box{border-left:5px solid var(--blue);background:#fff;padding:1rem 1.1rem;margin:1.5rem 0}.stories-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.story-card{display:block;background:#fff;border:1px solid var(--line);border-radius:16px;padding:1.2rem;text-decoration:none;color:var(--ink)}.story-card:hover{box-shadow:0 10px 25px rgba(0,0,0,.07)}@media(max-width:700px){.series-nav{grid-template-columns:1fr}.series-nav .next,.series-nav .prev{text-align:center}.stories-grid{grid-template-columns:1fr}}
+
+
+/* V18 definitive Water Story — narrative + evidence layer */
+.story-tools{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:24px 0 36px}
+.story-tool{background:#fff;border:1px solid var(--line,#d8dde3);border-radius:14px;padding:16px}
+.story-tool strong{display:block;font-size:1rem;margin-bottom:4px}
+.story-tool p{margin:0;font-size:.92rem;color:var(--muted,#56616b)}
+.story-lede{font-size:1.24rem;line-height:1.65;font-weight:550;margin:1.2rem 0 2rem}
+.story-dateline{font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#9f1d20}
+.story-body h2{margin-top:2.6rem;font-size:clamp(1.55rem,4vw,2.25rem);line-height:1.15}
+.story-body h3{margin-top:2rem;font-size:1.28rem}
+.story-body p{font-size:1.08rem;line-height:1.78}
+.story-pull{font-size:clamp(1.35rem,4vw,1.8rem)!important;line-height:1.42!important;font-weight:800;border-left:5px solid #9f1d20;padding:8px 0 8px 18px;margin:2rem 0}
+.record-box{background:#fff;border:1px solid var(--line,#d8dde3);border-radius:16px;padding:18px 20px;margin:2rem 0;box-shadow:0 8px 22px rgba(0,0,0,.04)}
+.record-box .label{display:block;color:#9f1d20;font-size:.75rem;letter-spacing:.11em;font-weight:900;margin-bottom:4px}
+.record-box h3{margin:.2rem 0 .6rem}
+.record-box p,.record-box li{font-size:.98rem;line-height:1.6}
+.record-box ul{margin:.7rem 0;padding-left:1.2rem}
+.record-box .source-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.record-box .source-actions a{font-weight:800}
+.visual-callout{border-top:5px solid #245b77}
+.open-record{border-left:5px solid #d49d17}
+.chapter-kicker{font-size:.78rem;letter-spacing:.12em;font-weight:900;color:#9f1d20;text-transform:uppercase}
+.chapter-title{font-size:clamp(2.2rem,7vw,4.6rem);line-height:.98;margin:.35rem 0 1rem}
+.chapter-deck{font-size:1.18rem;color:var(--muted,#56616b);margin-bottom:1.8rem}
+.chapter-footer-tease{background:#17212b;color:#fff;border-radius:16px;padding:20px;margin:2.8rem 0}
+.chapter-footer-tease a{color:#fff;font-weight:900}
+.audio-card{background:#eef5f8;border:1px solid #b9d0dc;border-radius:16px;padding:18px 20px;margin:1.5rem 0 2rem}
+.audio-card h3{margin:.1rem 0 .3rem}
+.audio-card p{margin:.2rem 0;font-size:.96rem}
+.summary-link{display:inline-block;margin:.5rem 0 1rem;font-weight:800}
+.source-shelf{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:1.4rem 0}
+.source-mini{background:#fff;border:1px solid var(--line,#d8dde3);border-radius:14px;padding:14px}
+.source-mini strong{display:block}
+.source-mini p{font-size:.9rem;margin:.35rem 0}
+.story-note{font-size:.94rem;color:var(--muted,#56616b)}
+@media(max-width:760px){.story-tools,.source-shelf{grid-template-columns:1fr}.story-body p{font-size:1.03rem}.chapter-title{font-size:2.6rem}}
