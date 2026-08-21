@@ -1,0 +1,25 @@
+name: EPR Site Health
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out site
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Run EPR site-health audit
+        env:
+          BEFORE_SHA: "${{ github.event.before }}"
+          AFTER_SHA: "${{ github.sha }}"
+        run: python3 .github/scripts/site_health.py
