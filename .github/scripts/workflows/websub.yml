@@ -1,0 +1,55 @@
+name: WebSub RSS Notify
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "feed.xml"
+      - ".github/workflows/websub.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: websub-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  notify-websub:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Google WebSub hub
+        env:
+          FEED_URL: "https://enidpublicrecord.com/feed.xml"
+          HUB_URL: "https://pubsubhubbub.appspot.com/"
+          EVENT_NAME: "${{ github.event_name }}"
+        run: |
+          python3 - <<'PY'
+          import os, time, urllib.parse, urllib.request
+          feed=os.environ["FEED_URL"]; hub=os.environ["HUB_URL"]; event=os.environ.get("EVENT_NAME","")
+          if event != "workflow_dispatch":
+              print("Waiting 90 seconds for GitHub Pages..."); time.sleep(90)
+          ready=False
+          for attempt in range(12):
+              try:
+                  with urllib.request.urlopen(feed,timeout=20) as resp:
+                      body=resp.read().decode("utf-8",errors="replace")
+                      if resp.status==200 and 'rel="hub"' in body and 'rel="self"' in body:
+                          ready=True; break
+              except Exception as exc: print(f"Feed check {attempt+1}: {exc}")
+              time.sleep(15)
+          if not ready: raise SystemExit("Public RSS feed is not ready yet: "+feed)
+          payload=urllib.parse.urlencode({"hub.mode":"publish","hub.url":feed}).encode("utf-8")
+          req=urllib.request.Request(hub,data=payload,headers={"Content-Type":"application/x-www-form-urlencoded","User-Agent":"EnidPublicRecord-WebSub/1.0"},method="POST")
+          with urllib.request.urlopen(req,timeout=30) as resp:
+              body=resp.read().decode("utf-8",errors="replace")
+              print(f"WebSub HTTP {resp.status} {body}")
+              if not 200 <= resp.status < 300: raise SystemExit(f"WebSub returned HTTP {resp.status}")
+          summary=os.environ.get("GITHUB_STEP_SUMMARY")
+          if summary:
+              with open(summary,"a",encoding="utf-8") as fh:
+                  fh.write("## WebSub notification\n\n")
+                  fh.write(f"Published feed update: {feed}\n")
+          PY

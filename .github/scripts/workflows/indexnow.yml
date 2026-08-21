@@ -1,0 +1,192 @@
+name: IndexNow
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "*.html"
+      - "**/*.html"
+      - "072d1c58867750e2933049df5c6b45e7.txt"
+      - ".github/workflows/indexnow.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: indexnow-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  notify-indexnow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out site
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Submit changed URLs to IndexNow
+        env:
+          INDEXNOW_KEY: "072d1c58867750e2933049df5c6b45e7"
+          SITE_HOST: "enidpublicrecord.com"
+          SITE_ORIGIN: "https://enidpublicrecord.com"
+          BEFORE_SHA: "${{ github.event.before }}"
+          AFTER_SHA: "${{ github.sha }}"
+          EVENT_NAME: "${{ github.event_name }}"
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          import subprocess
+          import time
+          import urllib.error
+          import urllib.request
+
+          key = os.environ["INDEXNOW_KEY"]
+          host = os.environ["SITE_HOST"]
+          origin = os.environ["SITE_ORIGIN"].rstrip("/")
+          before = os.environ.get("BEFORE_SHA", "")
+          after = os.environ.get("AFTER_SHA", "")
+          event = os.environ.get("EVENT_NAME", "")
+          key_location = f"{origin}/{key}.txt"
+
+          def canonical_url(path):
+              path = path.lstrip("./")
+              if path == "index.html":
+                  return origin + "/"
+              if path.endswith("/index.html"):
+                  return origin + "/" + path[:-10]
+              if path.endswith(".html"):
+                  return origin + "/" + path
+              return None
+
+          bootstrap = [
+              origin + "/",
+              origin + "/stories/",
+              origin + "/stories/enid-water-story/",
+              origin + "/stories/enid-water-story/part-08.html",
+          ]
+
+          changed_paths = []
+          urls = set()
+
+          if event == "workflow_dispatch" or not before or set(before) == {"0"}:
+              urls.update(bootstrap)
+          else:
+              try:
+                  diff = subprocess.check_output(
+                      ["git", "diff", "--name-status", before, after],
+                      text=True,
+                      stderr=subprocess.STDOUT,
+                  )
+              except subprocess.CalledProcessError as exc:
+                  print(exc.output)
+                  diff = ""
+                  urls.update(bootstrap)
+
+              for line in diff.splitlines():
+                  fields = line.split("\t")
+                  if not fields:
+                      continue
+                  status = fields[0]
+                  if status.startswith(("R", "C")) and len(fields) >= 3:
+                      candidates = [fields[1], fields[2]]
+                  elif len(fields) >= 2:
+                      candidates = [fields[1]]
+                  else:
+                      candidates = []
+
+                  for path in candidates:
+                      changed_paths.append(path)
+                      if path.endswith(".html"):
+                          url = canonical_url(path)
+                          if url:
+                              urls.add(url)
+
+              if not urls and (
+                  f"{key}.txt" in changed_paths
+                  or ".github/workflows/indexnow.yml" in changed_paths
+              ):
+                  urls.update(bootstrap)
+
+          if not urls:
+              print("No public HTML URLs changed; nothing to submit.")
+              raise SystemExit(0)
+
+          url_list = sorted(urls)
+          print("URLs queued for IndexNow:")
+          for url in url_list:
+              print(" -", url)
+
+          if event != "workflow_dispatch":
+              print("Waiting 90 seconds for GitHub Pages deployment...")
+              time.sleep(90)
+
+          key_ready = False
+          for attempt in range(12):
+              try:
+                  with urllib.request.urlopen(key_location, timeout=20) as resp:
+                      body = resp.read().decode("utf-8").strip()
+                      if resp.status == 200 and body == key:
+                          key_ready = True
+                          break
+              except Exception as exc:
+                  print(f"Key check attempt {attempt + 1}: {exc}")
+              time.sleep(15)
+
+          if not key_ready:
+              raise SystemExit(
+                  "IndexNow key is not publicly reachable yet at " + key_location
+              )
+
+          payload = json.dumps({
+              "host": host,
+              "key": key,
+              "keyLocation": key_location,
+              "urlList": url_list,
+          }).encode("utf-8")
+
+          req = urllib.request.Request(
+              "https://api.indexnow.org/indexnow",
+              data=payload,
+              headers={
+                  "Content-Type": "application/json; charset=utf-8",
+                  "User-Agent": "EnidPublicRecord-IndexNow/1.0",
+              },
+              method="POST",
+          )
+
+          last_error = None
+          for attempt in range(3):
+              try:
+                  with urllib.request.urlopen(req, timeout=30) as resp:
+                      body = resp.read().decode("utf-8", errors="replace")
+                      print(f"IndexNow HTTP {resp.status} {body}")
+                      if resp.status in (200, 202):
+                          break
+                      raise RuntimeError(f"Unexpected HTTP status {resp.status}")
+              except urllib.error.HTTPError as exc:
+                  body = exc.read().decode("utf-8", errors="replace")
+                  last_error = f"HTTP {exc.code}: {body}"
+                  print(last_error)
+                  if exc.code == 429 or 500 <= exc.code < 600:
+                      time.sleep(30 * (attempt + 1))
+                      continue
+                  raise
+              except Exception as exc:
+                  last_error = repr(exc)
+                  print(last_error)
+                  time.sleep(20 * (attempt + 1))
+          else:
+              raise SystemExit("IndexNow submission failed: " + str(last_error))
+
+          summary = os.environ.get("GITHUB_STEP_SUMMARY")
+          if summary:
+              with open(summary, "a", encoding="utf-8") as fh:
+                  fh.write("## IndexNow submission\n\n")
+                  fh.write(f"Submitted **{len(url_list)}** URL(s).\n\n")
+                  for url in url_list:
+                      fh.write(f"- {url}\n")
+          PY
