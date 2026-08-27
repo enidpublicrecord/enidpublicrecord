@@ -8,9 +8,16 @@
 <copyright>© 2026 Enid Public Record</copyright>
 <generator>Enid Public Record static RSS</generator>
 <ttl>60</ttl>
-<lastBuildDate>Fri, 21 Aug 2026 00:00:00 -0500</lastBuildDate>
+<lastBuildDate>Wed, 26 Aug 2026 21:30:00 -0500</lastBuildDate>
 <atom:link href="https://enidpublicrecord.com/feed.xml" rel="self" type="application/rss+xml"/>
 <atom:link href="https://pubsubhubbub.appspot.com/" rel="hub"/>
+<item>
+<title>Updated: Enid Hotel Tax — Election Result &amp; Accountability Record</title>
+<link>https://enidpublicrecord.com/hotel-tax.html</link>
+<guid isPermaLink="true">https://enidpublicrecord.com/hotel-tax.html</guid>
+<pubDate>Wed, 26 Aug 2026 21:30:00 -0500</pubDate>
+<description>Unofficial Aug. 25 results show Enid voters approved the hotel-tax proposition 3,197 to 2,697 (54.24% to 45.76%), with 23 of 23 election-day precincts reporting. The EPR deep dive now tracks certification, implementation, actual collections and spending decisions.</description>
+</item>
 <item>
 <title>Enid&#x27;s Water Story — Part 8: 133 Years Later</title>
 <link>https://enidpublicrecord.com/stories/enid-water-story/part-08.html</link>
@@ -32,13 +39,7 @@
 <pubDate>Wed, 19 Aug 2026 09:00:00 -0500</pubDate>
 <description>Part 6 of Enid&#x27;s Water Story: why Enid pursued a second major water source even though groundwater remained viable, what the 2042 model actually meant, and how Kaw was designed to diversify rather than replace the wells. Updated 2026-08-21.</description>
 </item>
-<item>
-<title>Updated: Enid, Oklahoma Hotel Tax Proposal 2026: 8% to 12% Explained</title>
-<link>https://enidpublicrecord.com/hotel-tax.html</link>
-<guid isPermaLink="true">https://enidpublicrecord.com/hotel-tax.html</guid>
-<pubDate>Wed, 19 Aug 2026 09:00:00 -0500</pubDate>
-<description>Enid voters decide Aug. 25, 2026 on an 8% to 12% hotel tax. Read the official ballot language, revenue, uses and source records. Updated 2026-08-19.</description>
-</item>
+
 <item>
 <title>Enid&#x27;s Water Story — Part 5: The Road Not Taken</title>
 <link>https://enidpublicrecord.com/stories/enid-water-story/part-05.html</link>
