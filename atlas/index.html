@@ -744,7 +744,8 @@ function clearMapSelection(){state.selectedAPN=null;state.selectedSiteId=null;re
 function showPopup(lngLat,html){
   const d=document.getElementById('drawer');if(d)d.classList.remove('open');
   if(activePopup){const old=activePopup;activePopup=null;old.remove();}
-  const p=new maplibregl.Popup({className:'epr-mobile-popup',maxWidth:'360px',closeButton:true,closeOnClick:true,offset:14}).setLngLat(lngLat).setHTML(html).addTo(map);
+  const p=new maplibregl.Popup({className:'epr-mobile-popup',maxWidth:'360px',closeButton:true,closeOnClick:true,focusAfterOpen:false,offset:14}).setLngLat(lngLat).setHTML(html).addTo(map);
+  requestAnimationFrame(()=>{const c=p.getElement()?.querySelector('.maplibregl-popup-content');if(c)c.scrollTop=0;});
   activePopup=p;
   p.on('close',()=>{if(activePopup===p){activePopup=null;clearMapSelection();}});
 }
@@ -856,8 +857,8 @@ function reset(){
   state.showContext=false;state.includeSupported=false;state.showIcons=true;state.showNames=true;state.showEvidence=false;state.showCurrentOnly=false;
   state.selectedAPN=null;state.selectedSiteId=null;
   document.querySelectorAll('[data-owner],[data-type]').forEach(x=>x.checked=true);syncYearChips();
-  ['showContext','includeSupported','showEvidence','showCurrentOnly'].forEach(id=>document.getElementById(id).checked=false);
-  ['showIcons','showNames'].forEach(id=>document.getElementById(id).checked=true);
+  ['showContext','includeSupported','showEvidence','showCurrentOnly'].forEach(id=>{const el=document.getElementById(id);if(el)el.checked=false;});
+  ['showIcons','showNames'].forEach(id=>{const el=document.getElementById(id);if(el)el.checked=true;});
   document.querySelector('input[name="base"][value="FOCUS"]').checked=true;
   // Restore thematic UI first. Basemap readiness must never prevent Reset from completing.
   document.getElementById('ownMode').classList.add('active');document.getElementById('acqMode').classList.remove('active');
