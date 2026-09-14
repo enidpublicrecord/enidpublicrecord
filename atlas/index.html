@@ -490,7 +490,7 @@ body[data-mode="acquisition"] .maplibregl-ctrl-bottom-left,body[data-mode="acqui
    <div id="installInstructions"><p>Loading the best instructions for this device.</p></div>
    <button class="install-action" id="installAction" type="button" hidden>Install EPR Atlas</button>
   </div>
-  <div class="help-mini">Installing adds the Atlas to your Home Screen or app list for faster access. The website remains the same public EPR Atlas and updates can be delivered through the web app.</div>
+  <div class="help-mini">Use the install action above when your browser supports it. If the browser does not expose a direct prompt, the Atlas will show the correct manual steps instead. No account or tracking is required.</div>
  </section>
  <section class="help-pane" data-help-pane="use">
   <div class="help-card"><h4>Explore</h4><ul><li>Tap a parcel, facility, well, or infrastructure symbol for details.</li><li>Use <b>Layers</b> to turn categories and the Water Story on or off.</li><li>Use <b>Legend</b> to see what symbols and evidence treatments mean.</li><li>Tap <b>Reset</b> to return to the Atlas starting view.</li><li>The location button centers the map on your device only after you choose to use it.</li></ul></div>
@@ -498,7 +498,7 @@ body[data-mode="acquisition"] .maplibregl-ctrl-bottom-left,body[data-mode="acqui
  </section>
  <section class="help-pane" data-help-pane="about">
   <div class="help-card"><h4>About the EPR Atlas</h4><p>The EPR Atlas is a public-records map created by <b>Enid Public Record</b> to help residents explore public property, facilities, infrastructure, and major public investments associated with Enid, Oklahoma.</p><p>Enid Public Record is independent and is not an official City of Enid website.</p></div>
-  <div class="help-card legal-block"><h4>Legal & evidence notice</h4><p><strong>Informational use.</strong> The Atlas is compiled from public records and other documented sources for reporting and public-information purposes. It is not a survey, title opinion, legal description, engineering plan, or substitute for an official record.</p><p><strong>Location and boundaries.</strong> Parcel geometry, infrastructure alignments, facility points, wellfield locators, and other mapped features may be generalized or approximate where the evidence does not support survey-grade precision. Qualifiers shown in the Atlas are part of the record.</p><p><strong>Changes and verification.</strong> Ownership, condition, status, and public records can change. For a legal, financial, construction, or property decision, verify the underlying official record with the responsible public agency.</p><p><strong>Privacy.</strong> The Atlas requests device location only when you tap the location control. The Atlas does not include code that saves your precise device location to Enid Public Record.</p><p><strong>Copyright.</strong> © 2026 Enid Public Record. Original reporting, text, graphics, cartographic presentation, and EPR branding are protected. Underlying public records and third-party basemap material remain subject to their own applicable rights and terms.</p><p><a href="https://enidpublicrecord.com/" target="_blank" rel="noopener">EnidPublicRecord.com</a></p><div class="help-version">EPR Atlas · updated September 14, 2026 · mobile browser compatibility patch</div></div>
+  <div class="help-card legal-block"><h4>Legal & evidence notice</h4><p><strong>Informational use.</strong> The Atlas is compiled from public records and other documented sources for reporting and public-information purposes. It is not a survey, title opinion, legal description, engineering plan, or substitute for an official record.</p><p><strong>Location and boundaries.</strong> Parcel geometry, infrastructure alignments, facility points, wellfield locators, and other mapped features may be generalized or approximate where the evidence does not support survey-grade precision. Qualifiers shown in the Atlas are part of the record.</p><p><strong>Changes and verification.</strong> Ownership, condition, status, and public records can change. For a legal, financial, construction, or property decision, verify the underlying official record with the responsible public agency.</p><p><strong>Privacy.</strong> The Atlas requests device location only when you tap the location control. The Atlas does not include code that saves your precise device location to Enid Public Record.</p><p><strong>Copyright.</strong> © 2026 Enid Public Record. Original reporting, text, graphics, cartographic presentation, and EPR branding are protected. Underlying public records and third-party basemap material remain subject to their own applicable rights and terms.</p><p><a href="https://enidpublicrecord.com/" target="_blank" rel="noopener">EnidPublicRecord.com</a></p><div class="help-version">EPR Atlas · updated September 14, 2026 · mobile browser compatibility + visible install action</div></div>
  </section>
 </div>
 
@@ -1241,8 +1241,87 @@ let deferredInstallPrompt=null;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstallPrompt=e;if(document.getElementById('helpPanel')?.classList.contains('open'))renderInstallHelp();});
 window.addEventListener('appinstalled',()=>{deferredInstallPrompt=null;renderInstallHelp();});
 function atlasIsInstalled(){return window.matchMedia?.('(display-mode: standalone)').matches===true || window.navigator.standalone===true;}
-function deviceInstallProfile(){const ua=navigator.userAgent||'';const ios=/iPhone|iPad|iPod/i.test(ua)||(/Macintosh/i.test(ua)&&navigator.maxTouchPoints>1);const android=/Android/i.test(ua);const safari=ios&&/Safari/i.test(ua)&&!/CriOS|FxiOS|EdgiOS|OPiOS/i.test(ua);const duckduckgo=/DuckDuckGo|DDG/i.test(ua);return{ios,android,safari,duckduckgo};}
-function renderInstallHelp(){const status=document.getElementById('installStatus'),title=document.getElementById('installTitle'),box=document.getElementById('installInstructions'),btn=document.getElementById('installAction');if(!status||!box||!btn)return;btn.hidden=true;btn.onclick=null;if(atlasIsInstalled()){status.textContent='Installed app detected';title.textContent='EPR Atlas is installed';box.innerHTML='<p>You are already using the Atlas as an installed web app. Open it from your Home Screen or app list any time.</p>';return;}const d=deviceInstallProfile();if(d.ios){status.textContent='iPhone / iPad detected';title.textContent='Add EPR Atlas to your Home Screen';box.innerHTML=d.safari?'<ol><li>Tap the <b>Share</b> button in Safari.</li><li>Scroll and choose <b>Add to Home Screen</b>.</li><li>Tap <b>Add</b>.</li></ol><p>It will appear on your Home Screen and open like an app.</p>':'<p>For the most reliable iPhone installation, open this Atlas in <b>Safari</b>.</p><ol><li>In Safari, tap <b>Share</b>.</li><li>Choose <b>Add to Home Screen</b>.</li><li>Tap <b>Add</b>.</li></ol>';return;}if(deferredInstallPrompt){status.textContent=d.android?'Android install available':'Install available';title.textContent='Install the EPR Atlas';box.innerHTML='<p>This browser can install the Atlas directly.</p>';btn.textContent='Install EPR Atlas';btn.hidden=false;btn.onclick=async()=>{const p=deferredInstallPrompt;if(!p)return;p.prompt();try{await p.userChoice;}catch(_){}deferredInstallPrompt=null;renderInstallHelp();};return;}if(d.android){status.textContent=d.duckduckgo?'DuckDuckGo on Android':'Android detected';title.textContent='Add the EPR Atlas to your Home Screen';box.innerHTML=d.duckduckgo?'<p>DuckDuckGo may not offer the same direct web-app install prompt as Chrome.</p><ol><li>Open the DuckDuckGo browser menu.</li><li>Choose <b>Add to Home Screen</b> if available.</li><li>If you want the full installable-app experience, open the Atlas in <b>Chrome</b> and use <b>Install app</b>.</li></ol>':'<ol><li>Open your browser menu (usually <b>⋮</b>).</li><li>Choose <b>Install app</b> or <b>Add to Home screen</b>.</li><li>Confirm the installation.</li></ol>';return;}status.textContent='Web browser detected';title.textContent='Install the EPR Atlas';box.innerHTML='<p>If your browser supports web-app installation, look for an <b>Install</b> icon in the address bar or browser menu. You can also bookmark the Atlas normally.</p>'; }
+function deviceInstallProfile(){const ua=navigator.userAgent||'';const ios=/iPhone|iPad|iPod/i.test(ua)||(/Macintosh/i.test(ua)&&navigator.maxTouchPoints>1);const android=/Android/i.test(ua);const safari=ios&&/Safari/i.test(ua)&&!/CriOS|FxiOS|EdgiOS|OPiOS/i.test(ua);const duckduckgo=/DuckDuckGo|DDG/i.test(ua);const chrome=/Chrome|CriOS/i.test(ua)&&!/Edg|OPR|SamsungBrowser|DuckDuckGo|DDG/i.test(ua);return{ios,android,safari,duckduckgo,chrome};}
+function renderInstallHelp(){
+ const status=document.getElementById('installStatus'),
+       title=document.getElementById('installTitle'),
+       box=document.getElementById('installInstructions'),
+       btn=document.getElementById('installAction');
+ if(!status||!title||!box||!btn)return;
+ btn.hidden=true; btn.onclick=null;
+
+ if(atlasIsInstalled()){
+   status.textContent='Installed app detected';
+   title.textContent='EPR Atlas is installed';
+   box.innerHTML='<p>You are already using the Atlas as an installed web app. Open it from your Home Screen or app list any time.</p>';
+   return;
+ }
+
+ const d=deviceInstallProfile();
+
+ if(d.ios){
+   status.textContent='iPhone / iPad detected';
+   title.textContent='Add EPR Atlas to your Home Screen';
+   box.innerHTML=d.safari
+     ?'<ol><li>Tap the <b>Share</b> button in Safari.</li><li>Choose <b>Add to Home Screen</b>.</li><li>Tap <b>Add</b>.</li></ol><p>It will appear on your Home Screen and open like an app.</p>'
+     :'<p>For the most reliable iPhone installation, open this Atlas in <b>Safari</b>.</p><ol><li>In Safari, tap <b>Share</b>.</li><li>Choose <b>Add to Home Screen</b>.</li><li>Tap <b>Add</b>.</li></ol>';
+   return;
+ }
+
+ if(deferredInstallPrompt){
+   status.textContent=d.android?'Android install available':'Install available';
+   title.textContent='Install the EPR Atlas';
+   box.innerHTML='<p>Your browser says the Atlas is ready to install.</p>';
+   btn.textContent='Install EPR Atlas';
+   btn.hidden=false;
+   btn.onclick=async()=>{
+     const p=deferredInstallPrompt;
+     if(!p)return;
+     p.prompt();
+     try{await p.userChoice;}catch(_){}
+     deferredInstallPrompt=null;
+     renderInstallHelp();
+   };
+   return;
+ }
+
+ if(d.android&&d.chrome){
+   status.textContent='Chrome on Android';
+   title.textContent='Install the EPR Atlas';
+   box.innerHTML='<p>Chrome has not exposed its direct install prompt yet. You can still check the browser install option now.</p><ol><li>Tap <b>Install / Add to Home Screen</b> below for these instructions.</li><li>Then open Chrome’s <b>⋮</b> menu.</li><li>Choose <b>Install app</b> or <b>Add to Home screen</b> if shown.</li></ol><p>If Chrome later marks the Atlas as directly installable, this same button will automatically switch to the native install prompt.</p>';
+   btn.textContent='Install / Add to Home Screen';
+   btn.hidden=false;
+   btn.onclick=()=>{box.innerHTML='<ol><li>Open Chrome’s <b>⋮</b> menu.</li><li>Tap <b>Install app</b> or <b>Add to Home screen</b>.</li><li>Confirm the action.</li></ol><p>If neither choice appears, reload the Atlas once and check the menu again. Chrome controls when its native install option becomes available.</p>';};
+   return;
+ }
+
+ if(d.android&&d.duckduckgo){
+   status.textContent='DuckDuckGo on Android';
+   title.textContent='Add the EPR Atlas to your Home Screen';
+   box.innerHTML='<p>DuckDuckGo may not expose the same direct web-app install prompt as Chrome.</p><ol><li>Open the DuckDuckGo browser menu.</li><li>Choose <b>Add to Home Screen</b> if available.</li><li>For the full installable-app experience, open the Atlas in <b>Chrome</b>.</li></ol>';
+   btn.textContent='Show install steps';
+   btn.hidden=false;
+   btn.onclick=()=>{box.innerHTML='<ol><li>Open the DuckDuckGo browser menu.</li><li>Look for <b>Add to Home Screen</b>.</li><li>If it is not available, open <b>enidpublicrecord.com/atlas/</b> in Chrome and use Chrome’s <b>Install app</b> option.</li></ol>';};
+   return;
+ }
+
+ if(d.android){
+   status.textContent='Android detected';
+   title.textContent='Add the EPR Atlas to your Home Screen';
+   box.innerHTML='<p>Use your browser’s install or home-screen option.</p>';
+   btn.textContent='Show install steps';
+   btn.hidden=false;
+   btn.onclick=()=>{box.innerHTML='<ol><li>Open your browser menu.</li><li>Choose <b>Install app</b> or <b>Add to Home screen</b>.</li><li>Confirm the action.</li></ol>';};
+   return;
+ }
+
+ status.textContent='Web browser detected';
+ title.textContent='Install the EPR Atlas';
+ box.innerHTML='<p>If your browser supports web-app installation, look for an <b>Install</b> icon in the address bar or browser menu.</p>';
+ btn.textContent='Show install help';
+ btn.hidden=false;
+ btn.onclick=()=>{box.innerHTML='<p>Look in the browser address bar or menu for <b>Install app</b>, <b>Install</b>, or <b>Add to Home screen</b>. You can also bookmark the Atlas normally.</p>';};
+}
 function setHelpTab(name){document.querySelectorAll('[data-help-tab]').forEach(b=>b.classList.toggle('active',b.dataset.helpTab===name));document.querySelectorAll('[data-help-pane]').forEach(p=>p.classList.toggle('active',p.dataset.helpPane===name));if(name==='install')renderInstallHelp();}
 function initHelp(){document.querySelectorAll('[data-help-tab]').forEach(b=>b.onclick=()=>setHelpTab(b.dataset.helpTab));renderInstallHelp();}
 function closePanels(){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('open'));}
