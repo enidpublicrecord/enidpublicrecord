@@ -405,6 +405,10 @@ body[data-mode="acquisition"] .maplibregl-ctrl-bottom-left,body[data-mode="acqui
 .maplibregl-marker.epr-status-marker,.maplibregl-marker.epr-acq-marker,.maplibregl-marker.epr-location-marker{z-index:80!important}
 .maplibregl-marker.epr-water-label-marker,.maplibregl-marker.epr-site-marker.has-label{z-index:1000!important}
 .epr-water-label-marker{width:1px;height:1px;overflow:visible;pointer-events:none;white-space:nowrap;position:relative}
+/* A21: dedicated map-container label plane. Geographic renderers remain unchanged. */
+#eprTopWaterLabels{position:absolute;inset:0;z-index:1100;pointer-events:none;overflow:hidden}
+#eprTopWaterLabels .epr-top-label-anchor{position:absolute;width:1px;height:1px;overflow:visible;pointer-events:none}
+
 .epr-local-note{margin-top:8px;padding:8px 9px;border-left:3px solid #0072B2;background:#eef6fb;border-radius:0 7px 7px 0;font-size:10px;line-height:1.3;color:#364652}
 
 /* v16.4L-water-hierarchy-strict — robust close-zoom site labels for MapLibre/local preview parity. */
@@ -462,7 +466,7 @@ body[data-mode="acquisition"] .maplibregl-ctrl-bottom-left,body[data-mode="acqui
 <div id="map"></div><svg id="eprWellSvg" aria-hidden="true"></svg><svg id="eprKawRouteSvg" aria-hidden="true"><path class="kaw-casing"></path><path class="kaw-line"></path><g id="eprKawInlineSites"></g></svg>
 <div class="topbar">
  <a href="https://enidpublicrecord.com/" target="_blank" rel="noopener"><img class="logo" src="https://enidpublicrecord.com/assets/images/enid-public-record-logo-transparent.png" alt="Enid Public Record"></a>
- <div class="title">EPR — What Does Enid Own?<small>INTERNAL TEST · v16.4P RESTORED · KAW RENDERER LOCKED · WL106 HIDDEN</small></div>
+ <div class="title">EPR — What Does Enid Own?<small>Interactive public asset map</small></div>
  <button class="iconbtn" id="helpBtn" aria-label="Help, install, and about">?</button>
  <button class="iconbtn" id="searchBtn" aria-label="Search">⌕</button>
  <button class="iconbtn" id="locateBtn" aria-label="My location">◎</button>
@@ -704,7 +708,8 @@ function lockWaterOverlayStack(){
   // Kaw route intentionally remains a #map/body-level overlay: map.project() returns map-container CSS pixels.
   // Moving it into MapLibre's transformed canvas container caused the mobile displacement regression.
   if(route){route.style.zIndex='1';}
-  if(wells&&wells.parentNode!==host)host.appendChild(wells);
+  // Wells use map.project(), so keep their SVG in map-container coordinates just like the locked Kaw overlay.
+  // Never append this SVG to MapLibre's transformed canvas container.
   if(wells)wells.style.zIndex='20';
 }
 function enforceWaterHierarchy(){
@@ -1047,19 +1052,27 @@ function waterWellPopupHTML(p){
   return `<div class="water-popup"><b>${esc(p.label||p.well_census_id)}</b><br>${esc(p.wellfield||'Wellfield unresolved')}<br><span class="tag">PUBLIC-WATER / SOURCE WELL</span><div style="margin-top:7px"><b>DEQ registry:</b> ${esc(p.deq_registry_status||'Unresolved')}</div><div style="margin-top:5px"><b>Production evidence:</b> ${esc(p.production_evidence_status||'Current pumping unverified')}</div><div style="margin-top:5px"><b>OWRB crosswalk:</b> ${esc(p.owrb_crosswalk_status||'Unresolved')}</div><div class="muted">DEQ Active/Inactive is regulatory component status. It does not, by itself, establish whether this well is pumping today.</div>${p.source_url?`<div style="margin-top:7px"><a href="${esc(p.source_url)}" target="_blank" rel="noopener">Open source</a></div>`:''}</div>`;
 }
 function clearWaterWellSvg(){const svg=document.getElementById('eprWellSvg');if(svg)svg.innerHTML='';}
-function renderWaterWellsSvg(){
+function renderWaterWellsSvg(addHitTargets=true){
   const svg=document.getElementById('eprWellSvg');if(!svg)return;svg.innerHTML='';
   if(!state.waterStory||!state.waterLayers.has('wells'))return;
+  const host=map.getContainer();
+  const w=host.clientWidth||1,h=host.clientHeight||1;
+  // CRITICAL: map.project() returns CSS-pixel coordinates. SVG must use the identical pixel coordinate system.
+  // Without this viewBox, browsers default SVG user units to 300x150 and wells appear to move as zoom changes.
+  svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+  svg.setAttribute('width',w);svg.setAttribute('height',h);
   const ns='http://www.w3.org/2000/svg';
   const add=(f,cls,r)=>{
     const pt=map.project(f.geometry.coordinates);if(!Number.isFinite(pt.x)||!Number.isFinite(pt.y))return;
     const c=document.createElementNS(ns,'circle');c.setAttribute('cx',pt.x);c.setAttribute('cy',pt.y);c.setAttribute('r',r);c.setAttribute('class',cls);svg.appendChild(c);
-    // Local Android/content:// compatibility: SVG is visual-only, so attach a transparent MapLibre hit target for taps.
-    const hit=document.createElement('div');hit.className='epr-well-hit';hit.setAttribute('aria-label',String((f.properties||{}).label||'Water well'));
-    hit.onclick=e=>{e.stopPropagation();openWaterWellPopup(f);};
-    waterWellMarkers.push(new maplibregl.Marker({element:hit,anchor:'center'}).setLngLat(f.geometry.coordinates).addTo(map));
+    // Hit targets are created only during a full render, never during camera redraws.
+    if(addHitTargets){
+      const hit=document.createElement('div');hit.className='epr-well-hit';hit.setAttribute('aria-label',String((f.properties||{}).label||'Water well'));
+      hit.onclick=e=>{e.stopPropagation();openWaterWellPopup(f);};
+      waterWellMarkers.push(new maplibregl.Marker({element:hit,anchor:'center'}).setLngLat(f.geometry.coordinates).addTo(map));
+    }
   };
-  if(state.wellSource){for(const f of WATER_WELL_POINTS.features){if(String((f.properties||{}).label||'').includes('WL106'))continue;const st=String((f.properties||{}).deq_registry_status||'').toUpperCase();if(st==='ACTIVE'&&!state.wellActive)continue;if(st==='INACTIVE'&&!state.wellInactive)continue;add(f,st==='ACTIVE'?'well-active':'well-inactive',6.5);}}
+  if(state.wellSource){for(const f of WATER_WELL_POINTS.features){if(String((f.properties||{}).label||'').toUpperCase().includes('WL106'))continue;const st=String((f.properties||{}).deq_registry_status||'').toUpperCase();if(st==='ACTIVE'&&!state.wellActive)continue;if(st==='INACTIVE'&&!state.wellInactive)continue;add(f,st==='ACTIVE'?'well-active':'well-inactive',6.5);}}
   if(state.wellMonitoring){for(const f of WATER_MONITOR_POINTS.features){const approx=String((f.properties||{}).location_quality||'').toUpperCase()==='APPROXIMATE';add(f,approx?'well-monitor-approx':'well-monitor',8);}}
 }
 function renderWaterWells(){
@@ -1081,6 +1094,37 @@ function renderWaterWells(){
 }
 function fitWaterWells(){const b=new maplibregl.LngLatBounds();WATER_WELL_POINTS.features.forEach(f=>b.extend(f.geometry.coordinates));WATER_MONITOR_POINTS.features.forEach(f=>b.extend(f.geometry.coordinates));map.fitBounds(b,{padding:{top:90,bottom:80,left:35,right:35},maxZoom:10.2,duration:700});}
 
+let eprTopWaterLabels=null;
+function ensureTopWaterLabelPlane(){
+  if(eprTopWaterLabels&&eprTopWaterLabels.isConnected)return eprTopWaterLabels;
+  eprTopWaterLabels=document.createElement('div');
+  eprTopWaterLabels.id='eprTopWaterLabels';
+  document.body.appendChild(eprTopWaterLabels);
+  return eprTopWaterLabels;
+}
+function redrawTopWaterLabels(){
+  const plane=ensureTopWaterLabelPlane();
+  plane.innerHTML='';
+  if(!state.waterStory||!state.showNames)return;
+  const z=map.getZoom();
+  if(state.waterLayers.has('fields')&&z>=8.4){
+    for(const w of WATER_WELLFIELD_AREAS){
+      const p=map.project(w.ll);
+      const a=document.createElement('div'); a.className='epr-top-label-anchor';
+      a.style.left=p.x+'px'; a.style.top=p.y+'px';
+      a.innerHTML=`<div class="epr-wf-label" style="left:${w.labelDx??0}px;top:${w.labelDy??17}px;transform:none">${esc(w.name)}<br><span style="font-weight:600">approx. area</span></div>`;
+      plane.appendChild(a);
+    }
+  }
+  if(state.waterLayers.has('pumps')&&z>=9.0){
+    const p=map.project(AMES_FIELD_CANDIDATE.ll);
+    const a=document.createElement('div'); a.className='epr-top-label-anchor';
+    a.style.left=p.x+'px'; a.style.top=p.y+'px';
+    a.innerHTML=`<div class="epr-ames-label" style="left:22px;top:-20px;transform:none">Ames Plant<br><span style="font-weight:600">confirmed facility · location high-confidence</span></div>`;
+    plane.appendChild(a);
+  }
+}
+
 const WATER_WELLFIELD_AREAS=[
   {id:'WF-AMES',name:'Ames Wellfield',county:'Major County',ll:[-98.219873,36.247323],labelDx:-76,labelDy:20,wells:'33 wells; 26 active in the 2009 operating snapshot',where:'Vicinity of Ames',detail:'2009 plan: one of Enid\'s five principal wellfields. This locator is centered on the mapped Ames well cluster for orientation; it is not a surveyed wellfield boundary.'},
   {id:'WF-DRUMMOND',name:'Drummond Wellfield',county:'Garfield County',ll:[-98.117740,36.285420],labelDx:18,labelDy:18,wells:'33 wells; 20 active in the 2009 operating snapshot',where:'Vicinity of Drummond, southwest of Enid',detail:'The 2009 plan describes this field in the vicinity of Drummond. This locator is centered on the mapped Drummond well cluster and does not represent the authorized-land footprint.'},
@@ -1099,12 +1143,9 @@ function renderWaterWellfields(){
     const el=document.createElement('div');el.className='epr-wf-marker';
     el.innerHTML=`<div class="epr-wf-wrap"><div class="epr-wf-dot">WF</div></div>`;
     el.onclick=e=>{e.stopPropagation();new maplibregl.Popup({closeButton:true,offset:18,maxWidth:'300px'}).setLngLat(w.ll).setHTML(waterFieldPopupHTML(w)).addTo(map);};
-    waterFieldMarkers.push(new maplibregl.Marker({element:el,anchor:'center'}).setLngLat(w.ll).addTo(map));
-    if(state.showNames&&z>=8.4){
-      const lab=document.createElement('div');lab.className='epr-water-label-marker';
-      lab.innerHTML=`<div class="epr-wf-label" style="left:${w.labelDx??0}px;top:${w.labelDy??17}px;transform:none">${esc(w.name)}<br><span style="font-weight:600">approx. area</span></div>`;
-      waterFieldMarkers.push(new maplibregl.Marker({element:lab,anchor:'center'}).setLngLat(w.ll).addTo(map));
-    }
+    /* A20: at named-label zoom, the text label replaces the redundant WF badge so the badge cannot sit on top of the label. */
+    if(!(state.showNames&&z>=8.4)) waterFieldMarkers.push(new maplibregl.Marker({element:el,anchor:'center'}).setLngLat(w.ll).addTo(map));
+    // A22: named label is rendered in a body-level top label plane above the body-level well SVG.
   }
 }
 
@@ -1135,11 +1176,7 @@ function renderAmesFieldCandidate(){
   el.innerHTML=`<div class="epr-ames-wrap"><div class="epr-ames-dot">A?</div></div>`;
   el.onclick=e=>{e.stopPropagation();new maplibregl.Popup({closeButton:true,offset:20,maxWidth:'350px'}).setLngLat(x.ll).setHTML(amesFieldPopupHTML(x)).addTo(map);};
   amesFieldMarkers.push(new maplibregl.Marker({element:el,anchor:'center'}).setLngLat(x.ll).addTo(map));
-  if(state.showNames&&z>=9.0){
-    const lab=document.createElement('div');lab.className='epr-water-label-marker';
-    lab.innerHTML=`<div class="epr-ames-label" style="left:22px;top:-20px;transform:none">Ames Plant<br><span style="font-weight:600">confirmed facility · location high-confidence</span></div>`;
-    amesFieldMarkers.push(new maplibregl.Marker({element:lab,anchor:'center'}).setLngLat(x.ll).addTo(map));
-  }
+  // A21: named Ames label is rendered in the dedicated top label plane.
 }
 
 // Phase 3b correction: current Kaw system, traced at orientation scale from the City's published General Map of Pipeline Alignment.
@@ -1283,7 +1320,7 @@ function reset(){
   try{applyBase('FOCUS');}catch(err){console.error('EPR basemap reset warning',err);}
   renderAll();fitHome();
 }
-function wire(){document.querySelectorAll('[data-close]').forEach(b=>b.onclick=closePanels);document.getElementById('helpBtn').onclick=()=>{openPanel('helpPanel');renderInstallHelp();};initHelp();document.getElementById('legendBtn').onclick=()=>openPanel('legendPanel');document.getElementById('layersBtn').onclick=()=>openPanel('layersPanel');document.getElementById('searchBtn').onclick=()=>{openPanel('searchPanel');setTimeout(()=>document.getElementById('searchInput').focus(),40);};document.getElementById('ownMode').onclick=()=>setMode('ownership');document.getElementById('acqMode').onclick=()=>setMode('acquisition');document.getElementById('showContext').onchange=e=>{state.showContext=e.target.checked;renderAll();};document.getElementById('includeSupported').onchange=e=>{state.includeSupported=e.target.checked;renderAll();};document.getElementById('showIcons').onchange=e=>{state.showIcons=e.target.checked;renderSites();};document.getElementById('showNames').onchange=e=>{state.showNames=e.target.checked;renderSites();renderWaterWells();renderWaterWellfields();renderAmesFieldCandidate();renderKawSystem();renderAcqPoint();};document.getElementById('showEvidence').onchange=e=>{state.showEvidence=e.target.checked;renderStatus();};document.getElementById('showCurrentOnly').onchange=e=>{state.showCurrentOnly=e.target.checked;renderParcels();};document.querySelectorAll('input[name="base"]').forEach(r=>r.onchange=e=>applyBase(e.target.value));document.getElementById('locateBtn').onclick=()=>navigator.geolocation?.getCurrentPosition(pos=>{map.flyTo({center:[pos.coords.longitude,pos.coords.latitude],zoom:16});const el=document.createElement('div');el.className='epr-location-marker';el.innerHTML='<div class="epr-location-dot"></div>';new maplibregl.Marker({element:el}).setLngLat([pos.coords.longitude,pos.coords.latitude]).addTo(map);},()=>alert('Location could not be determined. Check browser location permission and try again.'),{enableHighAccuracy:true});document.getElementById('resetBtn').onclick=reset;document.getElementById('searchInput').oninput=e=>renderSearch(e.target.value);document.addEventListener('keydown',e=>{if(e.key==='Escape'){closePanels();closeAllDetails();}});map.on('move',redrawKawRoute);const rerenderWaterCamera=()=>{renderSites();renderWaterWells();renderWaterWellfields();renderAmesFieldCandidate();renderKawSystem();renderAcqPoint();requestAnimationFrame(enforceWaterHierarchy);};map.on('zoomend',rerenderWaterCamera);map.on('moveend',rerenderWaterCamera);map.on('load',()=>{lockWaterOverlayStack();requestAnimationFrame(enforceWaterHierarchy);});}
+function wire(){document.querySelectorAll('[data-close]').forEach(b=>b.onclick=closePanels);document.getElementById('helpBtn').onclick=()=>{openPanel('helpPanel');renderInstallHelp();};initHelp();document.getElementById('legendBtn').onclick=()=>openPanel('legendPanel');document.getElementById('layersBtn').onclick=()=>openPanel('layersPanel');document.getElementById('searchBtn').onclick=()=>{openPanel('searchPanel');setTimeout(()=>document.getElementById('searchInput').focus(),40);};document.getElementById('ownMode').onclick=()=>setMode('ownership');document.getElementById('acqMode').onclick=()=>setMode('acquisition');document.getElementById('showContext').onchange=e=>{state.showContext=e.target.checked;renderAll();};document.getElementById('includeSupported').onchange=e=>{state.includeSupported=e.target.checked;renderAll();};document.getElementById('showIcons').onchange=e=>{state.showIcons=e.target.checked;renderSites();};document.getElementById('showNames').onchange=e=>{state.showNames=e.target.checked;renderSites();renderWaterWells();renderWaterWellfields();renderAmesFieldCandidate();renderKawSystem();renderAcqPoint();redrawTopWaterLabels();};document.getElementById('showEvidence').onchange=e=>{state.showEvidence=e.target.checked;renderStatus();};document.getElementById('showCurrentOnly').onchange=e=>{state.showCurrentOnly=e.target.checked;renderParcels();};document.querySelectorAll('input[name="base"]').forEach(r=>r.onchange=e=>applyBase(e.target.value));document.getElementById('locateBtn').onclick=()=>navigator.geolocation?.getCurrentPosition(pos=>{map.flyTo({center:[pos.coords.longitude,pos.coords.latitude],zoom:16});const el=document.createElement('div');el.className='epr-location-marker';el.innerHTML='<div class="epr-location-dot"></div>';new maplibregl.Marker({element:el}).setLngLat([pos.coords.longitude,pos.coords.latitude]).addTo(map);},()=>alert('Location could not be determined. Check browser location permission and try again.'),{enableHighAccuracy:true});document.getElementById('resetBtn').onclick=reset;document.getElementById('searchInput').oninput=e=>renderSearch(e.target.value);document.addEventListener('keydown',e=>{if(e.key==='Escape'){closePanels();closeAllDetails();}});map.on('move',()=>{redrawKawRoute();redrawTopWaterLabels();});const rerenderWaterCamera=()=>{renderSites();renderWaterWells();renderWaterWellfields();renderAmesFieldCandidate();renderKawSystem();renderAcqPoint();redrawTopWaterLabels();requestAnimationFrame(enforceWaterHierarchy);};map.on('zoomend',rerenderWaterCamera);map.on('moveend',rerenderWaterCamera);map.on('load',()=>{lockWaterOverlayStack();redrawTopWaterLabels();requestAnimationFrame(enforceWaterHierarchy);});}
 map.on('error',e=>{
   if(e?.error)console.error('EPR MapLibre error',e.error);
   const msg=String(e?.error?.message||'');
@@ -1293,7 +1330,7 @@ map.on('error',e=>{
     try{applyBase(state.basemap||'FOCUS');}catch(_){}
   }
 });
-if(LOCAL_PREVIEW){map.on('move',()=>renderWaterWellsSvg());map.on('zoom',()=>renderWaterWellsSvg());map.on('resize',()=>renderWaterWellsSvg());}
+if(LOCAL_PREVIEW){map.on('move',()=>renderWaterWellsSvg(false));map.on('zoom',()=>renderWaterWellsSvg(false));map.on('resize',()=>renderWaterWellsSvg(false));}
 map.on('load',()=>{
   if(LOCAL_PREVIEW)initSvgOverlay();else addOverlayLayers();
   buildControls();wire();renderSearch('');document.body.dataset.mode='ownership';
