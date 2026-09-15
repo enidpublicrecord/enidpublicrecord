@@ -1078,7 +1078,9 @@ function renderWaterWellsSvg(addHitTargets=true){
 function renderWaterWells(){
   clearWaterWellMarkers();clearWaterWellSvg();
   if(!state.waterStory||!state.waterLayers.has('wells'))return;
-  if(LOCAL_PREVIEW){renderWaterWellsSvg();return;}
+  // PRODUCTION LOCK: use the proven map.project() + synchronized SVG viewBox renderer everywhere.
+  // Do not switch live HTTP/HTTPS back to DOM/MapLibre well markers; that path caused zoom-relative drift.
+  renderWaterWellsSvg();return;
   const z=map.getZoom(), labelOn=state.showNames&&z>=13.5;
   if(state.wellSource){
     for(const f of WATER_WELL_POINTS.features){if(String((f.properties||{}).label||'').includes('WL106'))continue;
@@ -1330,7 +1332,8 @@ map.on('error',e=>{
     try{applyBase(state.basemap||'FOCUS');}catch(_){}
   }
 });
-if(LOCAL_PREVIEW){map.on('move',()=>renderWaterWellsSvg(false));map.on('zoom',()=>renderWaterWellsSvg(false));map.on('resize',()=>renderWaterWellsSvg(false));}
+// Keep visible wells locked to geographic coordinates during every camera/frame change in both local preview and production.
+map.on('move',()=>renderWaterWellsSvg(false));map.on('zoom',()=>renderWaterWellsSvg(false));map.on('resize',()=>renderWaterWellsSvg(false));
 map.on('load',()=>{
   if(LOCAL_PREVIEW)initSvgOverlay();else addOverlayLayers();
   buildControls();wire();renderSearch('');document.body.dataset.mode='ownership';
