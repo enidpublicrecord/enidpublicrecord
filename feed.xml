@@ -8,9 +8,16 @@
 <copyright>© 2026 Enid Public Record</copyright>
 <generator>Enid Public Record static RSS</generator>
 <ttl>60</ttl>
-<lastBuildDate>Thu, 27 Aug 2026 13:26:00 -0500</lastBuildDate>
+<lastBuildDate>Tue, 15 Sep 2026 09:53:00 -0500</lastBuildDate>
 <atom:link href="https://enidpublicrecord.com/feed.xml" rel="self" type="application/rss+xml"/>
 <atom:link href="https://pubsubhubbub.appspot.com/" rel="hub"/>
+<item>
+<title>What Does Enid Own — and What Has It Built With It?</title>
+<link>https://enidpublicrecord.com/stories/what-does-enid-own.html</link>
+<guid isPermaLink="true">https://enidpublicrecord.com/stories/what-does-enid-own.html</guid>
+<pubDate>Tue, 15 Sep 2026 09:53:00 -0500</pubDate>
+<description>EPR's public asset inventory starts with 422 certified local property records, then goes beyond the parcel count to parks, public safety, Woodring Airport, water infrastructure, industrial land and the interactive EPR Atlas.</description>
+</item>
 <item>
 <title>Hotel Tax — What Happens Now?</title>
 <link>https://enidpublicrecord.com/stories/enid-hotel-tax-what-happens-now.html</link>
