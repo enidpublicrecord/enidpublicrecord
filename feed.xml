@@ -1,23 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-<channel>
-<title>Enid Public Record — Latest Stories and Updates</title>
-<link>https://enidpublicrecord.com/</link>
-<description>Independent, source-based reporting and public-record research about Enid, Oklahoma.</description>
-<language>en-us</language>
-<copyright>© 2026 Enid Public Record</copyright>
-<generator>Enid Public Record static RSS</generator>
-<ttl>60</ttl>
-<lastBuildDate>Tue, 15 Sep 2026 09:53:00 -0500</lastBuildDate>
-<atom:link href="https://enidpublicrecord.com/feed.xml" rel="self" type="application/rss+xml"/>
-<atom:link href="https://pubsubhubbub.appspot.com/" rel="hub"/>
-<item>
-<title>What Does Enid Own — and What Has It Built With It?</title>
-<link>https://enidpublicrecord.com/stories/what-does-enid-own.html</link>
-<guid isPermaLink="true">https://enidpublicrecord.com/stories/what-does-enid-own.html</guid>
-<pubDate>Tue, 15 Sep 2026 09:53:00 -0500</pubDate>
-<description>EPR's public asset inventory starts with 422 certified local property records, then goes beyond the parcel count to parks, public safety, Woodring Airport, water infrastructure, industrial land and the interactive EPR Atlas.</description>
-</item>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Enid Public Record — Latest Stories and Updates</title><link>https://enidpublicrecord.com/</link><description>Independent, source-based reporting and public-record research about Enid, Oklahoma.</description><language>en-us</language><copyright>© 2026 Enid Public Record</copyright><generator>Enid Public Record static RSS</generator><ttl>60</ttl><lastBuildDate>Wed, 16 Sep 2026 13:45:00 -0500</lastBuildDate><atom:link href="https://enidpublicrecord.com/feed.xml" rel="self" type="application/rss+xml"/><atom:link href="https://pubsubhubbub.appspot.com/" rel="hub"/>
+<item><title>Project Thunderbird: What Enid Has Built — and What the Proposal Still Has to Prove</title><link>https://enidpublicrecord.com/stories/project-thunderbird.html</link><guid isPermaLink="true">https://enidpublicrecord.com/stories/project-thunderbird.html</guid><pubDate>Wed, 16 Sep 2026 13:45:00 -0500</pubDate><description>Enid Public Record examines Project Thunderbird's proposed water use, City-owned industrial land, Kaw financing, revenue projections and the rules that still stand between rezoning and construction.</description></item>
+<item><title>What Does Enid Own — and What Has It Built With It?</title><link>https://enidpublicrecord.com/stories/what-does-enid-own.html</link><guid isPermaLink="true">https://enidpublicrecord.com/stories/what-does-enid-own.html</guid><pubDate>Tue, 15 Sep 2026 11:00:00 -0500</pubDate><description>EPR's records-based inventory of Enid public property, facilities and infrastructure, paired with the interactive EPR Atlas.</description></item>
 <item>
 <title>Hotel Tax — What Happens Now?</title>
 <link>https://enidpublicrecord.com/stories/enid-hotel-tax-what-happens-now.html</link>
@@ -75,19 +59,4 @@
 <pubDate>Sun, 16 Aug 2026 09:00:00 -0500</pubDate>
 <description>Part 3 of Enid&#x27;s Water Story: Enid&#x27;s early reservoir, the 1911 pumping plant, underground collection galleries, a giant brick well, and the unresolved frog-pond question. Updated 2026-08-21.</description>
 </item>
-<item>
-<title>Enid&#x27;s Water Story — Part 2: The 26-Foot Well</title>
-<link>https://enidpublicrecord.com/stories/enid-water-story/part-02.html</link>
-<guid isPermaLink="true">https://enidpublicrecord.com/stories/enid-water-story/part-02.html</guid>
-<pubDate>Sat, 15 Aug 2026 09:00:00 -0500</pubDate>
-<description>Part 2 of Enid&#x27;s Water Story: the 1900 bond vote, the reported 26-foot-diameter well, and the early waterworks Enid built for growth and fire protection. Updated 2026-08-21.</description>
-</item>
-<item>
-<title>Enid&#x27;s Water Story — Part 1: Before There Was Enid, There Was Water</title>
-<link>https://enidpublicrecord.com/stories/enid-water-story/part-01.html</link>
-<guid isPermaLink="true">https://enidpublicrecord.com/stories/enid-water-story/part-01.html</guid>
-<pubDate>Fri, 14 Aug 2026 09:00:00 -0500</pubDate>
-<description>Enid&#x27;s Water Story, Part 1 of 8: Before There Was Enid, There Was Water. Updated 2026-08-21.</description>
-</item>
-</channel>
-</rss>
+</channel></rss>
