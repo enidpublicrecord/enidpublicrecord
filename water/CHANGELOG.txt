@@ -1,0 +1,27 @@
+EPR Water Explorer — Public Changelog
+
+v0.8 — 2026-09-19
+- Linked Water Explorer directly to the Kaw water-right investigation.
+- Added USE to the persistent bottom navigation for equal access to all four Water modes.
+- Preserved independent Water PWA/service-worker scope.
+
+v0.7.1 — 2026-09-19
+- Fixed More-menu navigation state: More now always reopens at the main category list.
+- Closing More by X, backdrop or Escape resets the submenu state.
+- Back reliably returns to the main More categories.
+
+v0.7 — 2026-09-19
+- Added data-status and freshness display.
+- Added publication-safe search.
+- Added shareable deep links for records and views.
+- Added source/provenance cards.
+- Added reader-facing evidence qualifiers.
+- Added first-run concept explainer.
+- Added Help, About, Privacy, Legal & Sources, Copyright, Accessibility, Feedback, Changelog and Version.
+- Added PWA manifest, icons and Water-scoped service worker foundation.
+- Added keyboard/focus, reduced-motion, touch-target and dynamic-status accessibility improvements.
+- Added story ↔ explorer link to Enid's Water Story.
+
+v0.6
+- Separated publication-safe data from interface code.
+- Added stable public IDs and deep-link architecture.

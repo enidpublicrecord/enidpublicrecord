@@ -1,0 +1,42 @@
+{
+  "name": "EPR Water Explorer",
+  "short_name": "Water Explorer",
+  "description": "Explore Kaw Lake water rights, federal storage, documented use and Enid's water system using source-linked public records.",
+  "id": "/water/",
+  "start_url": "/water/",
+  "scope": "/water/",
+  "display": "standalone",
+  "background_color": "#f3f7f8",
+  "theme_color": "#0b1e28",
+  "icons": [
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Kaw rights",
+      "short_name": "Rights",
+      "url": "/water/?mode=rights"
+    },
+    {
+      "name": "Federal storage",
+      "short_name": "Storage",
+      "url": "/water/?mode=storage"
+    },
+    {
+      "name": "Water flow",
+      "short_name": "Flow",
+      "url": "/water/?mode=flow"
+    }
+  ]
+}
