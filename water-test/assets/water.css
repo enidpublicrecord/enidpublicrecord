@@ -92,3 +92,45 @@ main{max-width:940px;margin:auto}
   .bottom button{font-size:10.5px;min-height:65px}
   .bottom button svg{width:23px;height:23px}
 }
+
+/* v1.4.3 staging — mobile readability pass */
+@media(max-width:699px){
+  .brand b{font-size:18px}
+  .brand span{font-size:10.5px;line-height:1.2}
+  .hubbtn{font-size:12px}
+  .hero h1{font-size:31px}
+  .hero p{font-size:15px;line-height:1.5}
+  .action{font-size:13px;min-height:44px}
+  .statusmain{font-size:12.5px}.statusmeta,.statusbtn{font-size:11.5px}
+  .ey{font-size:10px}
+  .question h2{font-size:24px}
+  .question p,.card p{font-size:15px;line-height:1.55}
+  .rule .quote{font-size:26px}.rule p{font-size:14px;line-height:1.55}.chip{font-size:9px}
+  .callout b{font-size:14.5px}.callout p{font-size:14px;line-height:1.5}
+  .modebar button{font-size:12px}
+  .label{font-size:10px}.count{font-size:11px}.sectionhead h3{font-size:19px}
+  .yr{font-size:13.5px}
+  .rec b{font-size:14.5px}.rec small{font-size:11.5px;line-height:1.35}
+  .tag{font-size:8.8px}.qty b{font-size:14px}.qty span{font-size:9.5px}
+  .warn{font-size:13.5px;line-height:1.55}
+  .stat .who{font-size:10.5px}.stat .num{font-size:26px}.stat .unit{font-size:9.5px}.stat .note{font-size:12px;line-height:1.5}
+  .flowbtn{font-size:12px}.flowdetail h3{font-size:19px}.flowdetail p{font-size:14px;line-height:1.55}
+  .searchresult b{font-size:13.5px}.searchresult span{font-size:11.5px}
+  .sourcecard .authority{font-size:9px}.sourcecard b{font-size:13px}.sourcecard p,.sourcecard a{font-size:11.5px;line-height:1.45}
+  .trust{font-size:9px}
+  .detail label{font-size:8.5px}.detail b{font-size:13px}
+  .bodycopy{font-size:14px;line-height:1.6}.bodycopy h3{font-size:16px}
+  .ucopy b{font-size:13.5px}.ucopy span{font-size:11.5px;line-height:1.4}
+  .onboardcard b{font-size:13.5px}.onboardcard p{font-size:12px;line-height:1.5}
+  .sheetaction{font-size:11.5px}
+  .error,.empty{font-size:12.5px}.toast{font-size:11.5px}.copyright{font-size:10.5px}
+  .app{padding-bottom:94px}
+  .bottom{padding:8px 8px max(8px,env(safe-area-inset-bottom))}
+  .bottom button{min-height:72px;font-size:13px;gap:6px}
+  .bottom button svg{width:28px;height:28px;stroke-width:2.1}
+  .toast{bottom:102px}
+}
+@media(max-width:360px){
+  .hero h1{font-size:29px}.hero p{font-size:14px}
+  .bottom button{font-size:12px;min-height:70px}.bottom button svg{width:26px;height:26px}
+}
