@@ -1,5 +1,5 @@
 
-const CACHE='epr-water-v1.1-20260921';
+const CACHE='epr-water-v1.2-20260921';
 const SHELL=[
   '/water/','/water/index.html','/water/assets/water.css','/water/assets/water.js',
   '/water/manifest.webmanifest','/water/assets/epr-logo.png','/water/assets/icon-180.png','/water/assets/icon-192.png','/water/assets/icon-512.png'
