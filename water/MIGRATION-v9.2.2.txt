@@ -1,0 +1,4 @@
+Water Explorer v9.2.2 production migration
+Upload the water folder over /water/.
+For devices that previously loaded the old Water Explorer, visit https://enidpublicrecord.com/water/reset.html once.
+The reset page unregisters only /water/ service workers, preserves /water-test/, clears only epr-water-* production caches, and redirects to the current production build.

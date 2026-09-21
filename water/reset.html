@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+<title>Updating Water Explorer | Enid Public Record</title>
+<style>body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#f3f7f8;color:#102630;display:grid;min-height:100vh;place-items:center}.card{width:min(92vw,480px);background:#fff;border:1px solid #d6e2e7;border-radius:18px;padding:24px;box-shadow:0 12px 30px rgba(11,30,40,.08)}h1{font-size:24px;margin:0 0 10px}p{line-height:1.45}.small{font-size:13px;color:#58707b}</style></head><body><main class="card"><h1>Updating Water Explorer…</h1><p id="status">Clearing the previous app shell and loading the current production version.</p><p class="small">This only clears Water Explorer app caches. Explore Enid and Atlas are not affected.</p></main><script>
+(async()=>{
+ const status=document.getElementById('status');
+ try{
+   if('serviceWorker' in navigator){
+     const regs=await navigator.serviceWorker.getRegistrations();
+     await Promise.all(regs.filter(r=>{try{return new URL(r.scope).pathname.startsWith('/water/')&&!new URL(r.scope).pathname.startsWith('/water-test/')}catch(e){return false}}).map(r=>r.unregister()));
+   }
+   if('caches' in window){
+     const keys=await caches.keys();
+     await Promise.all(keys.filter(k=>k.startsWith('epr-water-')&&!k.startsWith('epr-water-test-')).map(k=>caches.delete(k)));
+   }
+   status.textContent='Update cleared. Loading the current Water Explorer…';
+ }catch(e){status.textContent='Loading the current Water Explorer…';}
+ setTimeout(()=>location.replace('/water/?app=v9.2.2&fresh='+Date.now()),450);
+})();
+</script></body></html>
