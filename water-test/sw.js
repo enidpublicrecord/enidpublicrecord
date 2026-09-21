@@ -1,5 +1,5 @@
 
-const CACHE='epr-water-test-v1.4-app-shell-20260921';
+const CACHE='epr-water-test-v1.4.1-type-scale-20260921';
 const SHELL=[
   '/water-test/','/water-test/index.html','/water-test/assets/water.css','/water-test/assets/water.js',
   '/water-test/manifest.webmanifest?v=9-test','/water-test/assets/epr-logo.png','/water-test/assets/epr-app-icon-v2-180.png','/water-test/assets/epr-app-icon-v2-192.png','/water-test/assets/epr-app-icon-v2-512.png'
