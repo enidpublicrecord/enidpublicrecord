@@ -1,4 +1,4 @@
-const CACHE='epr-explore-v1.1-20260921';
+const CACHE='epr-explore-v1.2-20260921';
 const SHELL=['/explore/','/explore/index.html','/explore/assets/explore.css','/explore/assets/explore.js','/explore/assets/epr-logo.png','/explore/manifest.webmanifest','/explore/assets/icon-180.png','/explore/assets/icon-192.png','/explore/assets/icon-512.png'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('epr-explore-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
