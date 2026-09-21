@@ -1,6 +1,6 @@
 
 (()=>{'use strict';
-const BUILD='explore-enid-v1.0-production-20260920';let promptEvent=null;
+const BUILD='explore-enid-v1.1-branding-20260921';let promptEvent=null;
 const $=s=>document.querySelector(s);
 function open(){reset();$('#sheet').classList.add('open');$('#sheet').setAttribute('aria-hidden','false');setTimeout(()=>$('#close').focus(),0)}
 function close(){reset();$('#sheet').classList.remove('open');$('#sheet').setAttribute('aria-hidden','true')}
