@@ -1,8 +1,8 @@
 
-const CACHE='epr-water-v1.0-20260920';
+const CACHE='epr-water-v1.1-20260921';
 const SHELL=[
   '/water/','/water/index.html','/water/assets/water.css','/water/assets/water.js',
-  '/water/manifest.webmanifest','/water/assets/icon-180.png','/water/assets/icon-192.png','/water/assets/icon-512.png'
+  '/water/manifest.webmanifest','/water/assets/epr-logo.png','/water/assets/icon-180.png','/water/assets/icon-192.png','/water/assets/icon-512.png'
 ];
 const DATA=[
   '/data/water/rights.public.json','/data/water/storage.public.json','/data/water/use.public.json',
