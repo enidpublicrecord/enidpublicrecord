@@ -1,0 +1,86 @@
+{
+  "schema": "epr-water-system/1.0",
+  "dataset_version": "2026-09-19.1",
+  "updated": "2026-09-19",
+  "scope_note": "Publication-safe explanatory system records. Geometry is intentionally not included in this foundation build.",
+  "records": [
+    {
+      "id": "SYS-KAW-LAKE",
+      "name": "Kaw Lake",
+      "kind": "source",
+      "order": 1,
+      "description": "Surface-water source for Enid's modern Kaw system.",
+      "public_status": "Explanatory system record",
+      "source_ids": [
+        "SRC-EPR-WATER-STORY"
+      ]
+    },
+    {
+      "id": "SYS-KAW-INTAKE",
+      "name": "Kaw intake",
+      "kind": "intake",
+      "order": 2,
+      "description": "Raw-water intake works at Kaw Lake.",
+      "public_status": "Explanatory system record",
+      "source_ids": [
+        "SRC-EPR-WATER-STORY"
+      ]
+    },
+    {
+      "id": "PIPE-KAW-001",
+      "name": "Kaw transmission pipeline",
+      "kind": "pipeline",
+      "order": 3,
+      "description": "Generalized approximately 70-mile raw-water conveyance to Enid.",
+      "public_caution": "Generalized route; not survey-grade centerline.",
+      "public_status": "Generalized",
+      "source_ids": [
+        "SRC-EPR-WATER-STORY"
+      ]
+    },
+    {
+      "id": "SYS-KAW-PUMPING",
+      "name": "Kaw pumping system",
+      "kind": "pumping",
+      "order": 4,
+      "description": "Pumping facilities move raw water through the transmission system.",
+      "public_status": "Explanatory system record",
+      "source_ids": [
+        "SRC-EPR-WATER-STORY"
+      ]
+    },
+    {
+      "id": "SYS-KAW-TERMINAL",
+      "name": "Terminal storage",
+      "kind": "storage",
+      "order": 5,
+      "description": "Physical system storage before treatment; not the same as federal reservoir storage rights.",
+      "public_status": "Explanatory system record",
+      "source_ids": [
+        "SRC-EPR-WATER-STORY"
+      ]
+    },
+    {
+      "id": "SYS-ENID-TREATMENT",
+      "name": "Enid water treatment",
+      "kind": "treatment",
+      "order": 6,
+      "description": "Treatment stage before distribution.",
+      "public_status": "Explanatory system record",
+      "source_ids": [
+        "SRC-EPR-WATER-STORY"
+      ]
+    },
+    {
+      "id": "SYS-GROUNDWATER",
+      "name": "Western groundwater system",
+      "kind": "groundwater",
+      "order": 7,
+      "description": "Separate source branch that remains part of Enid's water supply.",
+      "public_status": "Explanatory system record",
+      "source_ids": [
+        "SRC-EPR-WATER-STORY"
+      ]
+    }
+  ]
+}

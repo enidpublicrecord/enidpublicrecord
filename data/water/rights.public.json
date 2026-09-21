@@ -1,0 +1,269 @@
+{
+  "schema": "epr-water-rights/1.0",
+  "dataset_version": "2026-09-19.1",
+  "updated": "2026-09-19",
+  "scope_note": "Current OWRB Kaw-reservoir-coded records used by EPR for a filing-date chronology. This is not a definitive drought cutoff order.",
+  "records": [
+    {
+      "id": "WR-19690327",
+      "year": 1969,
+      "filed": "1969-07-28",
+      "holder": "Newkirk, City of",
+      "permit": "19690327",
+      "quantity": 1124,
+      "unit": "AFY",
+      "use": "Public supply",
+      "permit_class": "Regular",
+      "status": "Active",
+      "source_ids": [
+        "SRC-OWRB-PERMITTING"
+      ],
+      "public_status": "Current OWRB record"
+    },
+    {
+      "id": "WR-19720491",
+      "year": 1972,
+      "filed": "1972-11-13",
+      "issued": "1973-08-14",
+      "holder": "Stillwater, City of",
+      "permit": "19720491 / 72-491",
+      "quantity": 56210,
+      "unit": "AFY",
+      "use": "Public supply",
+      "permit_class": "Regular",
+      "status": "Active",
+      "source_ids": [
+        "SRC-OWRB-PERMITTING"
+      ],
+      "public_status": "Current OWRB record"
+    },
+    {
+      "id": "WR-19730235",
+      "year": 1973,
+      "filed": "1973-06-29",
+      "holder": "Oklahoma Gas & Electric Company",
+      "permit": "19730235",
+      "quantity": 73000,
+      "unit": "AFY",
+      "use": "Power · Sooner Station",
+      "permit_class": "Regular",
+      "status": "Active",
+      "source_ids": [
+        "SRC-OWRB-PERMITTING"
+      ],
+      "public_status": "Current OWRB record"
+    },
+    {
+      "id": "WR-19810180",
+      "year": 1981,
+      "filed": "1981-10-07",
+      "issued": "1982-03-09",
+      "holder": "Kaw Reservoir Authority",
+      "permit": "19810180 / 81-180",
+      "quantity": 14159,
+      "unit": "AFY",
+      "use": "Public supply",
+      "permit_class": "Regular",
+      "status": "Active structured record",
+      "public_caution": "Current structured record lists KRA. Historical administrative history remains unresolved; do not treat this summary as a final legal determination.",
+      "source_ids": [
+        "SRC-OWRB-PERMITTING"
+      ],
+      "public_status": "Still verifying legal history"
+    },
+    {
+      "id": "WR-19870031",
+      "year": 1987,
+      "filed": "1987-07-27",
+      "holder": "Tonkawa, City of",
+      "permit": "19870031",
+      "quantity": 2800,
+      "unit": "AFY",
+      "use": "Public supply",
+      "permit_class": "Regular",
+      "status": "Active",
+      "source_ids": [
+        "SRC-OWRB-PERMITTING"
+      ],
+      "public_status": "Current OWRB record"
+    },
+    {
+      "id": "WR-19910018",
+      "year": 1991,
+      "filed": "1991-05-03",
+      "holder": "Otoe-Missouria Tribe",
+      "permit": "19910018",
+      "quantity": 200,
+      "unit": "AFY",
+      "use": "Public supply",
+      "permit_class": "Regular",
+      "status": "Active",
+      "source_ids": [
+        "SRC-OWRB-PERMITTING"
+      ],
+      "public_status": "Current OWRB record"
+    },
+    {
+      "id": "WR-19930034",
+      "year": 1993,
+      "filed": "1993-08-12",
+      "holder": "Ponca City, City of",
+      "permit": "19930034",
+      "quantity": 14031,
+      "unit": "AFY",
+      "use": "Public supply",
+      "permit_class": "Regular",
+      "status": "Active",
+      "source_ids": [
+        "SRC-OWRB-PERMITTING"
+      ],
+      "public_status": "Current OWRB record"
+    },
+    {
+      "id": "WR-20030001",
+      "year": 2003,
+      "filed": "2003-01-03",
+      "holder": "Perkins Public Works Authority",
+      "permit": "20030001",
+      "quantity": 879,
+      "unit": "AFY",
+      "use": "Public supply",
+      "permit_class": "Regular",
+      "status": "Active",
+      "source_ids": [
+        "SRC-OWRB-PERMITTING"
+      ],
+      "public_status": "Current OWRB record"
+    },
+    {
+      "id": "WR-20140047",
+      "year": 2014,
+      "filed": "2014-08-05",
+      "issued": "2015-01-20",
+      "holder": "City of Enid",
+      "permit": "20140047",
+      "quantity": 20000,
+      "unit": "AFY",
+      "use": "Public supply",
+      "permit_class": "Regular",
+      "status": "Active",
+      "local_highlight": true,
+      "source_ids": [
+        "SRC-OWRB-PERMITTING"
+      ],
+      "public_status": "Current OWRB record"
+    },
+    {
+      "id": "WR-20240005",
+      "year": 2024,
+      "filed": "2024-04-25",
+      "holder": "Kaw Nation",
+      "permit": "20240005",
+      "quantity": 17.2,
+      "unit": "AFY",
+      "use": "Irrigation",
+      "permit_class": "Term",
+      "status": "Active term",
+      "public_caution": "Term permit. Permit class matters; this mixed-class chronology is not a simple one-through-ten drought cutoff queue.",
+      "source_ids": [
+        "SRC-OWRB-PERMITTING",
+        "SRC-OAC-PRIORITY"
+      ],
+      "public_status": "Current term-permit record"
+    }
+  ],
+  "broader_stream_system": [
+    {
+      "id": "WR-19340060",
+      "year": 1934,
+      "filed": "1934-05-16",
+      "issued": "1966-12-13",
+      "holder": "Ponca City, City of",
+      "permit": "19340060",
+      "quantity": 2529,
+      "unit": "AFY",
+      "use": "Public supply",
+      "permit_class": "Vested",
+      "status": "Active vested",
+      "source_ids": [
+        "SRC-OWRB-PERMITTING"
+      ],
+      "public_status": "Broader stream-system record"
+    },
+    {
+      "id": "WR-19730440",
+      "year": 1973,
+      "holder": "Oklahoma Gas & Electric Company",
+      "permit": "19730440",
+      "quantity": 3600,
+      "unit": "AFY",
+      "use": "Power",
+      "permit_class": "Regular",
+      "status": "Active",
+      "source_ids": [
+        "SRC-OWRB-PERMITTING"
+      ],
+      "public_status": "Broader stream-system record"
+    },
+    {
+      "id": "WR-19740390",
+      "year": 1974,
+      "holder": "Osage Tribe",
+      "permit": "19740390",
+      "quantity": 20597,
+      "unit": "AFY",
+      "use": "Application",
+      "permit_class": "Pending",
+      "status": "Pending application",
+      "source_ids": [
+        "SRC-OWRB-PERMITTING"
+      ],
+      "public_status": "Broader stream-system record"
+    },
+    {
+      "id": "WR-19810190",
+      "year": 1981,
+      "holder": "Shidler, City of",
+      "permit": "19810190",
+      "quantity": 336,
+      "unit": "AFY",
+      "use": "Public supply",
+      "permit_class": "Regular",
+      "status": "Active",
+      "source_ids": [
+        "SRC-OWRB-PERMITTING"
+      ],
+      "public_status": "Broader stream-system record"
+    },
+    {
+      "id": "WR-19950034",
+      "year": 1995,
+      "holder": "Fairfax, Town of",
+      "permit": "19950034",
+      "quantity": 1000,
+      "unit": "AFY",
+      "use": "Public supply",
+      "permit_class": "Regular",
+      "status": "Active",
+      "source_ids": [
+        "SRC-OWRB-PERMITTING"
+      ],
+      "public_status": "Broader stream-system record"
+    },
+    {
+      "id": "WR-20080022",
+      "year": 2008,
+      "holder": "Mid-Con",
+      "permit": "20080022",
+      "quantity": 176,
+      "unit": "AFY",
+      "use": "Mining",
+      "permit_class": "Regular",
+      "status": "Active",
+      "source_ids": [
+        "SRC-OWRB-PERMITTING"
+      ],
+      "public_status": "Broader stream-system record"
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "schema": "epr-water-use/1.0",
+  "dataset_version": "2026-09-19.1",
+  "updated": "2026-09-19",
+  "reporting_year": 2022,
+  "scope_note": "Secondary engineering-study figures. Underlying annual-use records remain a verification target.",
+  "records": [
+    {
+      "id": "USE-2022-STILLWATER",
+      "holder": "Stillwater",
+      "quantity": 8110.3,
+      "unit": "AF",
+      "year": 2022,
+      "status": "secondary-study figure",
+      "source_ids": [
+        "SRC-BARTLESVILLE-S2"
+      ],
+      "public_status": "Secondary-study figure"
+    },
+    {
+      "id": "USE-2022-OGE",
+      "holder": "Oklahoma Gas & Electric Company",
+      "quantity": 19134.2,
+      "unit": "AF",
+      "year": 2022,
+      "status": "secondary-study figure",
+      "source_ids": [
+        "SRC-BARTLESVILLE-S2"
+      ],
+      "public_status": "Secondary-study figure"
+    },
+    {
+      "id": "USE-2022-PONCA",
+      "holder": "Ponca City",
+      "quantity": 1683.5,
+      "unit": "AF",
+      "year": 2022,
+      "status": "unresolved",
+      "public_caution": "Do not treat as confirmed Kaw withdrawal until underlying primary annual-use documentation is verified.",
+      "source_ids": [
+        "SRC-BARTLESVILLE-S2"
+      ],
+      "public_status": "Still verifying"
+    },
+    {
+      "id": "USE-2022-ENID",
+      "holder": "City of Enid",
+      "quantity": null,
+      "unit": "AF",
+      "year": 2022,
+      "status": "not listed in source table",
+      "public_caution": "Blank is not zero.",
+      "source_ids": [
+        "SRC-BARTLESVILLE-S2"
+      ],
+      "public_status": "Secondary-study figure"
+    }
+  ]
+}

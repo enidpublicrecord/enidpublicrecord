@@ -1,0 +1,43 @@
+{
+  "schema": "epr-public-sources/1.0",
+  "dataset_version": "2026-09-19.1",
+  "updated": "2026-09-19",
+  "records": [
+    {
+      "id": "SRC-OWRB-PERMITTING",
+      "authority": "Oklahoma Water Resources Board",
+      "title": "Water Permitting",
+      "url": "https://oklahoma.gov/owrb/water-permitting.html"
+    },
+    {
+      "id": "SRC-OK-STATUTE-82",
+      "authority": "Oklahoma Legislature",
+      "title": "Oklahoma Statutes — Title 82",
+      "url": "https://www.oklegislature.gov/OK_Statutes/CompleteTitles/os82.pdf"
+    },
+    {
+      "id": "SRC-OAC-PRIORITY",
+      "authority": "Oklahoma Administrative Code",
+      "title": "OAC 785:20-7-1",
+      "url": "https://www.law.cornell.edu/regulations/oklahoma/OAC-785-20-7-1"
+    },
+    {
+      "id": "SRC-ENID-AI-21-159",
+      "authority": "City of Enid",
+      "title": "AI-21-159 — Kaw storage agreement",
+      "url": "https://enid.civicweb.net/document/26426/"
+    },
+    {
+      "id": "SRC-BARTLESVILLE-S2",
+      "authority": "City of Bartlesville / S2 Engineering",
+      "title": "Kaw Lake Water Supply Study",
+      "url": "https://www.cityofbartlesville.org/wp-content/uploads/2024/12/Bartlesville-Kaw-Lake-RWS_Final_2024-12-13.pdf"
+    },
+    {
+      "id": "SRC-EPR-WATER-STORY",
+      "authority": "Enid Public Record",
+      "title": "Enid's Water Story",
+      "url": "https://enidpublicrecord.com/stories/enid-water-story/"
+    }
+  ]
+}

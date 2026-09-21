@@ -1,0 +1,60 @@
+{
+  "schema": "epr-water-storage/1.0",
+  "dataset_version": "2026-09-19.1",
+  "updated": "2026-09-19",
+  "scope_note": "Federal Kaw storage figures shown in Enid's storage agreement Exhibit B. These are physical storage quantities in AF, not state water-right quantities in AFY.",
+  "records": [
+    {
+      "id": "STOR-KAW-STILLWATER",
+      "holder": "Stillwater Utilities",
+      "quantity": 51450,
+      "unit": "AF",
+      "source_ids": [
+        "SRC-ENID-AI-21-159"
+      ],
+      "public_status": "Federal storage exhibit"
+    },
+    {
+      "id": "STOR-KAW-OGE",
+      "holder": "Oklahoma Gas & Electric Company",
+      "quantity": 39350,
+      "unit": "AF",
+      "source_ids": [
+        "SRC-ENID-AI-21-159"
+      ],
+      "public_status": "Federal storage exhibit"
+    },
+    {
+      "id": "STOR-KAW-ENID",
+      "holder": "City of Enid",
+      "quantity": 20000,
+      "unit": "AF",
+      "local_highlight": true,
+      "source_ids": [
+        "SRC-ENID-AI-21-159"
+      ],
+      "public_status": "Federal storage exhibit"
+    },
+    {
+      "id": "STOR-KAW-OTOE",
+      "holder": "Otoe-Missouria",
+      "quantity": 183,
+      "unit": "AF",
+      "source_ids": [
+        "SRC-ENID-AI-21-159"
+      ],
+      "public_status": "Federal storage exhibit"
+    },
+    {
+      "id": "STOR-KAW-UNCONTRACTED",
+      "holder": "Not under agreement",
+      "quantity": 60217,
+      "unit": "AF",
+      "source_ids": [
+        "SRC-ENID-AI-21-159"
+      ],
+      "public_status": "Federal storage exhibit"
+    }
+  ],
+  "public_caution": "This exhibit is not presented as a complete 2026 federal storage accounting."
+}
