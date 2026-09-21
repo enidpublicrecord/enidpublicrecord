@@ -1,7 +1,7 @@
 
 (()=>{
 'use strict';
-const BUILD='water-v1.1-branding-20260921';
+const BUILD='water-v1.4-app-shell-staging-20260921';
 const DATA_BASE='../data/water/';
 const FILES=['rights.public.json','storage.public.json','use.public.json','system.public.json','sources.public.json'];
 const state={tab:'rights',rightsMode:'kaw',year:2024,data:null,sources:new Map(),installPrompt:null};
@@ -40,7 +40,7 @@ function setTab(id,{url=true,scroll=false}={}){
   $$('.panel').forEach(p=>p.classList.toggle('hidden',p.id!==state.tab));
   $$('[data-nav]').forEach(b=>b.classList.toggle('active',b.dataset.nav===state.tab));
   if(url)updateURL({tab:state.tab,record:''});
-  if(scroll)document.querySelector('.tabswrap').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+  if(scroll){const target=matchMedia('(min-width:700px)').matches?document.querySelector('.tabswrap'):document.querySelector('.statusbar');target?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});}
 }
 function statusLabel(r){
   const s=(r.public_status||'Source-linked public data');
