@@ -177,7 +177,7 @@ function finishIntro(){
 }
 function registerSW(){
   if(!('serviceWorker'in navigator)||location.protocol!=='https:')return;
-  navigator.serviceWorker.register('./sw.js?v=1.4.3',{scope:'./',updateViaCache:'none'}).then(r=>r.update()).catch(()=>{});
+  navigator.serviceWorker.register('./sw.js?v=1.4.4',{scope:'./',updateViaCache:'none'}).then(r=>r.update()).catch(()=>{});
 }
 function setupInstall(){
   window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();state.installPrompt=e;$('#installLabel').textContent='Install Water Explorer'});
