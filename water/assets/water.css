@@ -16,7 +16,7 @@ body{min-height:100vh}button,a,input{font:inherit}button{cursor:pointer}a{color:
 .app{min-height:100vh;padding-bottom:78px}
 .top{position:sticky;top:0;z-index:50;background:rgba(11,30,40,.98);color:#fff;border-bottom:1px solid rgba(255,255,255,.09);backdrop-filter:blur(10px)}
 .topin{max-width:940px;margin:auto;padding:9px 13px;min-height:64px;display:flex;align-items:center;gap:9px}
-.logo{width:40px;height:40px;border-radius:13px;background:linear-gradient(145deg,#1696b2,#08617a);color:#fff;display:grid;place-items:center;font-weight:950;letter-spacing:-.04em;text-decoration:none;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.logo{width:40px;height:40px;display:block;flex:0 0 40px;text-decoration:none}.logo img{width:40px;height:40px;display:block;object-fit:contain}
 .brand{flex:1;min-width:0}.brand b{display:block;font-size:15px;line-height:1.05}.brand span{display:block;color:#a9bcc5;font-size:8.5px;margin-top:3px;letter-spacing:.07em;text-transform:uppercase;font-weight:850;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .iconbtn{width:42px;height:42px;border-radius:13px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.07);color:#fff;display:grid;place-items:center}.iconbtn svg{width:19px;height:19px}
 main{max-width:940px;margin:auto}

@@ -1,7 +1,7 @@
 
 (()=>{
 'use strict';
-const BUILD='water-v1.0-production-20260920';
+const BUILD='water-v1.1-branding-20260921';
 const DATA_BASE='../data/water/';
 const FILES=['rights.public.json','storage.public.json','use.public.json','system.public.json','sources.public.json'];
 const state={tab:'rights',rightsMode:'kaw',year:2024,data:null,sources:new Map(),installPrompt:null};
@@ -221,7 +221,7 @@ document.addEventListener('click',e=>{
    privacy:`<h3>Reader privacy</h3><p>Water Explorer does not require a login. The app is designed to avoid collecting names, precise location, device fingerprints or other unnecessary personal information. Search is performed in the browser against publication-safe public records.</p>`,
    legal:`<h3>Public-record reporting</h3><p>Legal explanations summarize public records for journalism and civic understanding. They are not legal advice or a binding adjudication of any water right.</p><h3>Source control</h3><p>If an EPR summary conflicts with the underlying official public record, the source record controls.</p>`,
    copyright:`<h3>Copyright</h3><p>© 2026 Enid Public Record. All rights reserved.</p><p>EPR’s original writing, interface design, original graphics, visualizations and editorial/data organization may be protected by copyright. Government/public records and third-party works retain their own legal status, licenses and rights holders. EPR does not claim ownership merely by linking to or summarizing a public record.</p>`,
-   changelog:`<h3>v0.8 · Sep. 19, 2026</h3><p>Connected Water Explorer to the Kaw water-right investigation and made Rights, Storage, Use and Flow equally accessible from the bottom navigation.</p><h3>v0.7.1 · Sep. 19, 2026</h3><p>Fixed More-menu navigation state.</p><h3>v0.7 · Sep. 19, 2026</h3><p>Added publication-safe data status, search, record sharing, PWA install foundation, copyright/privacy/legal panels, first-run education, changelog, accessible status messaging and professional provenance cards.</p><h3>v0.6</h3><p>Separated public data from the interface and established stable IDs and deep-link architecture.</p>`,
+   changelog:`<h3>v1.1 · Sep. 21, 2026</h3><p>Standardized Water Explorer on the approved Enid Public Record logo for app chrome and install icons.</p><h3>v0.8 · Sep. 19, 2026</h3><p>Connected Water Explorer to the Kaw water-right investigation and made Rights, Storage, Use and Flow equally accessible from the bottom navigation.</p><h3>v0.7.1 · Sep. 19, 2026</h3><p>Fixed More-menu navigation state.</p><h3>v0.7 · Sep. 19, 2026</h3><p>Added publication-safe data status, search, record sharing, PWA install foundation, copyright/privacy/legal panels, first-run education, changelog, accessible status messaging and professional provenance cards.</p><h3>v0.6</h3><p>Separated public data from the interface and established stable IDs and deep-link architecture.</p>`,
    accessibility:`<h3>Accessibility</h3><p>EPR designs civic tools for keyboard, touch, screen readers, zoom/reflow and reduced motion. If something blocks access, use Feedback & Corrections so EPR can address it.</p>`
   };
   showSub(key[0].toUpperCase()+key.slice(1),content[key]||'');
