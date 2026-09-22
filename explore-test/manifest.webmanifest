@@ -1,0 +1,19 @@
+{
+  "name": "Explore Enid STAGING by Enid Public Record",
+  "short_name": "Explore Test",
+  "description": "Staging preview of EPR's civic-tool hub.",
+  "id": "/explore-test/",
+  "start_url": "/explore-test/",
+  "scope": "/explore-test/",
+  "display": "standalone",
+  "background_color": "#f3f6f7",
+  "theme_color": "#0c1720",
+  "icons": [
+    {"src":"assets/icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
+    {"src":"assets/icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+  ],
+  "shortcuts": [
+    {"name":"Water Explorer","short_name":"Water","url":"/water/"},
+    {"name":"EPR Atlas","short_name":"Atlas","url":"/atlas/"}
+  ]
+}
