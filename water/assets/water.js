@@ -1,7 +1,7 @@
 
 (()=>{
 'use strict';
-const BUILD='water-v1.4-app-shell-staging-20260921';
+const BUILD='water-v9.4-approved-production-20260921';
 const DATA_BASE='../data/water/';
 const FILES=['rights.public.json','storage.public.json','use.public.json','system.public.json','sources.public.json'];
 const state={tab:'rights',rightsMode:'kaw',year:2024,data:null,sources:new Map(),installPrompt:null};

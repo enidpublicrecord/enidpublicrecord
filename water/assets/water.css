@@ -56,8 +56,11 @@ main{max-width:940px;margin:auto}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 @media(min-width:700px){.panel{padding:20px}.hero{padding:28px 20px 21px}.hero h1{font-size:46px}.records{grid-template-columns:1fr 1fr}.stats{grid-template-columns:repeat(5,1fr)}.sheetcard{max-width:700px;margin:auto}.utilitygrid{grid-template-columns:1fr 1fr}}
 @media(max-width:350px){.hero h1{font-size:30px}.brand span{max-width:170px}.record{grid-template-columns:44px minmax(0,1fr)}.qty{grid-column:2;text-align:left}.yr{width:44px;height:44px}.stats{grid-template-columns:1fr}}
-\n\n/* v1.4 production — connected Explore Enid app shell */\n.topin{min-height:62px;padding:8px 12px;gap:8px}\n.logo{width:42px;height:42px;flex-basis:42px}.logo img{width:42px;height:42px}\n.brand b{font-size:16px}.brand span{font-size:9px;letter-spacing:.055em}\n.hubbtn{height:42px;min-width:42px;border-radius:13px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.07);color:#fff;display:flex;align-items:center;justify-content:center;gap:6px;padding:0 10px;text-decoration:none;font-size:10px;font-weight:900}\n.hubbtn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7}.hubbtn span{display:none}\n.hero{padding:16px 15px 15px}.hero h1{font-size:26px;line-height:1.02;margin:6px 0 7px;max-width:620px}.hero p{font-size:13px;line-height:1.45;max-width:690px}.heroactions{margin-top:11px}.action{min-height:40px;font-size:11px}\n.statusin{padding:8px 14px}.statusmain{font-size:11px}.statusmeta,.statusbtn{font-size:10px}\n.question,.card{padding:15px}.question h2{font-size:23px}.question p,.card p{font-size:13px;line-height:1.5}\n.rule{padding:17px}.rule .quote{font-size:25px}.rule p{font-size:12.5px}.chip{font-size:8px}\n.callout{padding:13px 14px}.callout b{font-size:13px}.callout p{font-size:12px}\n.modebar button{font-size:10.5px}.label{font-size:8.5px}.count{font-size:9.5px}.sectionhead h3{font-size:18px}\n.record{padding:11px;grid-template-columns:50px minmax(0,1fr) auto}.yr{width:50px;height:50px;font-size:12px}.rec b{font-size:13px}.rec small{font-size:10px}.tag{font-size:7.5px}.qty b{font-size:13px}.qty span{font-size:8px}\n.warn{font-size:12px}.stat .who{font-size:9px}.stat .num{font-size:25px}.stat .unit{font-size:8px}.stat .note{font-size:10.5px}.flowbtn{font-size:10.5px}.flowdetail p{font-size:12.5px}\n.utilityrow{min-height:62px}.uicon{width:40px;height:40px;border-radius:12px;overflow:hidden}.uicon img{width:100%;height:100%;object-fit:contain}.ucopy b{font-size:12px}.ucopy span{font-size:10px}.utilityrow-hub{border-color:#badce4;background:#eef9fb}.hubgrid{font-size:21px;color:#0b7894}\n.bottom button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:60px;font-size:9px;text-transform:none}.bottom button svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.bottom button:last-child svg{fill:currentColor;stroke:none}\n@media(max-width:699px){.tabswrap{display:none}.app{padding-bottom:74px}.panel{padding:14px}.hero:after{display:none}.hero h1{font-size:30px}.brand b{font-size:17px}.statusbar{position:sticky;top:62px;z-index:39}.top{box-shadow:0 2px 10px rgba(7,20,27,.16)}}\n@media(min-width:700px){.bottom{display:none}.app{padding-bottom:0}.hubbtn span{display:inline}.hero{padding:21px 20px 18px}.hero h1{font-size:34px}.tabs{grid-template-columns:repeat(4,1fr)}}\n@media(max-width:430px){.brand span{max-width:150px}.iconbtn{width:40px;height:40px}.hubbtn{width:40px;height:40px;padding:0}.logo,.logo img{width:40px;height:40px}.logo{flex-basis:40px}}\n@media(max-width:360px){.brand span{display:none}.hero h1{font-size:28px}.hero p{font-size:12px}}\n
-/* v1.4.2 production — larger mobile bottom navigation */
+\n\n/* v1.4 staging — connected Explore Enid app shell */\n.topin{min-height:62px;padding:8px 12px;gap:8px}\n.logo{width:42px;height:42px;flex-basis:42px}.logo img{width:42px;height:42px}\n.brand b{font-size:16px}.brand span{font-size:9px;letter-spacing:.055em}\n.hubbtn{height:42px;min-width:42px;border-radius:13px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.07);color:#fff;display:flex;align-items:center;justify-content:center;gap:6px;padding:0 10px;text-decoration:none;font-size:10px;font-weight:900}\n.hubbtn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7}.hubbtn span{display:none}\n.hero{padding:16px 15px 15px}.hero h1{font-size:26px;line-height:1.02;margin:6px 0 7px;max-width:620px}.hero p{font-size:13px;line-height:1.45;max-width:690px}.heroactions{margin-top:11px}.action{min-height:40px;font-size:11px}\n.statusin{padding:8px 14px}.statusmain{font-size:11px}.statusmeta,.statusbtn{font-size:10px}\n.question,.card{padding:15px}.question h2{font-size:23px}.question p,.card p{font-size:13px;line-height:1.5}\n.rule{padding:17px}.rule .quote{font-size:25px}.rule p{font-size:12.5px}.chip{font-size:8px}\n.callout{padding:13px 14px}.callout b{font-size:13px}.callout p{font-size:12px}\n.modebar button{font-size:10.5px}.label{font-size:8.5px}.count{font-size:9.5px}.sectionhead h3{font-size:18px}\n.record{padding:11px;grid-template-columns:50px minmax(0,1fr) auto}.yr{width:50px;height:50px;font-size:12px}.rec b{font-size:13px}.rec small{font-size:10px}.tag{font-size:7.5px}.qty b{font-size:13px}.qty span{font-size:8px}\n.warn{font-size:12px}.stat .who{font-size:9px}.stat .num{font-size:25px}.stat .unit{font-size:8px}.stat .note{font-size:10.5px}.flowbtn{font-size:10.5px}.flowdetail p{font-size:12.5px}\n.utilityrow{min-height:62px}.uicon{width:40px;height:40px;border-radius:12px;overflow:hidden}.uicon img{width:100%;height:100%;object-fit:contain}.ucopy b{font-size:12px}.ucopy span{font-size:10px}.utilityrow-hub{border-color:#badce4;background:#eef9fb}.hubgrid{font-size:21px;color:#0b7894}\n.bottom button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:60px;font-size:9px;text-transform:none}.bottom button svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.bottom button:last-child svg{fill:currentColor;stroke:none}\n@media(max-width:699px){.tabswrap{display:none}.app{padding-bottom:74px}.panel{padding:14px}.hero:after{display:none}.hero h1{font-size:30px}.brand b{font-size:17px}.statusbar{position:sticky;top:62px;z-index:39}.top{box-shadow:0 2px 10px rgba(7,20,27,.16)}}\n@media(min-width:700px){.bottom{display:none}.app{padding-bottom:0}.hubbtn span{display:inline}.hero{padding:21px 20px 18px}.hero h1{font-size:34px}.tabs{grid-template-columns:repeat(4,1fr)}}\n@media(max-width:430px){.brand span{max-width:150px}.iconbtn{width:40px;height:40px}.hubbtn{width:40px;height:40px;padding:0}.logo,.logo img{width:40px;height:40px}.logo{flex-basis:40px}}\n@media(max-width:360px){.brand span{display:none}.hero h1{font-size:28px}.hero p{font-size:12px}}\n
+/* STAGING ONLY */
+.stagebadge{display:inline-block;margin-left:6px;padding:2px 5px;border-radius:999px;background:#f6c453;color:#13242c;font-size:7px;font-style:normal;letter-spacing:.08em;vertical-align:2px}
+
+/* v1.4.2 staging — larger mobile bottom navigation */
 @media(max-width:699px){
   .app{padding-bottom:88px}
   .bottom{
@@ -88,4 +91,89 @@ main{max-width:940px;margin:auto}
 @media(max-width:360px){
   .bottom button{font-size:10.5px;min-height:65px}
   .bottom button svg{width:23px;height:23px}
+}
+
+/* v1.4.3 staging — mobile readability pass */
+@media(max-width:699px){
+  .brand b{font-size:18px}
+  .brand span{font-size:10.5px;line-height:1.2}
+  .hubbtn{font-size:12px}
+  .hero h1{font-size:31px}
+  .hero p{font-size:15px;line-height:1.5}
+  .action{font-size:13px;min-height:44px}
+  .statusmain{font-size:12.5px}.statusmeta,.statusbtn{font-size:11.5px}
+  .ey{font-size:10px}
+  .question h2{font-size:24px}
+  .question p,.card p{font-size:15px;line-height:1.55}
+  .rule .quote{font-size:26px}.rule p{font-size:14px;line-height:1.55}.chip{font-size:9px}
+  .callout b{font-size:14.5px}.callout p{font-size:14px;line-height:1.5}
+  .modebar button{font-size:12px}
+  .label{font-size:10px}.count{font-size:11px}.sectionhead h3{font-size:19px}
+  .yr{font-size:13.5px}
+  .rec b{font-size:14.5px}.rec small{font-size:11.5px;line-height:1.35}
+  .tag{font-size:8.8px}.qty b{font-size:14px}.qty span{font-size:9.5px}
+  .warn{font-size:13.5px;line-height:1.55}
+  .stat .who{font-size:10.5px}.stat .num{font-size:26px}.stat .unit{font-size:9.5px}.stat .note{font-size:12px;line-height:1.5}
+  .flowbtn{font-size:12px}.flowdetail h3{font-size:19px}.flowdetail p{font-size:14px;line-height:1.55}
+  .searchresult b{font-size:13.5px}.searchresult span{font-size:11.5px}
+  .sourcecard .authority{font-size:9px}.sourcecard b{font-size:13px}.sourcecard p,.sourcecard a{font-size:11.5px;line-height:1.45}
+  .trust{font-size:9px}
+  .detail label{font-size:8.5px}.detail b{font-size:13px}
+  .bodycopy{font-size:14px;line-height:1.6}.bodycopy h3{font-size:16px}
+  .ucopy b{font-size:13.5px}.ucopy span{font-size:11.5px;line-height:1.4}
+  .onboardcard b{font-size:13.5px}.onboardcard p{font-size:12px;line-height:1.5}
+  .sheetaction{font-size:11.5px}
+  .error,.empty{font-size:12.5px}.toast{font-size:11.5px}.copyright{font-size:10.5px}
+  .app{padding-bottom:94px}
+  .bottom{padding:8px 8px max(8px,env(safe-area-inset-bottom))}
+  .bottom button{min-height:72px;font-size:13px;gap:6px}
+  .bottom button svg{width:28px;height:28px;stroke-width:2.1}
+  .toast{bottom:102px}
+}
+@media(max-width:360px){
+  .hero h1{font-size:29px}.hero p{font-size:14px}
+  .bottom button{font-size:12px;min-height:70px}.bottom button svg{width:26px;height:26px}
+}
+
+/* v1.4.4 staging — balanced readability polish */
+@media(max-width:699px){
+  .brand b{font-size:17px}
+  .brand span{font-size:10px;line-height:1.2}
+  .hubbtn{font-size:11px}
+  .hero h1{font-size:30px;line-height:1.02}
+  .hero p{font-size:14px;line-height:1.5}
+  .action{font-size:12px;min-height:42px}
+  .statusmain{font-size:11.5px}.statusmeta,.statusbtn{font-size:10.5px}
+  .ey{font-size:9px}
+  .question h2{font-size:22px}
+  .question p,.card p{font-size:14px;line-height:1.55}
+  .rule .quote{font-size:25px}.rule p{font-size:13px;line-height:1.55}.chip{font-size:8.5px}
+  .callout b{font-size:13.5px}.callout p{font-size:13px;line-height:1.5}
+  .modebar button{font-size:11px}
+  .label{font-size:9px}.count{font-size:10px}.sectionhead h3{font-size:18px}
+  .yr{font-size:13px}
+  .rec b{font-size:14px}.rec small{font-size:11px;line-height:1.35}
+  .tag{font-size:8.2px}.qty b{font-size:13.5px}.qty span{font-size:9px}
+  .warn{font-size:13px;line-height:1.5}
+  .stat .who{font-size:10px}.stat .num{font-size:25px}.stat .unit{font-size:9px}.stat .note{font-size:11.5px;line-height:1.48}
+  .flowbtn{font-size:11px}.flowdetail h3{font-size:18px}.flowdetail p{font-size:13px;line-height:1.55}
+  .searchresult b{font-size:13px}.searchresult span{font-size:11px}
+  .sourcecard .authority{font-size:8.5px}.sourcecard b{font-size:12.5px}.sourcecard p,.sourcecard a{font-size:11px;line-height:1.45}
+  .trust{font-size:8.5px}
+  .detail label{font-size:8px}.detail b{font-size:12.5px}
+  .bodycopy{font-size:13.5px;line-height:1.6}.bodycopy h3{font-size:15.5px}
+  .ucopy b{font-size:13px}.ucopy span{font-size:11px;line-height:1.4}
+  .onboardcard b{font-size:13px}.onboardcard p{font-size:11.5px;line-height:1.5}
+  .sheetaction{font-size:11px}
+  .error,.empty{font-size:12px}.toast{font-size:11px}.copyright{font-size:10px}
+  .app{padding-bottom:86px}
+  .bottom{padding:6px 7px max(6px,env(safe-area-inset-bottom))}
+  .bottom button{min-height:64px;font-size:11.5px;gap:4px;border-radius:12px;margin:0 2px}
+  .bottom button svg{width:24px;height:24px;stroke-width:2}
+  .bottom button.active{background:#e9f5f7;color:#075e76}
+  .toast{bottom:94px}
+}
+@media(max-width:360px){
+  .hero h1{font-size:28px}.hero p{font-size:13.5px}
+  .bottom button{font-size:10.5px;min-height:62px}.bottom button svg{width:23px;height:23px}
 }
