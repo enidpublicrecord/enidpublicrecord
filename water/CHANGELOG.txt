@@ -1,39 +1,11 @@
-v1.4.1 — Sep. 21, 2026
-- Restored stronger mobile title scale: Water Explorer hero headline is 30px on standard phones (28px on very narrow screens) and the app title is 17px. Supporting text remains at the more readable v9 sizes.
+EPR Water Explorer — Production v9.3
+2026-09-21
+- Promoted the approved v9.3 readability staging build to production.
+- Increased mobile body/card text, record labels, and bottom navigation size.
+- Preserved the approved v9 app-shell layout, Explore Enid return path, data, and legal qualifiers.
+- Uses versioned production CSS/JS and a network-first production service worker to avoid legacy cache conflicts.
 
-v1.1 — 2026-09-21
-- Standardized Water Explorer on the approved Enid Public Record logo in app chrome and install icons.
-- No data or application behavior changed.
-
-EPR Water Explorer — Public Changelog
-
-v0.8 — 2026-09-19
-- Linked Water Explorer directly to the Kaw water-right investigation.
-- Added USE to the persistent bottom navigation for equal access to all four Water modes.
-- Preserved independent Water PWA/service-worker scope.
-
-v0.7.1 — 2026-09-19
-- Fixed More-menu navigation state: More now always reopens at the main category list.
-- Closing More by X, backdrop or Escape resets the submenu state.
-- Back reliably returns to the main More categories.
-
-v0.7 — 2026-09-19
-- Added data-status and freshness display.
-- Added publication-safe search.
-- Added shareable deep links for records and views.
-- Added source/provenance cards.
-- Added reader-facing evidence qualifiers.
-- Added first-run concept explainer.
-- Added Help, About, Privacy, Legal & Sources, Copyright, Accessibility, Feedback, Changelog and Version.
-- Added PWA manifest, icons and Water-scoped service worker foundation.
-- Added keyboard/focus, reduced-motion, touch-target and dynamic-status accessibility improvements.
-- Added story ↔ explorer link to Enid's Water Story.
-
-v0.6
-- Separated publication-safe data from interface code.
-- Added stable public IDs and deep-link architecture.
-2026-09-21 — v9.2 production promotion
-- Promoted the tested v9.2 app shell to the public /water/ path.
-- Restored indexable production metadata and production PWA scope/cache.
-- Preserved Explore Enid return path, larger type scale, and larger bottom navigation.
-
+v9.3.1 APPROVED production cutover — 2026-09-21
+- Uses the exact approved v9.3 staging readability stylesheet under a unique production asset filename.
+- Production build label shown in More/About: Water Explorer v9.3.1 APPROVED · 2026-09-21.
+- Network-first production worker and unique cache key prevent older /water/ assets from masking this release.

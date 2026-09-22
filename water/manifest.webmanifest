@@ -1,9 +1,9 @@
 {
-  "name": "EPR Water Explorer",
-  "short_name": "Water Explorer",
+  "name": "EPR Water Explorer \u2014 STAGING",
+  "short_name": "Water Test",
   "description": "Explore Kaw Lake water rights, federal storage, documented use and Enid's water system using source-linked public records.",
-  "id": "/water/",
-  "start_url": "/water/?app=v9.2.2",
+  "id": "/water-test/",
+  "start_url": "/water/?app=v9.3.1-approved",
   "scope": "/water/",
   "display": "standalone",
   "background_color": "#f3f7f8",
@@ -26,17 +26,17 @@
     {
       "name": "Kaw rights",
       "short_name": "Rights",
-      "url": "/water/?mode=rights&app=v9.2.2"
+      "url": "/water-test/?mode=rights"
     },
     {
       "name": "Federal storage",
       "short_name": "Storage",
-      "url": "/water/?mode=storage&app=v9.2.2"
+      "url": "/water-test/?mode=storage"
     },
     {
       "name": "Water flow",
       "short_name": "Flow",
-      "url": "/water/?mode=flow&app=v9.2.2"
+      "url": "/water-test/?mode=flow"
     }
   ]
 }
