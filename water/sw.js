@@ -1,4 +1,4 @@
-const CACHE='epr-water-v9.4-approved-20260921';
+const CACHE='epr-water-v9.4-approved-ga4-20260921';
 const SHELL=[
   '/water/','/water/index.html','/water/assets/water.css?v=9.4-approved','/water/assets/water.js?v=9.4-approved',
   '/water/manifest.webmanifest?v=9.4-approved','/water/assets/epr-logo.png','/water/assets/epr-app-icon-v2-180.png','/water/assets/epr-app-icon-v2-192.png','/water/assets/epr-app-icon-v2-512.png'
