@@ -497,7 +497,7 @@ body.epr-ui-overlay-open .epr-location-pill,body.epr-where-pick .epr-location-pi
 </style><meta name="description" content="Explore Enid Public Record’s interactive atlas of City of Enid and related public-authority property, facilities, water infrastructure and other documented public assets in Enid, Oklahoma.">
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
 <meta name="googlebot" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
-<meta name="epr-build" content="atlas-a24.4.2-thunderbird-public-2026-09-23">
+<meta name="epr-build" content="atlas-a24.4.2.1-thunderbird-header-safe-area-2026-09-23">
 <link rel="canonical" href="https://enidpublicrecord.com/atlas/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Enid Public Record">
@@ -517,6 +517,32 @@ body.epr-ui-overlay-open .epr-location-pill,body.epr-where-pick .epr-location-pi
 <meta name="twitter:image" content="https://enidpublicrecord.com/social-share-home.png">
 <meta name="twitter:image:alt" content="Enid Public Record — Facts. Sources. Transparency.">
 <script type="application/ld+json" data-epr-atlas-public>{"@context":"https://schema.org","@type":"WebApplication","name":"EPR Atlas — What Does Enid Own?","url":"https://enidpublicrecord.com/atlas/","description":"Interactive records-based public-asset atlas for Enid, Oklahoma.","applicationCategory":"EducationalApplication","operatingSystem":"Any","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"Enid Public Record","url":"https://enidpublicrecord.com/"}}</script>
+
+<style id="epr-a24421-embedded-browser-safe-area-fix">
+/* A24.4.2.1 — normalize top UI offsets in ordinary/embedded mobile browsers.
+   Some Android in-app browsers report a large safe-area-inset-top even after their
+   own browser chrome has already reduced the visual viewport, which double-shifts
+   the Atlas header and related top-anchored controls. Safe-area top padding remains
+   enabled for installed/standalone PWAs. */
+@media (max-width:760px){
+  .topbar{top:10px!important}
+  #searchPanel,#helpPanel{top:78px!important}
+  .leaflet-top.leaflet-left,.leaflet-top.leaflet-right{top:80px!important}
+  .viewhint{top:78px!important}
+  #whereTapCatcher{top:78px!important}
+  #wherePickBanner{top:82px!important}
+  .epr-location-pill{top:75px!important}
+}
+@media (display-mode:standalone) and (max-width:760px){
+  .topbar{top:max(10px,env(safe-area-inset-top))!important}
+  #searchPanel,#helpPanel{top:max(78px,calc(env(safe-area-inset-top) + 78px))!important}
+  .leaflet-top.leaflet-left,.leaflet-top.leaflet-right{top:max(80px,calc(env(safe-area-inset-top) + 80px))!important}
+  .viewhint{top:max(78px,calc(env(safe-area-inset-top) + 78px))!important}
+  #whereTapCatcher{top:max(78px,calc(env(safe-area-inset-top) + 78px))!important}
+  #wherePickBanner{top:max(82px,calc(env(safe-area-inset-top) + 82px))!important}
+  .epr-location-pill{top:max(75px,calc(env(safe-area-inset-top) + 75px))!important}
+}
+</style>
 </head><body data-basemap="FOCUS" data-mode="ownership">
 <div id="map"></div><svg id="eprWellSvg" aria-hidden="true"></svg><svg id="eprKawRouteSvg" aria-hidden="true"><path class="kaw-casing"></path><path class="kaw-line"></path><g id="eprKawInlineSites"></g></svg>
 <div class="topbar">
@@ -578,7 +604,7 @@ body.epr-ui-overlay-open .epr-location-pill,body.epr-where-pick .epr-location-pi
  </section>
  <section class="help-pane" data-help-pane="about">
   <div class="help-card"><h4>Find, share & explore nearby</h4><p>Search public records, explore mapped assets around the map center or your device, share a direct record link, or use <b>What's here?</b> to inspect a point on the map.</p></div><div class="help-card"><h4>About the EPR Atlas</h4><p>The EPR Atlas is a public-records map created by <b>Enid Public Record</b> to help residents explore public property, facilities, infrastructure, and major public investments associated with Enid, Oklahoma.</p><p>Enid Public Record is independent and is not an official City of Enid website.</p></div>
-  <div class="help-card legal-block"><h4>Legal & evidence notice</h4><p><strong>Informational use.</strong> The Atlas is compiled from public records and other documented sources for reporting and public-information purposes. It is not a survey, title opinion, legal description, engineering plan, or substitute for an official record.</p><p><strong>Location and boundaries.</strong> Parcel geometry, infrastructure alignments, facility points, wellfield locators, and other mapped features may be generalized or approximate where the evidence does not support survey-grade precision. Qualifiers shown in the Atlas are part of the record.</p><p><strong>Changes and verification.</strong> Ownership, condition, status, and public records can change. For a legal, financial, construction, or property decision, verify the underlying official record with the responsible public agency.</p><p><strong>Privacy.</strong> Live Location starts only after you tap the location control or choose Use my location. Your coordinates stay in your browser and are not sent to EPR analytics or placed in shared URLs. Tracking stops when you choose Stop, tap Reset, or leave the Atlas.</p><p><strong>Copyright.</strong> © 2026 Enid Public Record. Original reporting, text, graphics, cartographic presentation, and EPR branding are protected. Underlying public records and third-party basemap material remain subject to their own applicable rights and terms.</p><p><a href="https://enidpublicrecord.com/" target="_blank" rel="noopener">EnidPublicRecord.com</a></p><div class="help-mini"><strong>What's new:</strong> Project Thunderbird proposed-campus overlay (shown by default with evidence qualifiers), live Follow Me location, GPS accuracy display, distance-from-you cues, improved location guidance, nearby discovery, shareable record links, and What's here? map discovery.</div><div class="help-version">EPR Atlas · A24.4.2 · Updated September 23, 2026</div></div>
+  <div class="help-card legal-block"><h4>Legal & evidence notice</h4><p><strong>Informational use.</strong> The Atlas is compiled from public records and other documented sources for reporting and public-information purposes. It is not a survey, title opinion, legal description, engineering plan, or substitute for an official record.</p><p><strong>Location and boundaries.</strong> Parcel geometry, infrastructure alignments, facility points, wellfield locators, and other mapped features may be generalized or approximate where the evidence does not support survey-grade precision. Qualifiers shown in the Atlas are part of the record.</p><p><strong>Changes and verification.</strong> Ownership, condition, status, and public records can change. For a legal, financial, construction, or property decision, verify the underlying official record with the responsible public agency.</p><p><strong>Privacy.</strong> Live Location starts only after you tap the location control or choose Use my location. Your coordinates stay in your browser and are not sent to EPR analytics or placed in shared URLs. Tracking stops when you choose Stop, tap Reset, or leave the Atlas.</p><p><strong>Copyright.</strong> © 2026 Enid Public Record. Original reporting, text, graphics, cartographic presentation, and EPR branding are protected. Underlying public records and third-party basemap material remain subject to their own applicable rights and terms.</p><p><a href="https://enidpublicrecord.com/" target="_blank" rel="noopener">EnidPublicRecord.com</a></p><div class="help-mini"><strong>What's new:</strong> Project Thunderbird proposed-campus overlay (shown by default with evidence qualifiers), live Follow Me location, GPS accuracy display, distance-from-you cues, improved location guidance, nearby discovery, shareable record links, and What's here? map discovery.</div><div class="help-version">EPR Atlas · A24.4.2.1 · Updated September 23, 2026</div></div>
  </section>
 </div>
 
