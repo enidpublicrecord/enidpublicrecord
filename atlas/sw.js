@@ -1,4 +1,4 @@
-const CACHE = 'epr-atlas-shell-a24-4-2-1';
+const CACHE = 'epr-atlas-shell-a24-4-2-2';
 const SHELL = [
   '/atlas/',
   '/atlas/index.html',
