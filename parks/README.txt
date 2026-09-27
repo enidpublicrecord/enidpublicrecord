@@ -1,13 +1,17 @@
-EPR Parks Prototype A4 — hosted mobile map fix
+EPR Parks Prototype A5 — Archie Digital Guide
 
-Purpose:
-- Preserve the A3 interface and park data.
-- Fix the fragmented 256x256 tile squares seen on the hosted /parks/ page.
-- Embed the critical Leaflet positioning/layout CSS directly in index.html.
-- Keep OSM primary + Esri fallback from A3.
-- Bump the service-worker cache to epr-parks-a4.
+A5 changes:
+- Adds Archie’s Guide as a digital-first self-guided experience.
+- Adds device speech narration with selectable English device voices.
+- Adds permanent deep links: /parks/?guide=<park>&stop=<NN>.
+- Adds QR generation for each guide stop; physical signage is NOT required or assumed authorized.
+- Adds 19 EPR-mapped park sites to the prototype Passport/map; this is a mapped-app inventory, not a claim that Enid has only 19 parks/recreation areas.
+- Guide beta currently available at Meadowlake, Crosslin, Government Springs North, and Weldon.
+- Preserves A4 self-contained Leaflet map-layout fix, OSM primary map, and Esri fallback.
 - Production Atlas is not touched.
 
 Deployment:
-Replace the current files in /parks/ with the contents of this folder.
-Then load https://enidpublicrecord.com/parks/ and refresh twice if the old service worker is still active.
+Replace the files in /parks/ with this folder. Refresh twice if the prior service worker remains active.
+
+Important:
+No physical QR sign placement is authorized by this package. QR codes are for digital/print use unless the property owner later grants permission.
