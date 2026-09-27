@@ -1,0 +1,77 @@
+{
+  "schema": "epr-parks-guide/1",
+  "build": "A5",
+  "sign_policy": "DIGITAL FIRST — NO PHYSICAL SIGNAGE AUTHORIZED",
+  "route_pattern": "/parks/?guide={guide_id}&stop={NN}",
+  "guides": [
+    {
+      "guide_id": "meadowlake",
+      "park": "Meadowlake Park",
+      "stops": [
+        {
+          "stop": 1,
+          "title": "Water + walking",
+          "route": "/parks/?guide=meadowlake&stop=01"
+        },
+        {
+          "stop": 2,
+          "title": "A recreation hub",
+          "route": "/parks/?guide=meadowlake&stop=02"
+        },
+        {
+          "stop": 3,
+          "title": "See the record",
+          "route": "/parks/?guide=meadowlake&stop=03"
+        }
+      ]
+    },
+    {
+      "guide_id": "crosslin",
+      "park": "Crosslin Park",
+      "stops": [
+        {
+          "stop": 1,
+          "title": "Trail, water, play",
+          "route": "/parks/?guide=crosslin&stop=01"
+        },
+        {
+          "stop": 2,
+          "title": "Verified place",
+          "route": "/parks/?guide=crosslin&stop=02"
+        }
+      ]
+    },
+    {
+      "guide_id": "govnorth",
+      "park": "Government Springs — North",
+      "stops": [
+        {
+          "stop": 1,
+          "title": "Start at the park",
+          "route": "/parks/?guide=govnorth&stop=01"
+        },
+        {
+          "stop": 2,
+          "title": "Why EPR shows a caution",
+          "route": "/parks/?guide=govnorth&stop=02"
+        }
+      ]
+    },
+    {
+      "guide_id": "weldon",
+      "park": "Weldon Park & Bird Sanctuary",
+      "stops": [
+        {
+          "stop": 1,
+          "title": "Bird sanctuary",
+          "route": "/parks/?guide=weldon&stop=01"
+        },
+        {
+          "stop": 2,
+          "title": "Mapped carefully",
+          "route": "/parks/?guide=weldon&stop=02"
+        }
+      ]
+    }
+  ]
+}
