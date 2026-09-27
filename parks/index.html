@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 <meta name="theme-color" content="#123328" />
-<title>EPR Parks — Prototype A2</title>
+<title>EPR Parks — Prototype A3</title>
 <link rel="manifest" href="manifest.webmanifest" />
 <link rel="icon" href="https://enidpublicrecord.com/assets/images/favicon-32.png" />
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIINfQ3ynpZjqMZV9A6TkFYu7S9pAPQmZxI=" crossorigin="" />
@@ -56,13 +56,13 @@ button,input{font:inherit} button{cursor:pointer}
 <body>
 <div id="map"></div>
 <header class="topbar">
-  <img class="logo" src="icon-192.svg" alt="EPR" />
+  <img class="logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTIgMTkyIj48cmVjdCB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgcng9IjQyIiBmaWxsPSIjMTIzMzI4Ii8+PGNpcmNsZSBjeD0iOTYiIGN5PSI4OCIgcj0iNTIiIGZpbGw9IiNkY2VlZGQiLz48cGF0aCBkPSJNOTYgMTM3Yy0yNy0yMi00Mi00Mi00Mi02NCAwLTIzIDE4LTQxIDQyLTQxczQyIDE4IDQyIDQxYzAgMjItMTUgNDItNDIgNjRaIiBmaWxsPSIjMmQ3YjUzIi8+PHBhdGggZD0iTTk2IDUxYy0xNyAxNy0yMiAzNS0xOCA1OCA3LTE4IDE3LTMyIDMwLTQyLTIgMTgtOCAzMi0yMCA0NCAxNy02IDI5LTIwIDM1LTM5LTctMTUtMTYtMjEtMjctMjFaIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iOTYiIHk9IjE3MyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNmZmYiPkVQUiBQQVJLUzwvdGV4dD48L3N2Zz4=" alt="EPR" />
   <div class="brand"><strong>EPR Parks</strong><span>Find it • enjoy it • verify it</span></div>
   <button class="iconbtn" id="searchBtn" aria-label="Search parks">⌕</button>
   <button class="iconbtn" id="aboutBtn" aria-label="About">i</button>
 </header>
 <section class="hero" id="hero">
-  <div class="eyebrow">Enid outdoors • Prototype A2</div>
+  <div class="eyebrow">Enid outdoors • Prototype A3</div>
   <h1>Find your outside.</h1>
   <p>Tell us what you want to do. We’ll show the parks—and the public record behind them.</p>
   <div class="quickrow">
@@ -114,10 +114,11 @@ function initMap(){
  if(!window.L){toast('Map unavailable — the prototype UI still works.'); return;}
  map=L.map('map',{zoomControl:false,attributionControl:true,zoomAnimation:false,fadeAnimation:false,markerZoomAnimation:false,preferCanvas:true}).setView([36.397,-97.885],12.9);
  let tileErrors=0, switched=false;
- const carto=L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:19,keepBuffer:8,updateWhenIdle:false,updateWhenZooming:false,crossOrigin:true,attribution:'© OpenStreetMap contributors © CARTO'});
- const osm=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,keepBuffer:8,updateWhenIdle:false,crossOrigin:true,attribution:'© OpenStreetMap contributors'});
- carto.on('tileerror',()=>{tileErrors++; if(tileErrors>=4&&!switched){switched=true; try{map.removeLayer(carto)}catch(e){} osm.addTo(map); toast('Switched map source for this preview.'); setTimeout(()=>{map.invalidateSize(true); osm.redraw();},120);}});
- carto.addTo(map);
+ // A3: key-free basemap path. CARTO removed after its 2026 API-key requirement.
+ const osm=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,keepBuffer:8,updateWhenIdle:false,updateWhenZooming:false,crossOrigin:true,attribution:'© OpenStreetMap contributors'});
+ const esri=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,keepBuffer:8,updateWhenIdle:false,updateWhenZooming:false,crossOrigin:true,attribution:'Tiles © Esri'});
+ osm.on('tileerror',()=>{tileErrors++; if(tileErrors>=6&&!switched){switched=true; try{map.removeLayer(osm)}catch(e){} esri.addTo(map); toast('Switched to backup map source.'); setTimeout(()=>{map.invalidateSize(true); esri.redraw();},120);}});
+ osm.addTo(map);
  markerGroup=L.layerGroup().addTo(map); renderMarkers();
  const repair=()=>{if(!map)return;map.invalidateSize(true); if(map.eachLayer)map.eachLayer(l=>{if(l.redraw)try{l.redraw()}catch(e){}})};
  requestAnimationFrame(repair); setTimeout(repair,180); setTimeout(repair,700); setTimeout(repair,1600);
@@ -142,7 +143,7 @@ function directions(id){const p=parks.find(x=>x.id===id);window.open(`https://ww
 function showBrowse(passportOnly=false){const list=(passportOnly?parks.filter(p=>visited.has(p.id)):filteredParks());document.getElementById('modalCard').innerHTML=`<div class="handle"></div><div style="display:flex;align-items:start;gap:8px"><div style="flex:1"><div class="eyebrow" style="color:#738078;opacity:1">${passportOnly?'My Park Passport':'Browse'}</div><h2>${passportOnly?'Places I’ve explored':'Choose your next park'}</h2><p>${passportOnly?'Your visit list stays in this browser on this device.':'Nine verified park locations are loaded in this first prototype.'}</p></div><button class="close" onclick="closeModal()">×</button></div>${passportOnly?'':`<div class="search"><input id="parkSearch" placeholder="Search parks or activities" /><button class="dockBtn primary" style="width:82px" onclick="renderParkList()">Find</button></div>`}<div class="parklist" id="parkList"></div><div class="note">Prototype scope: this A2 build showcases a subset of Enid parks already tied to EPR’s verified map records. It does not yet represent the full City parks/recreation directory.</div>`;document.getElementById('modal').classList.add('open');renderParkList(passportOnly)}
 function renderParkList(passportOnly=false){const q=(document.getElementById('parkSearch')?.value||'').trim().toLowerCase();let list=passportOnly?parks.filter(p=>visited.has(p.id)):filteredParks().filter(p=>!q||[p.name,p.address,...p.features,...p.moods].join(' ').toLowerCase().includes(q));const el=document.getElementById('parkList');if(!el)return;el.innerHTML=list.length?list.map(p=>`<div class="parkrow"><div class="dot">${p.emoji}</div><div class="pcopy"><strong>${p.name}</strong><small>${p.moods.slice(0,4).join(' • ')}</small></div><button onclick="closeModal();openPark(parks.find(x=>x.id==='${p.id}'))">Open</button></div>`).join(''):`<div class="parkrow"><div class="pcopy"><strong>No parks here yet.</strong><small>${passportOnly?'Mark a park as explored to start your Passport.':'Try another search or activity.'}</small></div></div>`}
 function closeModal(){document.getElementById('modal').classList.remove('open')}
-function showAbout(){document.getElementById('modalCard').innerHTML=`<div class="handle"></div><div style="display:flex;gap:8px;align-items:start"><div style="flex:1"><div class="eyebrow" style="color:#738078;opacity:1">Prototype A2</div><h2>A parks app with receipts.</h2></div><button class="close" onclick="closeModal()">×</button></div><p>EPR Parks is designed to answer two questions at once: <b>“What can I do nearby?”</b> and <b>“What does the public record actually verify?”</b></p><div class="record"><div class="recordTop"><span>⌁</span><b>Evidence Lens</b></div><p>Turn it on to surface plain-language ownership and mapping notes beside the recreation information. Public-facing evidence stays concise; internal research workflow stays private.</p></div><div class="record" style="background:#eef6ef;border-color:#d3e6d6"><div class="recordTop"><span>✓</span><b>Privacy-first Park Passport</b></div><p>Visited parks are stored locally on the device. No account is needed in this prototype.</p></div><p class="note">Independent EPR prototype. Not an official City of Enid app. This A2 file also includes phone-preview fixes; the hosted build will use the same interface with full app assets.</p>`;document.getElementById('modal').classList.add('open')}
+function showAbout(){document.getElementById('modalCard').innerHTML=`<div class="handle"></div><div style="display:flex;gap:8px;align-items:start"><div style="flex:1"><div class="eyebrow" style="color:#738078;opacity:1">Prototype A3</div><h2>A parks app with receipts.</h2></div><button class="close" onclick="closeModal()">×</button></div><p>EPR Parks is designed to answer two questions at once: <b>“What can I do nearby?”</b> and <b>“What does the public record actually verify?”</b></p><div class="record"><div class="recordTop"><span>⌁</span><b>Evidence Lens</b></div><p>Turn it on to surface plain-language ownership and mapping notes beside the recreation information. Public-facing evidence stays concise; internal research workflow stays private.</p></div><div class="record" style="background:#eef6ef;border-color:#d3e6d6"><div class="recordTop"><span>✓</span><b>Privacy-first Park Passport</b></div><p>Visited parks are stored locally on the device. No account is needed in this prototype.</p></div><p class="note">Independent EPR prototype. Not an official City of Enid app. A3 removes the CARTO API-key dependency and keeps the parks experience independent from third-party key setup.</p>`;document.getElementById('modal').classList.add('open')}
 function locate(){if(!navigator.geolocation){toast('Location is not available in this browser.');return}navigator.geolocation.getCurrentPosition(pos=>{const ll=[pos.coords.latitude,pos.coords.longitude];if(map){if(userMarker)userMarker.remove();userMarker=L.circleMarker(ll,{radius:8,weight:3,color:'#153e2d',fillColor:'#f1c55f',fillOpacity:1}).addTo(map).bindTooltip('You are here');map.flyTo(ll,14)}toast('Location found — tap a park to explore.')},()=>toast('Location permission was not granted.'),{enableHighAccuracy:true,timeout:10000})}
 function surprise(){const list=filteredParks();const p=list[Math.floor(Math.random()*list.length)];openPark(p);toast(`Try ${p.name}`)}
 function fitAll(){if(!map)return;const list=filteredParks();map.fitBounds(L.latLngBounds(list.map(p=>[p.lat,p.lng])).pad(.14),{paddingTopLeft:[25,240],paddingBottomRight:[25,160]})}
