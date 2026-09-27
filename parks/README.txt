@@ -1,11 +1,13 @@
-EPR Parks Prototype A3 — basemap repair
+EPR Parks Prototype A4 — hosted mobile map fix
 
-Changes from A2:
-- Removes CARTO Voyager dependency after CARTO's 2026 API-key requirement.
-- Uses OpenStreetMap standard raster tiles as the primary temporary prototype basemap.
-- Uses Esri World Street Map as a backup if repeated tile errors occur.
-- Bumps the PWA cache from epr-parks-a2 to epr-parks-a3.
-- Service worker now uses network-first navigation so future index updates do not get stuck behind an old cached page.
-- No changes to production EPR Atlas.
+Purpose:
+- Preserve the A3 interface and park data.
+- Fix the fragmented 256x256 tile squares seen on the hosted /parks/ page.
+- Embed the critical Leaflet positioning/layout CSS directly in index.html.
+- Keep OSM primary + Esri fallback from A3.
+- Bump the service-worker cache to epr-parks-a4.
+- Production Atlas is not touched.
 
-Deploy: replace the files in /parks/ with this package's contents, preserving the folder-relative paths.
+Deployment:
+Replace the current files in /parks/ with the contents of this folder.
+Then load https://enidpublicrecord.com/parks/ and refresh twice if the old service worker is still active.
