@@ -1,26 +1,20 @@
-EPR Parks — A7.5 Fishing Sites
-Release class: PUBLIC CANDIDATE
+EPR Parks — A7.6 Dark Map Fix
+
+PUBLIC CANDIDATE
 Date: 2026-09-28
-Rollback baseline: A7.4 Fishing + Map Polish
+Rollback: A7.5 Fishing Sites
 
-WHAT CHANGED
-- Expanded Fishing from three fishing-enabled parks to four verified Enid fishing locations.
-- Added City of Enid Water Works as an ODWC Close to Home fishing site without counting it as a park.
-- Fishing view now reports four fishing locations while the Park Passport remains 19 mapped parks.
-- Water Works receives a distinct fish marker when the official City GIS address anchor is available.
-- If the City GIS address point cannot load, the Water Works entry still appears in the Fishing list and directions use the official 1400 block W Chestnut address; the app does not invent a pond coordinate.
-- Water Works card includes ODWC-published 2.90-acre surface area, 0.36-mile shoreline, and annual Channel Catfish / Hybrid Sunfish stocking information.
-- Fishing search, Surprise Me and Fit All understand the non-park Water Works fishing site.
-- Preserves A7.4 Dark mode fix, closer zoom, Trail Explorer, walk tracking, events, Archie, Passport and Evidence Lens.
+What changed
+- Replaced CARTO Dark Matter raster tiles after the hosted service began returning visible “API KEY REQUIRED” tiles.
+- Dark mode now uses OpenFreeMap's no-key dark vector style through the same MapLibre/Leaflet bridge used by EPR Outdoors.
+- Map-label visibility works in Dark through vector symbol layers.
+- Added a no-key OpenStreetMap darkened fallback if the vector style does not load.
+- Preserves Fishing, Trail Explorer, active walk tracking, events, Archie, Passport, GPX export and max zoom 22.
+- Production Atlas is untouched.
 
-EVIDENCE / CLASSIFICATION
-ODWC currently lists four Enid Close to Home fishing locations: Meadowlake Park, Government Springs North Park, Crosslin Park, and City of Enid Water Works at the 1400 block of W Chestnut Ave. The Water Works site is classified by EPR Parks as a fishing site, not a park.
-
-MAP LOCATION
-A7.5 asks the City of Enid public GIS Addresses layer for the 1400 W Chestnut address point and uses that as a map anchor only. The UI explicitly says the address point is not a surveyed pond boundary. If the address query fails, no replacement coordinate is guessed.
-
-PRIVACY
-No change to the A7 privacy model. Fishing data is public recreation information. No user location is required to browse fishing locations.
-
-ATLAS
-Production Atlas is not modified by this package.
+Phone QA
+1. Open More > Map style > Dark. No API-key watermark should appear.
+2. Pinch zoom repeatedly in and out.
+3. Toggle Map labels off/on in Layers while Dark is active.
+4. Confirm park/trail/fishing markers stay above the basemap.
+5. Switch Dark > Outdoors > Satellite > Dark and verify state remains stable.

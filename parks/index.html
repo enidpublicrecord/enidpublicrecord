@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 <meta name="theme-color" content="#123328" />
-<title>EPR Parks — A7.5 Fishing Sites</title>
+<title>EPR Parks — A7.6 Dark Map Fix</title>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-6ZVETTNBV4"></script>
 <script>
@@ -100,7 +100,7 @@ button,input{font:inherit} button{cursor:pointer}
 
 
 
-/* A7.5 Fishing Sites identity -------------------------------------------------
+/* A7.6 Dark Map Fix identity -------------------------------------------------
    Open, park-first cartography: softer roads, smaller labels, no highway shields,
    sage land + muted water. Leaflet overlays (parks/trails/walks) stay crisp above it. */
 .maplibregl-map,.maplibregl-canvas{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
@@ -149,13 +149,14 @@ body.hero-collapsed .hero{transform:translateY(-205px)}body.hero-collapsed .filt
 @media(min-width:760px){.walkHud{left:50%;right:auto;transform:translateX(-50%);width:620px}.trailLegend{left:calc(50% - 305px)}}
 @media(max-width:420px){.floatstack{right:8px}.walkFloat{width:76px!important}.trailLegend{left:8px}.sheetActions{grid-template-columns:1fr 1fr}.sheetActions .sheetBtn:last-child:nth-child(odd){grid-column:1/-1}}
 
-/* A7.5 Fishing Sites + basemap identities */
+/* A7.6 Dark Map Fix + basemap identities */
 .heroBtn.trailHero{background:#dcebd4;color:#173f2e;border:1px solid rgba(255,255,255,.22)}
 .mapStyleGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}.mapStyleBtn{min-height:72px;border:1px solid #dce3dc;border-radius:15px;background:#fbfcfa;padding:10px;text-align:left;color:#283c32;position:relative;overflow:hidden}.mapStyleBtn b{display:block;font-size:11px;margin-top:3px}.mapStyleBtn small{display:block;font-size:8.5px;line-height:1.35;color:#748078;margin-top:3px}.mapStyleBtn .mapStyleIcon{font-size:21px}.mapStyleBtn.active{border-color:#2d7b53;box-shadow:0 0 0 2px rgba(45,123,83,.14);background:#edf6ec}.mapStyleBtn.darkPreview{background:linear-gradient(145deg,#17211c,#28352f);color:#fff}.mapStyleBtn.darkPreview small{color:rgba(255,255,255,.68)}.mapStyleBtn.satPreview{background:linear-gradient(145deg,#334c36,#816f4e);color:#fff}.mapStyleBtn.satPreview small{color:rgba(255,255,255,.76)}.mapStyleBtn.terrainPreview{background:linear-gradient(145deg,#e5ead0,#d7cba0)}
 .trailExploreGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}.trailExploreCard{min-height:84px;border:1px solid #dce3dd;border-radius:15px;background:#fbfcfa;padding:11px;text-align:left;color:#293d33}.trailExploreCard span{font-size:21px}.trailExploreCard b{display:block;font-size:11px;margin-top:6px}.trailExploreCard small{display:block;font-size:8.6px;line-height:1.35;color:#718078;margin-top:3px}.trailExploreCard.primary{background:#173f2e;color:#fff;border-color:#173f2e}.trailExploreCard.primary small{color:rgba(255,255,255,.7)}.trailExploreCard.future{background:#f1f4f6}.trailExploreCard.design{background:#fff7e7}.trailExplorerStatus{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.trailModePill{border-radius:999px;padding:5px 8px;font-size:8px;font-weight:900;border:1px solid #d7ded8;background:#fff;color:#4f6057}.trailModePill.current{background:#e8f3eb;color:#215a3d;border-color:#cde1d2}.trailModePill.design{background:#fff3d9;color:#765515;border-color:#ecd8a8}.trailModePill.future{background:#eef2f5;color:#425b6d;border-color:#d8e0e5}
 .trailSelected{filter:drop-shadow(0 0 3px rgba(255,255,255,.95)) drop-shadow(0 0 5px rgba(25,70,48,.55))}
 .trailLegend{cursor:pointer}.trailLegendTitle span{white-space:nowrap}.trailLegendTitle b{color:#31523e}
 body.map-dark .topbar,body.map-dark .dock{box-shadow:0 8px 28px rgba(0,0,0,.26)}
+.leaflet-tile.epr-dark-raster{filter:brightness(.46) invert(.94) hue-rotate(180deg) saturate(.58) contrast(.94)}
 </style>
 </head>
 <body>
@@ -225,7 +226,7 @@ body.map-dark .topbar,body.map-dark .dock{box-shadow:0 8px 28px rgba(0,0,0,.26)}
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
 <script>
-const BUILD='A7.5-FISHING-SITES';
+const BUILD='A7.6-DARK-FIX';
 const EVENT_FEED='events.public.json';
 const FISHING_FEED='fishing-sites.public.json';
 const FISHING_ADDRESS_ENDPOINT='https://gis.enid.org/server/rest/services/city/Enid_Transportation/MapServer/9/query';
@@ -365,9 +366,10 @@ function clearBaseLayers(){
  outdoorGL=null;outdoorGLMap=null;outdoorSymbolLayers=[];outdoorStyleReady=false;baseRasterLayer=null;roadLabelLayer=null;rasterBackupLayer=null;rasterBackupActive=false;
 }
 function enableRasterBackup(){
- if(!map||rasterBackupActive||baseStyle!=='outdoors')return;
- rasterBackupLayer=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxNativeZoom:19,maxZoom:22,keepBuffer:5,updateWhenIdle:true,crossOrigin:true});
- rasterBackupLayer.addTo(map);rasterBackupActive=true;updateBaseAttribution('EPR Outdoors fallback · © OpenStreetMap contributors');
+ if(!map||rasterBackupActive||!['outdoors','dark'].includes(baseStyle))return;
+ const isDark=baseStyle==='dark';
+ rasterBackupLayer=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxNativeZoom:19,maxZoom:22,keepBuffer:5,updateWhenIdle:true,crossOrigin:true,className:isDark?'epr-dark-raster':''});
+ rasterBackupLayer.addTo(map);rasterBackupActive=true;updateBaseAttribution(`${isDark?'EPR Dark':'EPR Outdoors'} fallback · © OpenStreetMap contributors`);
 }
 function addVectorBase(styleName){
  let glLoaded=false;
@@ -378,21 +380,16 @@ function addVectorBase(styleName){
    const done=()=>{glLoaded=true;if(rasterBackupActive&&rasterBackupLayer){try{map.removeLayer(rasterBackupLayer)}catch(_){}}rasterBackupActive=false;tuneOutdoorStyle(outdoorGLMap);updateBaseAttribution(`${baseStyle==='dark'?'EPR Night':'EPR Outdoors'} · OpenFreeMap · © OpenMapTiles · © OpenStreetMap contributors`)};
    outdoorGLMap.once('load',done);
    outdoorGLMap.on('styledata',()=>{if(glLoaded&&!outdoorStyleReady)tuneOutdoorStyle(outdoorGLMap)});
-   if(baseStyle==='outdoors')setTimeout(()=>{if(!glLoaded)enableRasterBackup()},6500);
-  }else if(baseStyle==='outdoors')enableRasterBackup();
- }catch(_){if(baseStyle==='outdoors')enableRasterBackup()}
+   if(['outdoors','dark'].includes(baseStyle))setTimeout(()=>{if(!glLoaded)enableRasterBackup()},6500);
+  }else if(['outdoors','dark'].includes(baseStyle))enableRasterBackup();
+ }catch(_){if(['outdoors','dark'].includes(baseStyle))enableRasterBackup()}
 }
 function setBaseStyle(key,{silent=false}={}){
  if(!['outdoors','terrain','satellite','dark'].includes(key))key='outdoors';
  baseStyle=key;localStorage.setItem('epr-parks-map-style',key);document.body.classList.toggle('map-dark',key==='dark');
  if(!map)return;clearBaseLayers();
  if(key==='outdoors')addVectorBase('liberty');
- else if(key==='dark'){
-  baseRasterLayer=L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxNativeZoom:20,maxZoom:22,keepBuffer:5,updateWhenIdle:true,crossOrigin:true}).addTo(map);
-  roadLabelLayer=L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxNativeZoom:20,maxZoom:22,keepBuffer:5,updateWhenIdle:true,crossOrigin:true,pane:'overlayPane',opacity:.88});
-  if(roadLabelsVisible)roadLabelLayer.addTo(map);
-  updateBaseAttribution('Dark map © CARTO · © OpenStreetMap contributors');
- }
+ else if(key==='dark')addVectorBase('dark');
  else if(key==='terrain'){
   baseRasterLayer=L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',{subdomains:'abc',maxNativeZoom:17,maxZoom:22,keepBuffer:5,updateWhenIdle:true,crossOrigin:true}).addTo(map);
   updateBaseAttribution('Map data © OpenStreetMap contributors · DEM SRTM/Sonny · Map style © OpenTopoMap (CC-BY-SA)');
@@ -405,7 +402,7 @@ function setBaseStyle(key,{silent=false}={}){
 }
 function initMap(){
  if(!window.L){toast('Map unavailable — the prototype UI still works.'); return;}
- document.documentElement.dataset.parksBuild='A7.5-FISHING-SITES';
+ document.documentElement.dataset.parksBuild='A7.6-DARK-FIX';
  map=L.map('map',{zoomControl:false,attributionControl:true,touchZoom:true,dragging:true,bounceAtZoomLimits:false,zoomAnimation:true,fadeAnimation:true,markerZoomAnimation:true,zoomSnap:0.25,zoomDelta:0.5,wheelPxPerZoomLevel:80,preferCanvas:false,minZoom:9,maxZoom:22}).setView([36.397,-97.885],12.75);
  map.attributionControl.setPrefix(false);
  setBaseStyle(baseStyle,{silent:true});
@@ -435,10 +432,6 @@ function filteredParks(){return filter==='All'?parks:parks.filter(p=>p.moods.inc
 function renderFilters(){const el=document.getElementById('filters');el.innerHTML=moods.map(([m,e])=>`<button class="chip ${m===filter?'active':''}" data-mood="${m}"><span class="em">${e}</span>${m}</button>`).join('');el.querySelectorAll('button').forEach(b=>b.onclick=()=>{filter=b.dataset.mood;if(filter==='Walk')setTrailsVisible(true);renderFilters();renderMarkers();if(filter==='Fishing'){const w=waterWorksSite();toast(`${fishingLocationCount()} verified Enid fishing locations${Number.isFinite(w.lat)?'':' • Water Works map anchor loading'}`)}else toast(`${filteredParks().length} park${filteredParks().length===1?'':'s'} match ${filter.toLowerCase()}${filter==='Walk'?' • trails on':''}`)})}
 function setRoadLabels(on){
  roadLabelsVisible=!!on;applyOutdoorLabelVisibility();
- if(baseStyle==='dark'&&roadLabelLayer){
-  if(roadLabelsVisible&&!map.hasLayer(roadLabelLayer))roadLabelLayer.addTo(map);
-  if(!roadLabelsVisible&&map.hasLayer(roadLabelLayer))map.removeLayer(roadLabelLayer);
- }
  if((baseStyle==='terrain'||baseStyle==='satellite')&&!roadLabelsVisible)toast(baseStyle==='terrain'?'Terrain labels are part of that basemap.':'Satellite view is already minimally labeled.');
 }
 
@@ -624,7 +617,7 @@ function trailsNearMe(){
 }
 function showMapStyles(){
  const cards=[['outdoors','🌿','Outdoors','Quiet park-first EPR map',''],['terrain','⛰','Terrain','Topographic context and contours','terrainPreview'],['satellite','🛰','Satellite','See the actual landscape beneath the trail','satPreview'],['dark','🌙','Dark','Lower-glare map for evening use','darkPreview']];
- document.getElementById('modalCard').innerHTML=`<div class="handle"></div><div style="display:flex;align-items:start;gap:8px"><div style="flex:1"><div class="eyebrow" style="color:#738078;opacity:1">Map style</div><h2>Choose the landscape.</h2><p>Changing the basemap never changes EPR’s park, trail, event or evidence data.</p></div><button class="close" onclick="closeModal()">×</button></div><div class="mapStyleGrid">${cards.map(([k,i,n,d,cls])=>`<button class="mapStyleBtn ${cls} ${baseStyle===k?'active':''}" onclick="setBaseStyle('${k}');showMapStyles()"><span class="mapStyleIcon">${i}</span><b>${n}</b><small>${d}</small></button>`).join('')}</div><div class="note">Outdoors uses a decluttered OpenFreeMap/OpenStreetMap vector base. Dark uses CARTO Dark Matter with a separate label layer. Terrain uses OpenTopoMap. Satellite uses Esri imagery. Trail status lines and EPR markers remain on top.</div>`;document.getElementById('modal').classList.add('open');
+ document.getElementById('modalCard').innerHTML=`<div class="handle"></div><div style="display:flex;align-items:start;gap:8px"><div style="flex:1"><div class="eyebrow" style="color:#738078;opacity:1">Map style</div><h2>Choose the landscape.</h2><p>Changing the basemap never changes EPR’s park, trail, event or evidence data.</p></div><button class="close" onclick="closeModal()">×</button></div><div class="mapStyleGrid">${cards.map(([k,i,n,d,cls])=>`<button class="mapStyleBtn ${cls} ${baseStyle===k?'active':''}" onclick="setBaseStyle('${k}');showMapStyles()"><span class="mapStyleIcon">${i}</span><b>${n}</b><small>${d}</small></button>`).join('')}</div><div class="note">Outdoors uses a decluttered OpenFreeMap/OpenStreetMap vector base. Dark uses the no-key OpenFreeMap dark vector style. Terrain uses OpenTopoMap. Satellite uses Esri imagery. Trail status lines and EPR markers remain on top.</div>`;document.getElementById('modal').classList.add('open');
 }
 function showTrailExplorer(){
  const c={existing:0,design:0,planned:0};trailFeatures.forEach(f=>c[trailStatus(f.properties||{})]++);const raster=trailRasterActive&&!trailsLoaded;
@@ -664,7 +657,7 @@ function renderParkList(passportOnly=false){
  el.innerHTML=list.length?list.map(p=>`<div class="parkrow"><div class="dot">${p.emoji}</div><div class="pcopy"><strong>${p.name}</strong><small>${p.moods.slice(0,4).join(' • ')}</small></div><button onclick="closeModal();openPark(parks.find(x=>x.id==='${p.id}'))">Open</button></div>`).join(''):`<div class="parkrow"><div class="pcopy"><strong>No parks here yet.</strong><small>${passportOnly?'Mark a park as explored to start your Passport.':'Try another search or activity.'}</small></div></div>`
 }
 function closeModal(){document.getElementById('modal').classList.remove('open');stopNarration()}
-function showAbout(){document.getElementById('modalCard').innerHTML=`<div class="handle"></div><div style="display:flex;gap:8px;align-items:start"><div style="flex:1"><div class="eyebrow" style="color:#738078;opacity:1">A7.5 Fishing Sites</div><h2>Powerful when you need it. Quiet when you don’t.</h2></div><button class="close" onclick="closeModal()">×</button></div><p>EPR Parks combines recreation discovery with source-linked public information. A7.5 keeps the EPR Outdoors identity and expands Fishing into a four-location Enid recreation view, including City of Enid Water Works as a fishing site without reclassifying it as a park. Events, trails and the privacy-first walk tracker remain available without turning the map into a dashboard.</p><div class="record"><div class="recordTop"><span>🌿</span><b>EPR Outdoors map</b></div><p>Outdoors uses OpenFreeMap/OpenStreetMap vector data so Parks can reduce clutter. Dark uses CARTO Dark Matter with a separate label layer. Terrain uses OpenTopoMap and Satellite uses Esri imagery. EPR park, trail and event overlays stay separate from the basemap.</p></div><div class="record"><div class="recordTop"><span>🚶</span><b>Walk tracker</b></div><p>Distance, elapsed time, approximate pace and the route line are calculated on this device. GPS coordinates are not sent to Google Analytics. Saved walks stay in this browser unless you deliberately export or share them.</p></div><div class="record"><div class="recordTop"><span>📅</span><b>Events</b></div><p>Park-linked events are published from a small EPR feed with official source links. Event status can change, so every event keeps a source and freshness date.</p></div><div class="record"><div class="recordTop"><span>⌁</span><b>Evidence Lens</b></div><p>Turn it on when you want the public-record layer. Internal research workflow and unpublished evidence remain private.</p></div><div class="privacyCard"><b>Independent EPR app.</b> Not an official City of Enid app. Production Atlas is not touched by this Parks build.</div><div class="sheetActions" style="grid-template-columns:1fr"><button class="sheetBtn primary" onclick="window.open('https://enidpublicrecord.com/','_blank','noopener')">Visit Enid Public Record ↗</button></div>`;document.getElementById('modal').classList.add('open')}
+function showAbout(){document.getElementById('modalCard').innerHTML=`<div class="handle"></div><div style="display:flex;gap:8px;align-items:start"><div style="flex:1"><div class="eyebrow" style="color:#738078;opacity:1">A7.6 Dark Map Fix</div><h2>Powerful when you need it. Quiet when you don’t.</h2></div><button class="close" onclick="closeModal()">×</button></div><p>EPR Parks combines recreation discovery with source-linked public information. A7.6 keeps the four-location Fishing view and replaces the broken key-gated dark tiles with a no-key OpenFreeMap dark vector basemap. Events, trails and the privacy-first walk tracker remain available without turning the map into a dashboard.</p><div class="record"><div class="recordTop"><span>🌿</span><b>EPR Outdoors map</b></div><p>Outdoors uses OpenFreeMap/OpenStreetMap vector data so Parks can reduce clutter. Dark uses the no-key OpenFreeMap dark vector style. Terrain uses OpenTopoMap and Satellite uses Esri imagery. EPR park, trail and event overlays stay separate from the basemap.</p></div><div class="record"><div class="recordTop"><span>🚶</span><b>Walk tracker</b></div><p>Distance, elapsed time, approximate pace and the route line are calculated on this device. GPS coordinates are not sent to Google Analytics. Saved walks stay in this browser unless you deliberately export or share them.</p></div><div class="record"><div class="recordTop"><span>📅</span><b>Events</b></div><p>Park-linked events are published from a small EPR feed with official source links. Event status can change, so every event keeps a source and freshness date.</p></div><div class="record"><div class="recordTop"><span>⌁</span><b>Evidence Lens</b></div><p>Turn it on when you want the public-record layer. Internal research workflow and unpublished evidence remain private.</p></div><div class="privacyCard"><b>Independent EPR app.</b> Not an official City of Enid app. Production Atlas is not touched by this Parks build.</div><div class="sheetActions" style="grid-template-columns:1fr"><button class="sheetBtn primary" onclick="window.open('https://enidpublicrecord.com/','_blank','noopener')">Visit Enid Public Record ↗</button></div>`;document.getElementById('modal').classList.add('open')}
 
 const guideData={
  meadowlake:{title:'Meadowlake Mini Walk',subtitle:'3 stops • digital beta',stops:[

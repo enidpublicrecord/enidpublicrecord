@@ -1,33 +1,24 @@
 {
   "app": "EPR Parks",
-  "release": "A7.5",
-  "build": "A7.5-FISHING-SITES",
-  "name": "EPR Parks \u2014 A7.5 Fishing Sites",
+  "release": "A7.6",
+  "build": "A7.6-DARK-FIX",
+  "name": "EPR Parks \u2014 A7.6 Dark Map Fix",
   "release_class": "PUBLIC CANDIDATE",
   "date": "2026-09-28",
-  "rollback": "A7.4 Fishing + Map Polish",
-  "rollback_baseline": "A7.4 Fishing + Map Polish",
+  "rollback": "A7.5 Fishing Sites",
+  "rollback_baseline": "A7.5 Fishing Sites",
   "changes": [
-    "Four-location Enid fishing view backed by current ODWC records",
-    "City of Enid Water Works added as a fishing site, not a park",
-    "Water Works map anchor resolves from the City GIS Addresses layer at runtime when available",
-    "Water Works details include ODWC-published surface area, shoreline and annual stocking information",
-    "Fishing browse/search, Surprise Me and Fit All include the non-park fishing site",
-    "Preserves A7.4 map styles, zoom, Trail Explorer, walk tracking, events, Archie, Passport and Evidence Lens"
+    "Removed CARTO dark raster dependency that returned API KEY REQUIRED tiles",
+    "Dark mode now uses OpenFreeMap no-key dark vector style",
+    "Dark label toggle uses vector symbol visibility",
+    "Dark vector load has an OpenStreetMap-derived no-key fallback",
+    "Preserves A7.5 Fishing Sites, Trail Explorer, walk tracking, events, Archie, Passport, GPX export and zoom 22"
   ],
-  "fishing_sites": [
-    "Crosslin Park",
-    "Meadowlake Park",
-    "Government Springs \u2014 North",
-    "City of Enid Water Works"
-  ],
-  "classification_note": "City of Enid Water Works is a fishing site and does not increase the mapped park count.",
   "public_dependencies": [
     "Leaflet 1.9.4",
     "MapLibre GL JS 5.24.0",
     "maplibre-gl-leaflet 0.1.3",
-    "OpenFreeMap public vector style",
-    "CARTO Dark Matter",
+    "OpenFreeMap public vector styles (Liberty + Dark)",
     "OpenStreetMap",
     "OpenTopoMap",
     "Esri World Imagery",
@@ -38,15 +29,14 @@
     "gps_to_analytics": false,
     "walk_storage": "device-local unless user exports/shares",
     "event_watches": "device-local",
-    "fishing_browsing": "no user location required",
     "map_style_preference": "device-local"
   },
   "atlas_changed": false,
   "files": [
     {
       "name": "README.txt",
-      "bytes": 1897,
-      "sha256": "7fcaf8e5fd0a0bee5f5764635f87b04ea9b0430b17ee28404cb8ac16b35a7f9d"
+      "bytes": 967,
+      "sha256": "d0ecd51ffe24d5c5e7052c2be5ce57f391c6139f6b00d9f7edd7ef9aafe3a2e2"
     },
     {
       "name": "events.public.json",
@@ -75,8 +65,8 @@
     },
     {
       "name": "index.html",
-      "bytes": 133804,
-      "sha256": "a590e63b272fa6bb7346d5f5be870e8c878a19e5d963beb646a2ffe0f73458db"
+      "bytes": 133237,
+      "sha256": "28055e19977636cb5091da720d5c8415aee2bef77010dbd92240168541329bb4"
     },
     {
       "name": "manifest.webmanifest",
@@ -85,8 +75,8 @@
     },
     {
       "name": "sw.js",
-      "bytes": 1657,
-      "sha256": "e321f2c2c7fb75450910a6ab415f764c9859da0eedd87f58e37fb0813a4804cf"
+      "bytes": 1652,
+      "sha256": "b621b1213e51ce1984a52f1c9e3d5bb1a06e9a9bd5c6ed626de9bf5e4d906186"
     },
     {
       "name": "trail-source.json",
