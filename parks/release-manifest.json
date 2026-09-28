@@ -1,19 +1,17 @@
 {
   "app": "EPR Parks",
-  "release": "A7.17",
-  "build": "A7.17-NWOSU-COURSE-MAP",
-  "name": "EPR Parks \u2014 A7.17 NWOSU Course Map",
+  "release": "A7.18",
+  "build": "A7.18-COURSE-MAP-DISCOVERY",
+  "name": "EPR Parks \u2014 A7.18 Course Map Discovery",
   "release_class": "PUBLIC CANDIDATE",
   "date": "2026-09-28",
-  "rollback": "A7.16 NWOSU Course Fix",
-  "rollback_baseline": "A7.16 NWOSU Course Fix",
+  "rollback": "A7.17 NWOSU Course Map",
+  "rollback_baseline": "A7.17 NWOSU Course Map",
   "changes": [
-    "Adds NWOSU-NOC 2022 Classic Tees hole-by-hole par and distance",
-    "Adds clickable EPR course-layout schematic with current-hole highlight",
-    "Integrates course map into round scoring and scorecard",
-    "Links to live UDisc course map for exact/current navigation context",
-    "Preserves Visit Enid 5,230-ft course figure separately from UDisc 5,470-ft layout",
-    "Keeps NWOSU-NOC outside City park/property inventory"
+    "NWOSU-NOC marker opens the 18-hole course map directly",
+    "Adds lightweight visible course-map marker label",
+    "Promotes 18-hole course map in course card",
+    "Preserves campus/non-City classification and reference-map accuracy boundary"
   ],
   "public_dependencies": [
     "Leaflet 1.9.4",
@@ -36,8 +34,8 @@
   "files": [
     {
       "name": "README.txt",
-      "bytes": 1493,
-      "sha256": "0fbb5915fcd96dc2b0480e20d35f6a3faf90f62845d28e2f23e7c1ea5cf5e882"
+      "bytes": 986,
+      "sha256": "6223417069afe5dcf1017c2efa60802fb42f318ca57508372728bc9ec669efee"
     },
     {
       "name": "disc-golf.public.json",
@@ -71,8 +69,8 @@
     },
     {
       "name": "index.html",
-      "bytes": 179985,
-      "sha256": "7a963187b4bd63878f26fd6758f62f51c712bb884fa6a52c82a0e0f29c678633"
+      "bytes": 180764,
+      "sha256": "216c15b8933bbde336254b86ecdaaa2b1a543f104d293addf292ad6a0c6bdec3"
     },
     {
       "name": "manifest.webmanifest",
@@ -81,8 +79,8 @@
     },
     {
       "name": "sw.js",
-      "bytes": 1732,
-      "sha256": "feed992eb1475240456672177898b92d04777abc7b97a935da0a736f52b205f5"
+      "bytes": 1736,
+      "sha256": "96237669b30d4a00a86d26005a82566cd9d4d8978f71e068c56b7d9ec00503e5"
     },
     {
       "name": "trail-source.json",
