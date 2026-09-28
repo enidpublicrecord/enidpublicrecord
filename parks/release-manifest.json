@@ -1,17 +1,19 @@
 {
   "app": "EPR Parks",
-  "release": "A7.13",
-  "build": "A7.13-FINAL-DARK",
-  "name": "EPR Parks — A7.13 Final Dark",
+  "release": "A7.14",
+  "build": "A7.14-TRAIL-RELIABILITY",
+  "name": "EPR Parks — A7.14 Trail Reliability",
   "release_class": "PUBLIC CANDIDATE",
   "date": "2026-09-28",
-  "rollback": "A7.12 Dark Forest Polish",
-  "rollback_baseline": "A7.12 Dark Forest Polish",
+  "rollback": "A7.13 Final Dark",
+  "rollback_baseline": "A7.13 Final Dark",
   "changes": [
-    "Raises Dark-mode shadow brightness by roughly 5–8%",
-    "Keeps A7.12 road saturation, trail prominence and park marker hierarchy",
-    "Preserves Outdoors as startup/default",
-    "Preserves all A7.12 features and privacy behavior"
+    "Shows City-rendered trails immediately while interactive geometry loads",
+    "Attempts both City TrailMaster endpoints concurrently using JSONP and direct CORS fetch",
+    "Keeps raster trails visible if interactive geometry is unavailable",
+    "Improves trail tile buffering and zoom/pan updates",
+    "Clarifies Trail Explorer state without presenting a working raster trail view as an error",
+    "Preserves A7.13 Dark baseline and all other Parks features"
   ],
   "public_dependencies": [
     "Leaflet 1.9.4",
@@ -34,8 +36,8 @@
   "files": [
     {
       "name": "README.txt",
-      "bytes": 519,
-      "sha256": "57e880ee61937b54594e9a078d9cc25c92489c3ee8a3ee93b96e7f508c5d8cc3"
+      "bytes": 1080,
+      "sha256": "d5d04c78af94164d934db47764a664f14aaa64d177414ca50d72b30d5befefa1"
     },
     {
       "name": "events.public.json",
@@ -64,8 +66,8 @@
     },
     {
       "name": "index.html",
-      "bytes": 136907,
-      "sha256": "0dbc5e423667d3b9b1d997ca9fce1d9ea11845fe34c554337843eb2ac64d78ad"
+      "bytes": 137558,
+      "sha256": "2c4ba58c9f1fefc3c985981c7ca181065ebf6af25427826e8156d8b735df9fc4"
     },
     {
       "name": "manifest.webmanifest",
@@ -74,8 +76,8 @@
     },
     {
       "name": "sw.js",
-      "bytes": 1655,
-      "sha256": "36c119418f84615796717ce0af056ea16cdef6ef6a8e3a104427a713a4b4169b"
+      "bytes": 1662,
+      "sha256": "7115b7ca5d10134319f466823bcdca0b61cbddb171081d5c16fc31d156ddf0ce"
     },
     {
       "name": "trail-source.json",

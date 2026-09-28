@@ -1,4 +1,4 @@
-const CACHE='epr-parks-a7-13-final-dark';
+const CACHE='epr-parks-a7-14-trail-reliability';
 const CORE=['./','index.html','manifest.webmanifest','icon-192.svg','icon-512.svg','events.public.json','fishing-sites.public.json','guide-manifest.json','trail-source.json'];
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)))});
 self.addEventListener('activate',e=>e.waitUntil((async()=>{for(const k of await caches.keys())if(k!==CACHE&&k.startsWith('epr-parks-'))await caches.delete(k);await self.clients.claim()})()));

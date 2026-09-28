@@ -1,15 +1,18 @@
-EPR Parks — A7.13 Final Dark
+EPR Parks — A7.14 Trail Reliability
 
 Release class: PUBLIC CANDIDATE
 Date: 2026-09-28
-Rollback: A7.12 Dark Forest Polish
+Rollback: A7.13 Final Dark
 
-Final Dark-mode polish:
-- Lifts the darkest parts of the night basemap by roughly 5–8%.
-- Keeps the established A7.12 color balance.
-- Preserves bright EPR trails and park markers.
-- Leaves Outdoors as the startup/default map.
-- Reloading returns to Outdoors.
+Trail reliability changes:
+- City-rendered trail tiles are shown immediately instead of waiting for the interactive geometry query.
+- Interactive trail geometry loads in the background and replaces the rendered tiles when successful.
+- Both City TrailMaster endpoints are attempted concurrently by JSONP and CORS fetch; the first valid geometry result wins.
+- JSONP/direct-fetch timeouts are shorter so failed geometry attempts do not hang the app.
+- Panning/zooming keeps a larger trail-tile buffer and updates tiles during movement.
+- If interactive geometry is unavailable, the user still gets a usable trail map instead of “Trails not loaded.”
+- Trail Explorer explains whether tap-for-details is currently available.
+- Existing green / design gold / future red-not-usable status treatment remains unchanged.
 
-All A7.12 trail, fishing, events, walk, Archie, Passport and privacy behavior is preserved.
+A future EPR-controlled publication-safe trail feed is still the preferred long-term architecture.
 Production Atlas is not changed by this patch.
