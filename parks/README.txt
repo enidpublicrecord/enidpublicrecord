@@ -1,29 +1,36 @@
-EPR Parks — A7 Outdoor Mode
+EPR Parks — A7.1 EPR Outdoors
+2026-09-27
 
 PURPOSE
-A7 is the usability + outdoors release candidate. It keeps the map visually open while moving advanced tools behind context-sensitive controls.
+Phone-test hotfix and cartographic identity pass for EPR Parks.
 
-NEW IN A7
-- Reset, Layers, Legend, Help/Install and More tools patterned after useful Atlas controls.
-- Park-linked Events feed with official source links and on-map event badges.
-- Local event-watch preferences; app-open change notice foundation. Background push requires a future EPR notification service.
-- Privacy-first Walk tracker: distance, elapsed time, approximate pace, GPS breadcrumb route, pause/resume, follow mode, finish summary, local save, GPX export and summary sharing.
-- Health/Fitness-ready walk record schema for later native Apple Health / Android Health Connect integration. The web build does not read health history.
-- Quieter visible controls: Walk, Trails and Archie stay on the map; Layers/Legend/Reset/Evidence/Help live under More.
-- Trail status layer switches: current, design/development and future/exploration.
-- Google Analytics G-6ZVETTNBV4 retained. No GPS coordinates or search text are sent to analytics by A7 code.
+WHAT CHANGED
+1. EPR Outdoors basemap: Parks now prefers OpenFreeMap vector cartography rather than the Atlas-style raster map. Parks can therefore reduce label size, suppress oversized highway shields/POI clutter, soften roads, and emphasize land/water/park colors.
+2. Fallback map: if the vector basemap cannot load, a softened OpenStreetMap raster appears automatically.
+3. Trails: interactive TrailMaster geometry is still preferred. If the mobile browser blocks the cross-origin geometry request, Parks automatically shows the City TrailMaster through a no-CORS ArcGIS rendered-map overlay rather than displaying “Trails not loaded.”
+4. Trail status controls remain meaningful in fallback mode: current, design/development, and exploration/future are requested as separate City-rendered overlays.
+5. Trail detail cards remain evidence-controlled: segment-specific tap details are only enabled when interactive geometry actually loads.
+6. Map labels remain available from Layers; the default style is already reduced and highway shields are suppressed. Reset returns to the normal EPR Outdoors view.
 
-EVENT DATA
-The bundled events.public.json is publication-safe and source-linked. It is a snapshot checked 2026-09-27. Official sources control if schedules change.
-
-TRAIL DATA
-A7 continues to refresh City TrailMaster geometry directly from the public City GIS at runtime. This is a known transition state. The next infrastructure step is an EPR-controlled publication-safe trail feed; A7 does not claim that migration is complete.
-
-PRIVACY
-Passport, Archie progress, watched parks and saved walks use local device storage. Walk GPS route points are not sent to Google Analytics. Users choose whether to save or export a completed route.
+PRESERVED
+- A7 walk tracker / Follow mode
+- events and event-watch preferences
+- Archie guides
+- Park Passport
+- Evidence Lens
+- Google Analytics G-6ZVETTNBV4
+- production Atlas untouched
 
 ROLLBACK
-A6.1 remains the known-good immediate rollback baseline. A5 remains the pre-trails rollback baseline.
+A7 Outdoor Mode remains the protected production rollback baseline until A7.1 passes hosted Android QA.
 
-ATLAS
-Production Atlas is not modified by this package.
+LIVE QA AFTER UPLOAD
+- Confirm the basemap has smaller labels and no dominant US-60/US-412 shield.
+- Confirm trails become interactive colored lines OR a visible City trail overlay instead of “Trails not loaded.”
+- If fallback trails are active, tap the trail legend and confirm the app explains that segment details are unavailable rather than guessing.
+- Toggle More > Layers > Map labels off/on.
+- Start/Pause/Resume/Finish Walk.
+- Confirm Passport, Archie, Events and Reset still work.
+
+MAP ATTRIBUTION
+The EPR Outdoors vector basemap uses OpenFreeMap / OpenMapTiles with OpenStreetMap data. Attribution is shown on-map.

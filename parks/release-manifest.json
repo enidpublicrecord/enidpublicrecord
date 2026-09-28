@@ -1,32 +1,37 @@
 {
   "app": "EPR Parks",
-  "build": "A7",
-  "release_class": "PUBLIC CANDIDATE",
-  "rollback_baseline": "A6.1",
+  "build": "A7.1-OUTDOORS",
+  "release_class": "PUBLIC CANDIDATE HOTFIX",
+  "date": "2026-09-27",
+  "rollback_baseline": "A7 Outdoor Mode",
   "changes": [
-    "Outdoor-first control layout",
-    "Reset/Layers/Legend/Help",
-    "publication-safe park events feed",
-    "event badges and local event watch",
-    "privacy-first walk tracker",
-    "saved local walks + GPX export",
-    "health-ready walk schema",
-    "trail status filters",
-    "Google Analytics G-6ZVETTNBV4 retained"
+    "OpenFreeMap/MapLibre vector basemap gives Parks a distinct outdoor identity",
+    "Smaller labels, suppressed highway shields/POI clutter, softer roads and park-first colors",
+    "OpenStreetMap raster fallback if vector basemap is unavailable",
+    "Trail geometry loading retains JSONP/CORS paths",
+    "ArcGIS rendered-map trail fallback prevents blank trail layer on mobile cross-origin failure",
+    "Current/design/future trail status filters preserved in raster fallback",
+    "A7 Walk, Events, Archie, Passport, Evidence Lens and analytics retained"
+  ],
+  "public_dependencies": [
+    "Leaflet 1.9.4",
+    "MapLibre GL JS 5.24.0",
+    "maplibre-gl-leaflet 0.1.3",
+    "OpenFreeMap public vector styles",
+    "OpenStreetMap",
+    "City of Enid ArcGIS MapServer"
   ],
   "privacy": {
     "gps_to_analytics": false,
-    "saved_walks": "localStorage only unless user exports/shares",
-    "event_watches": "localStorage",
-    "health_history_read": false
+    "walk_storage": "device-local unless user exports/shares",
+    "event_watches": "device-local"
   },
-  "known_transition": "Trail geometry still refreshes directly from City GIS at runtime. EPR-controlled public trail feed is not yet deployed.",
   "atlas_changed": false,
   "files": [
     {
       "name": "README.txt",
-      "bytes": 1947,
-      "sha256": "19cd5eb89fe2e5cadb7913c26588fb85e76eda7861c063a31b270ca24e9e0de6"
+      "bytes": 2157,
+      "sha256": "0c39b477b844569f32581981a650b052725fc5551e2efb410837f2d5b42f133e"
     },
     {
       "name": "events.public.json",
@@ -50,8 +55,8 @@
     },
     {
       "name": "index.html",
-      "bytes": 100040,
-      "sha256": "6a99b1625268efbe6fca6897f0a1b3afea8f2e9cbf09cfb295da22291ee334e5"
+      "bytes": 109850,
+      "sha256": "274e526282034d82d4d3295696471f14da447886404a7d459757a60dfbc13364"
     },
     {
       "name": "manifest.webmanifest",
@@ -60,13 +65,13 @@
     },
     {
       "name": "sw.js",
-      "bytes": 1562,
-      "sha256": "637542f14193ca864bea9ec11a86defdd8e98dff4cae6943ba50629cea5544d6"
+      "bytes": 1573,
+      "sha256": "1d90e5eecd6370b2ae95032eaf1a7bc28e8b0e8c9a924cda8e81e3029c1f94a4"
     },
     {
       "name": "trail-source.json",
-      "bytes": 1269,
-      "sha256": "3d91772e9351c98f099e8b08e1a6a22d6675a69869dc8cf91da795de263d2376"
+      "bytes": 630,
+      "sha256": "819a7bdeb651eccecd9a36f6b7f981dc08b14accc071afaf843983cb52f29190"
     }
   ]
 }

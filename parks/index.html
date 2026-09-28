@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 <meta name="theme-color" content="#123328" />
-<title>EPR Parks — A7 Outdoor Mode</title>
+<title>EPR Parks — A7.1 EPR Outdoors</title>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-6ZVETTNBV4"></script>
 <script>
@@ -16,6 +16,9 @@
 <link rel="manifest" href="manifest.webmanifest" />
 <link rel="icon" href="https://enidpublicrecord.com/assets/images/favicon-32.png" />
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIINfQ3ynpZjqMZV9A6TkFYu7S9pAPQmZxI=" crossorigin="" />
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css" />
+<script src="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js"></script>
+<script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.1.3/leaflet-maplibre-gl.js"></script>
 <style>
 
 /* A4 self-contained Leaflet layout core.
@@ -95,6 +98,18 @@ button,input{font:inherit} button{cursor:pointer}
 .guideBadge{font-size:8.5px;font-weight:950;letter-spacing:.07em;text-transform:uppercase;background:#fff4cf;color:#66511a;border:1px solid #ead79a;border-radius:999px;padding:4px 7px}
 
 
+
+/* A7.1 EPR Outdoors identity -------------------------------------------------
+   Open, park-first cartography: softer roads, smaller labels, no highway shields,
+   sage land + muted water. Leaflet overlays (parks/trails/walks) stay crisp above it. */
+.maplibregl-map,.maplibregl-canvas{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.leaflet-pane.epr-raster-backup-pane img{filter:saturate(.62) sepia(.08) hue-rotate(34deg) brightness(1.07) contrast(.90);opacity:.82}
+.leaflet-pane.epr-trail-raster-existing-pane img{filter:brightness(0) saturate(100%) invert(34%) sepia(33%) saturate(1025%) hue-rotate(102deg) brightness(78%) contrast(86%);opacity:.78}
+.leaflet-pane.epr-trail-raster-design-pane img{filter:brightness(0) saturate(100%) invert(61%) sepia(65%) saturate(820%) hue-rotate(352deg) brightness(91%) contrast(88%);opacity:.78}
+.leaflet-pane.epr-trail-raster-planned-pane img{filter:brightness(0) saturate(100%) invert(41%) sepia(19%) saturate(940%) hue-rotate(158deg) brightness(80%) contrast(83%);opacity:.66}
+.trailLegend.raster .trailSwatch{border-top-style:solid!important}
+.outdoorIdentity{display:inline-flex;align-items:center;gap:5px;border-radius:999px;background:#e7f0df;border:1px solid #d2e2ca;padding:4px 7px;font-size:8px;font-weight:900;color:#31523e;letter-spacing:.04em;text-transform:uppercase}
+
 /* A6 trails */
 .trailLegend{position:fixed;z-index:880;left:10px;bottom:164px;max-width:235px;border:1px solid rgba(205,214,207,.96);border-radius:14px;background:rgba(255,255,255,.95);box-shadow:0 5px 16px rgba(25,47,37,.12);padding:8px 9px;backdrop-filter:blur(12px);transition:.18s}
 .trailLegend.off{opacity:.46}.trailLegend.loading .trailLegendRows{opacity:.5}.trailLegend button{all:unset;cursor:pointer;display:block;width:100%}
@@ -140,7 +155,7 @@ body.hero-collapsed .hero{transform:translateY(-205px)}body.hero-collapsed .filt
   <button class="iconbtn" id="moreBtn" aria-label="More tools">☰</button>
 </header>
 <section class="hero" id="hero">
-  <div class="eyebrow">Enid outdoors • A7 Outdoor Mode</div>
+  <div class="eyebrow">Enid outdoors • A7.1 EPR Outdoors</div>
   <h1>Find your outside.</h1>
   <p>Parks, trails, events and a walk tracker when you want it. The map stays quiet when you don’t.</p>
   <div class="quickrow">
@@ -197,7 +212,7 @@ body.hero-collapsed .hero{transform:translateY(-205px)}body.hero-collapsed .filt
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
 <script>
-const BUILD='A7';
+const BUILD='A7.1-OUTDOORS';
 const EVENT_FEED='events.public.json';
 const fallbackEvents=[
  {id:'evt-fling-2026-10-03',park_id:'govsouth',title:'Fling at the Springs',start:'2026-10-03T14:00:00-05:00',end:'2026-10-03T22:00:00-05:00',status:'upcoming',cost:'Free',summary:'Annual live-music festival at Government Springs Park South.',source_authority:'Visit Enid',source_url:'https://visitenid.org/e/fling-at-the-springs-6ab57fee9416d315a4f33da3/'},
@@ -206,6 +221,8 @@ const fallbackEvents=[
  {id:'evt-christmas-park-2026-12-12',park_id:'meadowlake',title:'Christmas in the Park',start:'2026-12-12T17:00:00-06:00',end:'2026-12-12T20:00:00-06:00',status:'upcoming',cost:'Free',summary:'City holiday event at Meadowlake Park.',source_authority:'City of Enid',source_url:'https://www.enid.org/Events-directory/Christmas-in-the-Park'}
 ];
 let events=[...fallbackEvents],eventsLoaded=false,eventBadgesVisible=true,parksVisible=true,archieVisible=true;
+let roadLabelsVisible=true, roadLabelLayer=null;
+let outdoorGL=null, outdoorGLMap=null, outdoorSymbolLayers=[], outdoorStyleReady=false, rasterBackupLayer=null, rasterBackupActive=false;
 let trailStatusVisible={existing:true,design:true,planned:true};
 const eventWatchParks=new Set(JSON.parse(localStorage.getItem('epr-parks-event-watch')||'[]'));
 const savedWalks=JSON.parse(localStorage.getItem('epr-parks-walks')||'[]');
@@ -243,31 +260,92 @@ const featureIcons={Accessible:'♿','Lake or river':'≈','Playground':'🛝','
 const moods=[['All','✦'],['Play','🛝'],['Walk','🚶'],['Water','💧'],['Sports','⚽'],['Picnic','🧺'],['Quiet','🌿']];
 let filter='All', evidence=false, userMarker=null, map, markerGroup, markers=new Map();
 let trailGroup=null, trailFeatures=[], trailLayers=new Map(), trailsVisible=true, trailsLoaded=false, trailLoadFailed=false;
+let trailRenderMode='loading', trailRasterLayers={}, trailRasterActive=false, trailRasterTileSeen=false, trailRasterTimeout=null;
 const visited=new Set(JSON.parse(localStorage.getItem('epr-parks-visited')||'[]'));
 let heroCollapsed=localStorage.getItem('epr-parks-hero-collapsed')==='1';
 function toast(msg){const el=document.getElementById('pulse');el.textContent=msg;el.classList.add('show');clearTimeout(window.__pt);window.__pt=setTimeout(()=>el.classList.remove('show'),1800)}
+function tuneOutdoorStyle(gl){
+ if(!gl||!gl.getStyle)return;
+ try{
+  const style=gl.getStyle(), symbols=[];
+  (style.layers||[]).forEach(layer=>{
+   const id=String(layer.id||''), low=id.toLowerCase();
+   try{
+    if(layer.type==='background')gl.setPaintProperty(id,'background-color','#eef2e8');
+    if(layer.type==='fill'&&/(park|grass|wood|forest|nature|landcover)/.test(low)){
+      gl.setPaintProperty(id,'fill-color','#d7e5cf');
+      gl.setPaintProperty(id,'fill-opacity',.78);
+    }
+    if(layer.type==='fill'&&/water/.test(low)){
+      gl.setPaintProperty(id,'fill-color','#b9d9d6');
+      gl.setPaintProperty(id,'fill-opacity',.82);
+    }
+    if(layer.type==='line'&&/(road|street|highway|motorway|trunk)/.test(low)){
+      gl.setPaintProperty(id,'line-opacity',.48);
+    }
+    if(layer.type==='symbol'){
+      // Keep the map airy: POI clutter and highway shields are not the purpose of Parks.
+      if(/(shield|route[-_ ]?number|road[-_ ]?ref|motorway[-_ ]?junction|highway[-_ ]?ref)/.test(low)){
+        gl.setLayoutProperty(id,'visibility','none'); return;
+      }
+      if(/(^|[-_ ])(poi|shop|amenity|commercial|office)([-_ ]|$)/.test(low)){
+        gl.setLayoutProperty(id,'visibility','none'); return;
+      }
+      const original=gl.getLayoutProperty(id,'visibility')||'visible';
+      symbols.push({id,visibility:original});
+      const ts=gl.getLayoutProperty(id,'text-size');
+      if(typeof ts==='number')gl.setLayoutProperty(id,'text-size',Math.max(8,Math.round(ts*.82*10)/10));
+      gl.setPaintProperty(id,'text-opacity',/(road|street)/.test(low)?.58:.68);
+    }
+   }catch(_){/* style layers differ by provider; leave unsupported properties alone */}
+  });
+  outdoorSymbolLayers=symbols;outdoorStyleReady=true;applyOutdoorLabelVisibility();
+ }catch(_){outdoorStyleReady=false}
+}
+function applyOutdoorLabelVisibility(){
+ if(!outdoorGLMap||!outdoorStyleReady)return;
+ outdoorSymbolLayers.forEach(x=>{try{outdoorGLMap.setLayoutProperty(x.id,'visibility',roadLabelsVisible?x.visibility:'none')}catch(_){}});
+}
+function enableRasterBackup(){
+ if(!map||rasterBackupActive)return;
+ if(!map.getPane('eprRasterBackupPane')){const p=map.createPane('eprRasterBackupPane');p.style.zIndex='190';p.classList.add('epr-raster-backup-pane')}
+ rasterBackupLayer=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{pane:'eprRasterBackupPane',maxZoom:19,keepBuffer:5,updateWhenIdle:true,crossOrigin:true,attribution:'© OpenStreetMap contributors'});
+ rasterBackupLayer.addTo(map);rasterBackupActive=true;
+}
 function initMap(){
  if(!window.L){toast('Map unavailable — the prototype UI still works.'); return;}
- document.documentElement.dataset.parksBuild='A7';
+ document.documentElement.dataset.parksBuild='A7.1-OUTDOORS';
  map=L.map('map',{zoomControl:false,attributionControl:true,zoomAnimation:false,fadeAnimation:false,markerZoomAnimation:false,preferCanvas:true}).setView([36.397,-97.885],12.9);
- let tileErrors=0, switched=false;
- // A3: key-free basemap path. CARTO removed after its 2026 API-key requirement.
- const osm=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,keepBuffer:8,updateWhenIdle:false,updateWhenZooming:false,crossOrigin:true,attribution:'© OpenStreetMap contributors'});
- const esri=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,keepBuffer:8,updateWhenIdle:false,updateWhenZooming:false,crossOrigin:true,attribution:'Tiles © Esri'});
- osm.on('tileerror',()=>{tileErrors++; if(tileErrors>=6&&!switched){switched=true; try{map.removeLayer(osm)}catch(e){} esri.addTo(map); toast('Switched to backup map source.'); setTimeout(()=>{map.invalidateSize(true); esri.redraw();},120);}});
- osm.addTo(map);
+ map.attributionControl.addAttribution('EPR Outdoors · OpenFreeMap · © OpenMapTiles · © OpenStreetMap contributors');
+ // OpenFreeMap gives Parks a separate identity from Atlas: vector labels can be reduced or hidden instead of being baked into raster tiles.
+ let glLoaded=false;
+ try{
+  if(window.maplibregl&&typeof L.maplibreGL==='function'){
+   outdoorGL=L.maplibreGL({style:'https://tiles.openfreemap.org/styles/liberty',interactive:false,attributionControl:false,padding:.18}).addTo(map);
+   outdoorGLMap=outdoorGL.getMaplibreMap();
+   const done=()=>{glLoaded=true;if(rasterBackupActive&&rasterBackupLayer){try{map.removeLayer(rasterBackupLayer)}catch(_){}}rasterBackupActive=false;tuneOutdoorStyle(outdoorGLMap)};
+   outdoorGLMap.once('load',done);
+   outdoorGLMap.on('styledata',()=>{if(glLoaded&&!outdoorStyleReady)tuneOutdoorStyle(outdoorGLMap)});
+   setTimeout(()=>{if(!glLoaded)enableRasterBackup()},6500);
+  }else enableRasterBackup();
+ }catch(_){enableRasterBackup()}
+ createTrailRasterFallback();
  trailGroup=L.layerGroup().addTo(map);
  markerGroup=L.layerGroup().addTo(map); renderMarkers();
  loadTrails();
- const repair=()=>{if(!map)return;map.invalidateSize(true); if(map.eachLayer)map.eachLayer(l=>{if(l.redraw)try{l.redraw()}catch(e){}})};
+ const repair=()=>{if(!map)return;map.invalidateSize(true);if(outdoorGLMap)try{outdoorGLMap.resize()}catch(_){}if(map.eachLayer)map.eachLayer(l=>{if(l.redraw)try{l.redraw()}catch(_){}})};
  requestAnimationFrame(repair); setTimeout(repair,180); setTimeout(repair,700); setTimeout(repair,1600);
  window.addEventListener('resize',()=>setTimeout(repair,120),{passive:true});
- if(window.visualViewport) visualViewport.addEventListener('resize',()=>setTimeout(repair,120),{passive:true});
+ if(window.visualViewport)visualViewport.addEventListener('resize',()=>setTimeout(repair,120),{passive:true});
 }
 function iconFor(p){const ev=eventBadgesVisible?parkEvents(p.id):[];return L.divIcon({className:'',html:`<div class="parkpin ${evidence?'evidence':''}"><span>${p.emoji}</span>${archieVisible&&p.guide?'<b class="guidepin">🦉</b>':''}${ev.length?`<b class="eventBadge">${ev.length>1?ev.length:'📅'}</b>`:''}</div>`,iconSize:[34,34],iconAnchor:[17,31],tooltipAnchor:[0,-30]})}
 function renderMarkers(){if(!markerGroup)return;markerGroup.clearLayers();markers.clear();if(!parksVisible)return;filteredParks().forEach(p=>{const m=L.marker([p.lat,p.lng],{icon:iconFor(p)}).addTo(markerGroup);const ev=parkEvents(p.id);m.bindTooltip(`${p.name}${ev.length?' • '+ev.length+' event'+(ev.length>1?'s':''):''}`,{direction:'top',offset:[0,-2]});m.on('click',()=>openPark(p));markers.set(p.id,m);});}
 function filteredParks(){return filter==='All'?parks:parks.filter(p=>p.moods.includes(filter))}
 function renderFilters(){const el=document.getElementById('filters');el.innerHTML=moods.map(([m,e])=>`<button class="chip ${m===filter?'active':''}" data-mood="${m}"><span class="em">${e}</span>${m}</button>`).join('');el.querySelectorAll('button').forEach(b=>b.onclick=()=>{filter=b.dataset.mood;if(filter==='Walk')setTrailsVisible(true);renderFilters();renderMarkers();toast(`${filteredParks().length} park${filteredParks().length===1?'':'s'} match ${filter.toLowerCase()}${filter==='Walk'?' • trails on':''}`)})}
+function setRoadLabels(on){
+ roadLabelsVisible=!!on;applyOutdoorLabelVisibility();
+ if(rasterBackupActive&&roadLabelsVisible===false)toast('Label-free mode is available on the EPR Outdoors vector map.');
+}
 
 const TRAIL_ENDPOINTS=[
  'https://gis.enid.org/server/rest/services/city/Enid_Transportation/MapServer/35/query',
@@ -275,6 +353,48 @@ const TRAIL_ENDPOINTS=[
 ];
 const TRAIL_SOURCE='https://gis.enid.org/server/rest/services/city/Enid_Transportation/MapServer/35';
 const TRAIL_PLAN='https://www.enid.org/Services/Parks-Recreation/Enid-Master-Trails-Project';
+
+function arcgisTrailTileUrl(coords,def){
+ const ts=256,nwPx=L.point(coords.x*ts,coords.y*ts),sePx=nwPx.add([ts,ts]);
+ const nw=map.unproject(nwPx,coords.z),se=map.unproject(sePx,coords.z);
+ const pNW=L.CRS.EPSG3857.project(nw),pSE=L.CRS.EPSG3857.project(se);
+ const bbox=[pNW.x,pSE.y,pSE.x,pNW.y].map(v=>Number(v.toFixed(3))).join(',');
+ const q=new URLSearchParams({bbox,bboxSR:'3857',imageSR:'3857',size:'256,256',dpi:'96',format:'png32',transparent:'true',layers:'show:35',layerDefs:JSON.stringify({'35':def}),f:'image'});
+ return 'https://gis.enid.org/server/rest/services/city/Enid_Transportation/MapServer/export?'+q.toString();
+}
+function createTrailRasterFallback(){
+ if(!map||trailRasterLayers.existing)return;
+ const panes=[['existing','eprTrailRasterExistingPane','360','epr-trail-raster-existing-pane'],['design','eprTrailRasterDesignPane','361','epr-trail-raster-design-pane'],['planned','eprTrailRasterPlannedPane','362','epr-trail-raster-planned-pane']];
+ panes.forEach(([,name,z,cls])=>{const p=map.createPane(name);p.style.zIndex=z;p.style.pointerEvents='none';p.classList.add(cls)});
+ const defs={
+  existing:"Description IS NULL OR (Description NOT LIKE 'Future%' AND Description NOT LIKE 'Exploration%' AND Description NOT LIKE 'Design Complete%')",
+  design:"Description LIKE 'Design Complete%'",
+  planned:"Description LIKE 'Future%' OR Description LIKE 'Exploration%'"
+ };
+ const PaneTile=L.TileLayer.extend({getTileUrl:function(c){return arcgisTrailTileUrl(c,this.options.trailDef)}});
+ trailRasterLayers.existing=new PaneTile('',{pane:'eprTrailRasterExistingPane',trailDef:defs.existing,maxZoom:19,opacity:.92,keepBuffer:3,updateWhenIdle:true,attribution:'Trails © City of Enid GIS'});
+ trailRasterLayers.design=new PaneTile('',{pane:'eprTrailRasterDesignPane',trailDef:defs.design,maxZoom:19,opacity:.92,keepBuffer:3,updateWhenIdle:true});
+ trailRasterLayers.planned=new PaneTile('',{pane:'eprTrailRasterPlannedPane',trailDef:defs.planned,maxZoom:19,opacity:.92,keepBuffer:3,updateWhenIdle:true});
+ Object.values(trailRasterLayers).forEach(layer=>{
+  layer.on('tileload',()=>{trailRasterTileSeen=true;if(trailRenderMode.startsWith('raster')){trailRenderMode='raster';updateTrailLegend()}});
+ });
+}
+function syncTrailRasterVisibility(){
+ if(!map||!trailRasterActive)return;
+ for(const k of ['existing','design','planned']){
+  const layer=trailRasterLayers[k],want=trailsVisible&&trailStatusVisible[k];if(!layer)continue;
+  if(want&&!map.hasLayer(layer))layer.addTo(map);
+  if(!want&&map.hasLayer(layer))map.removeLayer(layer);
+ }
+}
+function activateTrailRasterFallback(){
+ if(!map||trailRasterActive||trailsLoaded)return;
+ createTrailRasterFallback();trailRasterActive=true;trailRenderMode='raster-loading';trailLoadFailed=false;syncTrailRasterVisibility();updateTrailLegend();
+ clearTimeout(trailRasterTimeout);trailRasterTimeout=setTimeout(()=>{if(trailRasterActive&&!trailRasterTileSeen){trailRenderMode='failed';trailLoadFailed=true;updateTrailLegend()}},6500);
+}
+function deactivateTrailRasterFallback(){
+ if(!map)return;trailRasterActive=false;clearTimeout(trailRasterTimeout);for(const l of Object.values(trailRasterLayers)){if(l&&map.hasLayer(l))map.removeLayer(l)}
+}
 function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function trailStatus(p={}){
  const d=String(p.Description||'').trim().toLowerCase(),s=[p.STATUS,p.PHASE2,p.Phase].filter(Boolean).join(' ').toLowerCase();
@@ -292,11 +412,14 @@ function usefulTrailName(p={}){
 function trailStyle(f){const k=trailStatus(f.properties||{});if(k==='design')return {color:'#d5962b',weight:4,opacity:.88,dashArray:'10 8',lineCap:'round'};if(k==='planned')return {color:'#567184',weight:3.5,opacity:.68,dashArray:'3 8',lineCap:'round'};return {color:'#1b6e4b',weight:5,opacity:.86,lineCap:'round'};}
 function updateTrailLegend(){
  const el=document.getElementById('trailLegend'),count=document.getElementById('trailCount'),note=document.getElementById('trailSourceNote');if(!el)return;
- el.classList.toggle('off',!trailsVisible);el.classList.toggle('loading',!trailsLoaded&&!trailLoadFailed);
- if(trailLoadFailed){count.textContent='Not loaded';note.textContent='Trail data did not load. Tap Trails or this card to retry.';note.classList.add('trailError');return}
- if(!trailsLoaded){count.textContent='Loading…';note.textContent='Loading the City of Enid TrailMaster layer…';return}
+ el.classList.toggle('off',!trailsVisible);el.classList.toggle('loading',trailRenderMode==='loading'||trailRenderMode==='raster-loading');el.classList.toggle('raster',trailRenderMode==='raster'||trailRenderMode==='raster-loading');
+ note.classList.remove('trailError');
+ if(trailRenderMode==='raster-loading'){count.textContent='City layer';note.textContent='Loading a no-CORS City trail overlay…';return}
+ if(trailRenderMode==='raster'){count.textContent='City layer';note.textContent='Trails visible • City GIS image fallback • interactive detail will return when geometry loads.';return}
+ if(trailLoadFailed||trailRenderMode==='failed'){count.textContent='Unavailable';note.textContent='City trail service is not responding. Tap this card to retry.';note.classList.add('trailError');return}
+ if(!trailsLoaded){count.textContent='Loading…';note.textContent='Loading City TrailMaster…';return}
  const c={existing:0,design:0,planned:0};trailFeatures.forEach(f=>c[trailStatus(f.properties||{})]++);
- count.textContent=`${trailFeatures.length} segments`;note.classList.remove('trailError');note.textContent=`Tap a colored line for details • ${c.existing} current • ${c.design} design • ${c.planned} future`;
+ count.textContent=`${trailFeatures.length} segments`;note.textContent=`Tap a colored line for details • ${c.existing} current • ${c.design} design • ${c.planned} future`;
 }
 function normalizeEsriTrails(data){
  const src=Array.isArray(data?.features)?data.features:[];
@@ -309,21 +432,47 @@ function normalizeEsriTrails(data){
  }).filter(Boolean)};
 }
 function retryTrails(){
- trailsLoaded=false;trailLoadFailed=false;trailFeatures=[];trailLayers.clear();trailGroup?.clearLayers();updateTrailLegend();loadTrails();
+ trailsLoaded=false;trailLoadFailed=false;trailRenderMode='loading';trailFeatures=[];trailLayers.clear();trailGroup?.clearLayers();trailRasterTileSeen=false;deactivateTrailRasterFallback();updateTrailLegend();loadTrails(true);
 }
-async function loadTrails(){
- if(!map||!trailGroup||trailsLoaded)return;trailLoadFailed=false;updateTrailLegend();
- const params=new URLSearchParams({where:'1=1',outFields:'*',returnGeometry:'true',outSR:'4326',f:'json'});
+function trailJsonp(endpoint,params){
+ return new Promise((resolve,reject)=>{
+  const cb='__eprTrailCb_'+Date.now()+'_'+Math.random().toString(36).slice(2);
+  const script=document.createElement('script');
+  const timer=setTimeout(()=>finish(new Error('Trail JSONP timeout')),10000);
+  function finish(err,data){clearTimeout(timer);try{delete window[cb]}catch(_){window[cb]=undefined}script.remove();err?reject(err):resolve(data)}
+  window[cb]=data=>finish(null,data);
+  const q=new URLSearchParams(params);q.set('f','json');q.set('callback',cb);
+  script.src=endpoint+'?'+q.toString();script.async=true;script.onerror=()=>finish(new Error('Trail JSONP failed'));
+  document.head.appendChild(script);
+ });
+}
+
+async function loadTrails(force=false){
+ if(!map||!trailGroup||(trailsLoaded&&!force))return;trailLoadFailed=false;trailRenderMode='loading';updateTrailLegend();
+ // If cross-origin geometry is blocked on a phone, do not leave the map blank: switch to City-rendered trail tiles quickly.
+ const fallbackTimer=setTimeout(()=>{if(!trailsLoaded)activateTrailRasterFallback()},1400);
+ const params={where:'1=1',outFields:'OBJECTID,TYPE,LENGTH,LENGTH_MI,PARKS,SCHOOLS,COMMUNITY,PHASE2,YEAR_FIN,STATUS,width,Funding_Amount,Funding_Source,Mixed_Use,Phase,Description',returnGeometry:'true',outSR:'4326'};
  for(const endpoint of TRAIL_ENDPOINTS){
-  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),10000);
   try{
-   const r=await fetch(endpoint+'?'+params.toString(),{mode:'cors',cache:'no-store',credentials:'omit',signal:controller.signal});if(!r.ok)throw new Error('HTTP '+r.status);
-   const raw=await r.json();if(raw?.error)throw new Error(raw.error.message||'ArcGIS error');
+   const raw=await trailJsonp(endpoint,params);if(raw?.error)throw new Error(raw.error.message||'ArcGIS error');
    const data=normalizeEsriTrails(raw);if(!data.features.length)throw new Error('No usable trail geometry');
-   clearTimeout(timer);renderTrails(data);trailsLoaded=true;trailLoadFailed=false;updateTrailLegend();toast(`Trails loaded • tap a colored line for details`);return;
-  }catch(e){clearTimeout(timer);}
+   clearTimeout(fallbackTimer);deactivateTrailRasterFallback();renderTrails(data);trailsLoaded=true;trailLoadFailed=false;trailRenderMode='geometry';updateTrailLegend();toast('Trails ready • tap a colored line for details');return;
+  }catch(jsonpError){
+   const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),6500);
+   try{
+    const q=new URLSearchParams({...params,f:'json'});
+    const r=await fetch(endpoint+'?'+q.toString(),{mode:'cors',cache:'no-store',credentials:'omit',signal:controller.signal});if(!r.ok)throw new Error('HTTP '+r.status);
+    const raw=await r.json();if(raw?.error)throw new Error(raw.error.message||'ArcGIS error');
+    const data=normalizeEsriTrails(raw);if(!data.features.length)throw new Error('No usable trail geometry');
+    clearTimeout(timer);clearTimeout(fallbackTimer);deactivateTrailRasterFallback();renderTrails(data);trailsLoaded=true;trailLoadFailed=false;trailRenderMode='geometry';updateTrailLegend();toast('Trails ready • tap a colored line for details');return;
+   }catch(fetchError){clearTimeout(timer)}
+  }
  }
- trailLoadFailed=true;trailsLoaded=false;updateTrailLegend();toast('Trails did not load • tap Trails to retry');
+ clearTimeout(fallbackTimer);
+ if(!trailRasterActive)activateTrailRasterFallback();
+ // raster fallback owns the user-facing state now; only call it unavailable if its image tiles also fail.
+ if(!trailRasterActive){trailLoadFailed=true;trailRenderMode='failed'}
+ updateTrailLegend();
 }
 function renderTrails(data){
  trailGroup.clearLayers();trailLayers.clear();trailFeatures=data.features.filter(f=>f&&f.geometry);
@@ -334,19 +483,16 @@ function renderTrails(data){
  });
  if(!trailsVisible&&map.hasLayer(trailGroup))map.removeLayer(trailGroup);
 }
-function setTrailsVisible(on){trailsVisible=!!on;const b=document.getElementById('trailBtn');b?.classList.toggle('active',trailsVisible);if(map&&trailGroup){if(trailsVisible&&!map.hasLayer(trailGroup))trailGroup.addTo(map);if(!trailsVisible&&map.hasLayer(trailGroup))map.removeLayer(trailGroup)}updateTrailLegend();if(trailsVisible&&!trailsLoaded&&!trailLoadFailed)loadTrails()}
-function toggleTrails(){if(trailLoadFailed){setTrailsVisible(true);retryTrails();toast('Retrying Enid trails…');return}setTrailsVisible(!trailsVisible);toast(trailsVisible?'Enid trails on • tap a line for details':'Trails hidden')}
-function fitTrail(id){const g=trailLayers.get(String(id));if(!map||!g)return;setTrailsVisible(true);const b=g.getBounds?.();if(b?.isValid())map.fitBounds(b.pad(.28),{paddingTopLeft:[30,220],paddingBottomRight:[30,180]})}
-function trailField(label,value){if(value===null||value===undefined||String(value).trim()===''||String(value)==='0')return '';return `<div><b>${esc(label)}</b><span>${esc(value)}</span></div>`}
-function openTrail(f,id){
- const p=f.properties||{},kind=trailStatus(p),name=usefulTrailName(p),miles=Number(p.LENGTH_MI),desc=String(p.Description||'').trim(),year=String(p.YEAR_FIN||'').trim();
- const meta=[Number.isFinite(miles)&&miles>0?trailField('GIS length',miles.toFixed(2)+' mi'):'',trailField('City GIS category',desc),trailField('Status field',p.STATUS),trailField('Phase',p.Phase||p.PHASE2),trailField('Year field',year),trailField('Mixed use',p.Mixed_Use)].filter(Boolean).join('');
- document.getElementById('sheetBody').innerHTML=`<div class="sheetHead"><div class="copy"><div class="kicker">Trail Explorer • EPR Parks A7</div><h2>${esc(name)}</h2><div class="addr">Enid trail network</div></div><button class="close" onclick="closeSheet()">×</button></div><div class="tagrow"><span class="trailStatus ${kind}">🚶 ${trailStatusLabel(kind)}</span>${desc?`<span class="tag">${esc(desc)}</span>`:''}</div>${meta?`<div class="trailMeta">${meta}</div>`:''}<div class="trailCaution"><b>Status matters.</b> A7 preserves the City GIS distinction between current trail categories, design-complete/development segments, and exploration/future segments. A planned line is not presented as a trail you can necessarily walk today.</div>${evidence?`<div class="record"><div class="recordTop"><span>⌁</span><b>Public-record check</b></div><p>Geometry and segment attributes come from the City of Enid TrailMaster feature layer. EPR does not infer a named master-plan corridor or construction status beyond the published City fields.</p></div>`:''}<div class="sheetActions"><button class="sheetBtn primary" onclick="startWalk(null,'trail')">▶ Start walk</button><button class="sheetBtn" onclick="fitTrail('${esc(id)}')">Show segment</button><button class="sheetBtn" onclick="window.open(TRAIL_SOURCE,'_blank','noopener')">GIS source</button><button class="sheetBtn" onclick="window.open(TRAIL_PLAN,'_blank','noopener')">Trail plan</button></div>`;
- document.getElementById('sheet').classList.add('open');
+function setTrailsVisible(on){
+ trailsVisible=!!on;const b=document.getElementById('trailBtn');b?.classList.toggle('active',trailsVisible);
+ if(map&&trailGroup){if(trailsVisible&&!map.hasLayer(trailGroup)&&trailsLoaded)trailGroup.addTo(map);if(!trailsVisible&&map.hasLayer(trailGroup))map.removeLayer(trailGroup)}
+ syncTrailRasterVisibility();updateTrailLegend();if(trailsVisible&&!trailsLoaded&&!trailRasterActive&&!trailLoadFailed)loadTrails();
 }
+function toggleTrails(){setTrailsVisible(!trailsVisible);toast(trailsVisible?(trailRasterActive?'City trails on':'Enid trails on • tap a line for details'):'Trails hidden')}
 function showTrailAbout(){
  const c={existing:0,design:0,planned:0};trailFeatures.forEach(f=>c[trailStatus(f.properties||{})]++);
- document.getElementById('modalCard').innerHTML=`<div class="handle"></div><div style="display:flex;gap:8px;align-items:start"><div style="flex:1"><div class="eyebrow" style="color:#738078;opacity:1">Explore Enid on foot</div><h2>Enid trails</h2><p>${trailsLoaded?`${trailFeatures.length} City TrailMaster segments loaded. Tap any colored trail line on the map for details.`:'The trail layer loads from the City of Enid public GIS. If it does not load, close this panel and tap Trails to retry.'}</p></div><button class="close" onclick="closeModal()">×</button></div><div class="trailMeta">${trailField('Current category',c.existing)}${trailField('Design / development',c.design)}${trailField('Exploration / future',c.planned)}</div><div class="trailCaution"><b>How to read the map:</b> solid green lines are current TrailMaster categories; gold dashed lines are design/development; blue-gray dotted lines are exploration/future. Tap any line for the City GIS fields behind it.</div><div class="record"><div class="recordTop"><span>⌁</span><b>Names are evidence-controlled</b></div><p>Enid’s master plan includes named corridors, but A7 only displays a segment name when the live GIS attributes support one. EPR will not guess which named corridor a line belongs to.</p></div><div class="guideControls"><button class="guideBtn primary" onclick="window.open(TRAIL_PLAN,'_blank','noopener')">Master Trails Project</button><button class="guideBtn" onclick="window.open(TRAIL_SOURCE,'_blank','noopener')">City GIS layer</button></div>`;document.getElementById('modal').classList.add('open');
+ const raster=trailRasterActive&&!trailsLoaded;
+ document.getElementById('modalCard').innerHTML=`<div class="handle"></div><div style="display:flex;gap:8px;align-items:start"><div style="flex:1"><div class="eyebrow" style="color:#738078;opacity:1">Explore Enid on foot</div><h2>Enid trails</h2><p>${trailsLoaded?`${trailFeatures.length} City TrailMaster segments loaded. Tap any colored trail line on the map for details.`:raster?'Trails are visible from the City GIS rendered-map fallback. This mode avoids the mobile cross-origin failure that previously left the trail layer blank.':'The City trail service is being retried.'}</p></div><button class="close" onclick="closeModal()">×</button></div>${trailsLoaded?`<div class="trailMeta">${trailField('Current category',c.existing)}${trailField('Design / development',c.design)}${trailField('Exploration / future',c.planned)}</div>`:''}<div class="trailCaution"><b>${raster?'Fallback view:':'How to read the map:'}</b> ${raster?'Green, gold and blue-gray overlays still separate the City TrailMaster status groups. Segment-by-segment tap details require the interactive geometry feed, so the app does not invent details when that feed is blocked.':'solid green lines are current TrailMaster categories; gold dashed lines are design/development; blue-gray dotted lines are exploration/future. Tap any line for the City GIS fields behind it.'}</div><div class="record"><div class="recordTop"><span>⌁</span><b>Names are evidence-controlled</b></div><p>Enid’s master plan includes named corridors, but Parks only displays a segment name when the GIS attributes support one. EPR does not guess which named corridor a line belongs to.</p></div><div class="guideControls">${raster?'<button class="guideBtn primary" onclick="retryTrails();closeModal()">Retry interactive trails</button>':''}<button class="guideBtn" onclick="window.open(TRAIL_PLAN,'_blank','noopener')">Master Trails Project</button><button class="guideBtn" onclick="window.open(TRAIL_SOURCE,'_blank','noopener')">City GIS layer</button></div>`;document.getElementById('modal').classList.add('open');
 }
 
 function openPark(p){
@@ -360,10 +506,10 @@ function closeSheet(){document.getElementById('sheet').classList.remove('open')}
 function toggleVisited(id){visited.has(id)?visited.delete(id):visited.add(id);localStorage.setItem('epr-parks-visited',JSON.stringify([...visited]));updatePassport();const p=parks.find(x=>x.id===id);openPark(p);toast(visited.has(id)?'Added to your Park Passport':'Removed from Park Passport')}
 function updatePassport(){document.getElementById('passportText').textContent=`${visited.size} of ${parks.length} mapped parks explored`;document.getElementById('progressBar').style.width=`${Math.round(visited.size/parks.length*100)}%`}
 function directions(id){const p=parks.find(x=>x.id===id);window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(p.lat+','+p.lng)}`,'_blank','noopener')}
-function showBrowse(passportOnly=false){const list=(passportOnly?parks.filter(p=>visited.has(p.id)):filteredParks());document.getElementById('modalCard').innerHTML=`<div class="handle"></div><div style="display:flex;align-items:start;gap:8px"><div style="flex:1"><div class="eyebrow" style="color:#738078;opacity:1">${passportOnly?'My Park Passport':'Browse'}</div><h2>${passportOnly?'Places I’ve explored':'Choose your next park'}</h2><p>${passportOnly?'Your visit list stays in this browser on this device.':`${parks.length} EPR-mapped park sites are loaded. Amenity details are only shown where they have been reconciled.`}</p></div><button class="close" onclick="closeModal()">×</button></div>${passportOnly?'':`<div class="search"><input id="parkSearch" placeholder="Search parks, activities or events" /><button class="dockBtn primary" style="width:82px" onclick="renderParkList()">Find</button></div>`}<div class="parklist" id="parkList"></div><div class="note">A7 currently loads 19 EPR-mapped park sites, the City TrailMaster network, and an EPR publication-safe park-events feed. The City describes a broader parks/recreation system, so this number is a mapped-app inventory—not a claim that Enid has only 19 parks or recreation areas.</div>`;document.getElementById('modal').classList.add('open');renderParkList(passportOnly)}
+function showBrowse(passportOnly=false){const list=(passportOnly?parks.filter(p=>visited.has(p.id)):filteredParks());document.getElementById('modalCard').innerHTML=`<div class="handle"></div><div style="display:flex;align-items:start;gap:8px"><div style="flex:1"><div class="eyebrow" style="color:#738078;opacity:1">${passportOnly?'My Park Passport':'Browse'}</div><h2>${passportOnly?'Places I’ve explored':'Choose your next park'}</h2><p>${passportOnly?'Your visit list stays in this browser on this device.':`${parks.length} EPR-mapped park sites are loaded. Amenity details are only shown where they have been reconciled.`}</p></div><button class="close" onclick="closeModal()">×</button></div>${passportOnly?'':`<div class="search"><input id="parkSearch" placeholder="Search parks, activities or events" /><button class="dockBtn primary" style="width:82px" onclick="renderParkList()">Find</button></div>`}<div class="parklist" id="parkList"></div><div class="note">A7.1 currently loads 19 EPR-mapped park sites, the City TrailMaster network, and an EPR publication-safe park-events feed. The City describes a broader parks/recreation system, so this number is a mapped-app inventory—not a claim that Enid has only 19 parks or recreation areas.</div>`;document.getElementById('modal').classList.add('open');renderParkList(passportOnly)}
 function renderParkList(passportOnly=false){const q=(document.getElementById('parkSearch')?.value||'').trim().toLowerCase();let list=passportOnly?parks.filter(p=>visited.has(p.id)):filteredParks().filter(p=>!q||[p.name,p.address,...p.features,...p.moods].join(' ').toLowerCase().includes(q));const el=document.getElementById('parkList');if(!el)return;el.innerHTML=list.length?list.map(p=>`<div class="parkrow"><div class="dot">${p.emoji}</div><div class="pcopy"><strong>${p.name}</strong><small>${p.moods.slice(0,4).join(' • ')}</small></div><button onclick="closeModal();openPark(parks.find(x=>x.id==='${p.id}'))">Open</button></div>`).join(''):`<div class="parkrow"><div class="pcopy"><strong>No parks here yet.</strong><small>${passportOnly?'Mark a park as explored to start your Passport.':'Try another search or activity.'}</small></div></div>`}
 function closeModal(){document.getElementById('modal').classList.remove('open');stopNarration()}
-function showAbout(){document.getElementById('modalCard').innerHTML=`<div class="handle"></div><div style="display:flex;gap:8px;align-items:start"><div style="flex:1"><div class="eyebrow" style="color:#738078;opacity:1">A7 Outdoor Mode</div><h2>Powerful when you need it. Quiet when you don’t.</h2></div><button class="close" onclick="closeModal()">×</button></div><p>EPR Parks combines recreation discovery with source-linked public information. A7 keeps the map open and uncluttered while adding events, trail controls and an optional privacy-first walk tracker.</p><div class="record"><div class="recordTop"><span>🚶</span><b>Walk tracker</b></div><p>Distance, elapsed time, approximate pace and the route line are calculated on this device. GPS coordinates are not sent to Google Analytics. Saved walks stay in this browser unless you deliberately export or share them.</p></div><div class="record"><div class="recordTop"><span>📅</span><b>Events</b></div><p>Park-linked events are published from a small EPR feed with official source links. Event status can change, so every event keeps a source and freshness date.</p></div><div class="record"><div class="recordTop"><span>⌁</span><b>Evidence Lens</b></div><p>Turn it on when you want the public-record layer. Internal research workflow and unpublished evidence remain private.</p></div><div class="privacyCard"><b>Independent EPR app.</b> Not an official City of Enid app. Production Atlas is not touched by this Parks build.</div>`;document.getElementById('modal').classList.add('open')}
+function showAbout(){document.getElementById('modalCard').innerHTML=`<div class="handle"></div><div style="display:flex;gap:8px;align-items:start"><div style="flex:1"><div class="eyebrow" style="color:#738078;opacity:1">A7.1 EPR Outdoors</div><h2>Powerful when you need it. Quiet when you don’t.</h2></div><button class="close" onclick="closeModal()">×</button></div><p>EPR Parks combines recreation discovery with source-linked public information. A7.1 gives Parks its own EPR Outdoors cartography: softer roads, smaller labels, no oversized highway shields, and park-first colors. Events, trails and the privacy-first walk tracker remain available without turning the map into a dashboard.</p><div class="record"><div class="recordTop"><span>🌿</span><b>EPR Outdoors map</b></div><p>The default basemap uses OpenFreeMap/OpenStreetMap vector data so Parks can reduce label clutter and visually emphasize land, water, parks and EPR overlays. If the vector map is unavailable, Parks falls back to a softened OpenStreetMap raster.</p></div><div class="record"><div class="recordTop"><span>🚶</span><b>Walk tracker</b></div><p>Distance, elapsed time, approximate pace and the route line are calculated on this device. GPS coordinates are not sent to Google Analytics. Saved walks stay in this browser unless you deliberately export or share them.</p></div><div class="record"><div class="recordTop"><span>📅</span><b>Events</b></div><p>Park-linked events are published from a small EPR feed with official source links. Event status can change, so every event keeps a source and freshness date.</p></div><div class="record"><div class="recordTop"><span>⌁</span><b>Evidence Lens</b></div><p>Turn it on when you want the public-record layer. Internal research workflow and unpublished evidence remain private.</p></div><div class="privacyCard"><b>Independent EPR app.</b> Not an official City of Enid app. Production Atlas is not touched by this Parks build.</div>`;document.getElementById('modal').classList.add('open')}
 
 const guideData={
  meadowlake:{title:'Meadowlake Mini Walk',subtitle:'3 stops • digital beta',stops:[
@@ -392,7 +538,7 @@ if('speechSynthesis' in window){speechSynthesis.onvoiceschanged=loadVoices;setTi
 function stopNarration(){if('speechSynthesis' in window)speechSynthesis.cancel()}
 function speakGuide(id,idx){stopNarration();const g=guideData[id];if(!g)return;if(!('speechSynthesis' in window)){toast('Speech playback is not available on this device.');return}const s=new SpeechSynthesisUtterance(g.stops[idx].text);s.rate=.94;s.pitch=1.03;const sel=document.getElementById('guideVoice');const v=voices[Number(sel?.value||0)];if(v)s.voice=v;s.lang=v?.lang||'en-US';speechSynthesis.speak(s)}
 function markGuideSeen(id,idx){guideSeen.add(`${id}:${idx}`);localStorage.setItem('epr-parks-guide-seen',JSON.stringify([...guideSeen]));toast('Guide stop saved on this device');openGuide(id,idx)}
-function openGuideHub(){stopNarration();const entries=Object.entries(guideData);document.getElementById('modalCard').innerHTML=`<div class="handle"></div><div style="display:flex;align-items:start;gap:8px"><div style="flex:1"><div class="eyebrow" style="color:#738078;opacity:1">🦉 Archie’s Guide · A7</div><h2>There’s a story here.</h2><p>Start a self-guided stop from the map. QR codes are already supported, but no physical sign is required.</p></div><button class="close" onclick="closeModal()">×</button></div><div class="digitalOnly"><b>Digital-first:</b> EPR is not assuming permission to place signs in City parks. Every guide works from the app itself; a QR is simply another way to open the same permanent stop later.</div><div class="guideHubList">${entries.map(([id,g])=>{const p=parks.find(x=>x.id===id);const done=g.stops.filter((_,i)=>guideSeen.has(`${id}:${i}`)).length;return `<div class="guideHubRow"><div class="owlMini">🦉</div><div class="gcopy"><strong>${p?.name||g.title}</strong><small>${g.stops.length} stops · ${done}/${g.stops.length} heard/saved</small></div><button onclick="openGuide('${id}',0)">Start</button></div>`}).join('')}</div><div class="note">Prototype narration uses your device’s built-in English speech voice. Produced Darian audio—or a dedicated Archie voice—can replace it later without changing the stop URL or QR code.</div>`;document.getElementById('modal').classList.add('open')}
+function openGuideHub(){stopNarration();const entries=Object.entries(guideData);document.getElementById('modalCard').innerHTML=`<div class="handle"></div><div style="display:flex;align-items:start;gap:8px"><div style="flex:1"><div class="eyebrow" style="color:#738078;opacity:1">🦉 Archie’s Guide · A7.1</div><h2>There’s a story here.</h2><p>Start a self-guided stop from the map. QR codes are already supported, but no physical sign is required.</p></div><button class="close" onclick="closeModal()">×</button></div><div class="digitalOnly"><b>Digital-first:</b> EPR is not assuming permission to place signs in City parks. Every guide works from the app itself; a QR is simply another way to open the same permanent stop later.</div><div class="guideHubList">${entries.map(([id,g])=>{const p=parks.find(x=>x.id===id);const done=g.stops.filter((_,i)=>guideSeen.has(`${id}:${i}`)).length;return `<div class="guideHubRow"><div class="owlMini">🦉</div><div class="gcopy"><strong>${p?.name||g.title}</strong><small>${g.stops.length} stops · ${done}/${g.stops.length} heard/saved</small></div><button onclick="openGuide('${id}',0)">Start</button></div>`}).join('')}</div><div class="note">Prototype narration uses your device’s built-in English speech voice. Produced Darian audio—or a dedicated Archie voice—can replace it later without changing the stop URL or QR code.</div>`;document.getElementById('modal').classList.add('open')}
 function openGuide(id,idx=0){stopNarration();const g=guideData[id],p=parks.find(x=>x.id===id);if(!g||!p){toast('This park does not have an Archie guide yet.');return}idx=Math.max(0,Math.min(g.stops.length-1,Number(idx)||0));guideParkId=id;guideStopIndex=idx;const st=g.stops[idx],seen=guideSeen.has(`${id}:${idx}`);document.getElementById('modalCard').innerHTML=`<div class="handle"></div><div class="guideHero"><div class="guideHeroTop"><div class="archie">🦉</div><div style="min-width:0;flex:1"><div class="eyebrow">Archie’s Guide · stop ${idx+1} of ${g.stops.length}</div><h2>${st.title}</h2><p>${p.name} · ${g.subtitle}</p></div><button class="close" style="background:rgba(255,255,255,.14);color:#fff" onclick="closeModal();stopNarration()">×</button></div><div class="stopProgress">${g.stops.map((_,i)=>`<i class="${i<=idx?'on':''}"></i>`).join('')}</div></div><div class="guideStory">${st.text}</div><div class="voiceRow"><label>ARCHIE VOICE</label><select id="guideVoice"><option>Device voice</option></select></div><div class="guideControls"><button class="guideBtn primary" onclick="speakGuide('${id}',${idx})">▶ Hear this stop</button><button class="guideBtn" onclick="stopNarration()">■ Stop</button></div><div class="guideNav"><button class="guideBtn" ${idx===0?'disabled':''} onclick="openGuide('${id}',${idx-1})">← Previous</button><button class="guideBtn ${seen?'gold':''}" onclick="markGuideSeen('${id}',${idx})">${seen?'✓ Saved':'Save stop'}</button><button class="guideBtn" ${idx===g.stops.length-1?'disabled':''} onclick="openGuide('${id}',${idx+1})">Next →</button></div><div class="guideNav"><button class="guideBtn" onclick="showGuideQR('${id}',${idx})">▦ QR / link</button><button class="guideBtn" onclick="closeModal();openPark(parks.find(x=>x.id==='${id}'))">Park card</button><button class="guideBtn" onclick="directions('${id}')">Directions</button></div><div class="note">Guide facts are intentionally concise. Use the park card and Evidence Lens for source-backed detail. Physical signage is not required for this guide to work.</div>`;document.getElementById('modal').classList.add('open');loadVoices();if(map){map.flyTo([p.lat,p.lng],15,{duration:.55})}}
 async function copyText(t){try{await navigator.clipboard.writeText(t);toast('Copied to clipboard')}catch(e){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();toast('Copied to clipboard')}}
 function showGuideQR(id,idx){stopNarration();const g=guideData[id],p=parks.find(x=>x.id===id),url=guideUrl(id,idx);document.getElementById('modalCard').innerHTML=`<div class="handle"></div><div style="display:flex;gap:8px;align-items:start"><div style="flex:1"><div class="eyebrow" style="color:#738078;opacity:1">QR-ready stop</div><h2>${p.name}</h2><p>${g.stops[idx].title} · stop ${idx+1}</p></div><button class="close" onclick="openGuide('${id}',${idx})">×</button></div><div class="qrWrap"><div class="qrCard"><canvas id="guideQR" width="220" height="220"></canvas></div></div><div class="urlBox">${url}</div><div class="guideControls"><button class="guideBtn primary" onclick="copyText(${JSON.stringify('URLTOKEN')})">Copy stop link</button><button class="guideBtn" onclick="shareGuide('${id}',${idx})">Share</button></div><div class="digitalOnly"><b>No sign required.</b> This QR can live on EPR’s website, a printable guide, social graphic, event handout, or—only with permission—a future physical marker.</div>`;document.getElementById('modal').classList.add('open');const btn=document.querySelector('.guideControls .guideBtn.primary');if(btn)btn.onclick=()=>copyText(url);const c=document.getElementById('guideQR');if(window.QRCode?.toCanvas){QRCode.toCanvas(c,url,{width:220,margin:1,color:{dark:'#123328',light:'#ffffff'}},err=>{if(err)qrFallback(c,url)})}else qrFallback(c,url)}
@@ -401,19 +547,19 @@ async function shareGuide(id,idx){const p=parks.find(x=>x.id===id),url=guideUrl(
 function openDeepGuide(){const q=new URLSearchParams(location.search),id=q.get('guide');if(!id||!guideData[id])return;let n=parseInt(q.get('stop')||'1',10);if(!Number.isFinite(n))n=1;setTimeout(()=>openGuide(id,n-1),850)}
 
 
-function showEvents(){const now=Date.now(),list=events.filter(e=>new Date(e.end||e.start).getTime()>=now-86400000).sort((a,b)=>new Date(a.start)-new Date(b.start));document.getElementById('modalCard').innerHTML=`<div class="handle"></div><div style="display:flex;align-items:start;gap:8px"><div style="flex:1"><div class="eyebrow" style="color:#738078;opacity:1">What’s happening outside</div><h2>Park events</h2><p>${list.length} upcoming event date${list.length===1?'':'s'} in the current EPR feed. Official source links stay attached because schedules can change.</p></div><button class="close" onclick="closeModal()">×</button></div>${list.length?list.map(e=>eventCardHtml(e)).join(''):'<div class="privacyCard"><b>No upcoming park events in the current feed.</b> Check the official calendars from the Sources area.</div>'}<div class="privacyCard"><b>Event alerts:</b> tap “Watch events” on a park card. A7 remembers watched parks on this device and flags changes when you open the app. True background push alerts require EPR’s notification service and are not silently enabled.</div>`;document.getElementById('modal').classList.add('open');safeGtag('parks_events_open')}
+function showEvents(){const now=Date.now(),list=events.filter(e=>new Date(e.end||e.start).getTime()>=now-86400000).sort((a,b)=>new Date(a.start)-new Date(b.start));document.getElementById('modalCard').innerHTML=`<div class="handle"></div><div style="display:flex;align-items:start;gap:8px"><div style="flex:1"><div class="eyebrow" style="color:#738078;opacity:1">What’s happening outside</div><h2>Park events</h2><p>${list.length} upcoming event date${list.length===1?'':'s'} in the current EPR feed. Official source links stay attached because schedules can change.</p></div><button class="close" onclick="closeModal()">×</button></div>${list.length?list.map(e=>eventCardHtml(e)).join(''):'<div class="privacyCard"><b>No upcoming park events in the current feed.</b> Check the official calendars from the Sources area.</div>'}<div class="privacyCard"><b>Event alerts:</b> tap “Watch events” on a park card. A7.1 remembers watched parks on this device and flags changes when you open the app. True background push alerts require EPR’s notification service and are not silently enabled.</div>`;document.getElementById('modal').classList.add('open');safeGtag('parks_events_open')}
 function openEvent(id){const e=events.find(x=>x.id===id);if(!e)return;const p=parks.find(x=>x.id===e.park_id);document.getElementById('modalCard').innerHTML=`<div class="handle"></div><div style="display:flex;align-items:start;gap:8px"><div style="flex:1"><div class="eyebrow" style="color:#738078;opacity:1">${esc(e.source_authority||'Event source')}</div><h2>${esc(e.title)}</h2><p>${esc(formatEventWhen(e))}${p?' • '+esc(p.name):''}</p></div><button class="close" onclick="showEvents()">×</button></div>${eventCardHtml(e,true)}<div class="eventBtns"><button class="primary" onclick="closeModal();openPark(parks.find(x=>x.id==='${e.park_id}'))">Open park</button><button onclick="window.open('${e.source_url}','_blank','noopener')">Official event page</button></div><div class="note">Event information can change or be canceled. EPR keeps the official source one tap away.</div>`;document.getElementById('modal').classList.add('open')}
 function toggleEventWatch(id){if(eventWatchParks.has(id))eventWatchParks.delete(id);else eventWatchParks.add(id);localStorage.setItem('epr-parks-event-watch',JSON.stringify([...eventWatchParks]));const p=parks.find(x=>x.id===id);openPark(p);toast(eventWatchParks.has(id)?`Watching events at ${p.name}`:`Event watch removed for ${p.name}`);safeGtag('parks_event_watch',{enabled:eventWatchParks.has(id)?1:0})}
 
 function showMore(){document.getElementById('modalCard').innerHTML=`<div class="handle"></div><div style="display:flex;align-items:start;gap:8px"><div style="flex:1"><div class="eyebrow" style="color:#738078;opacity:1">Tools</div><h2>More, without the clutter.</h2><p>Most of Parks stays out of your way until you need it.</p></div><button class="close" onclick="closeModal()">×</button></div><div class="menuGrid"><button class="menuTile primary" onclick="closeModal();showLayers()"><span>☷</span><strong>Layers</strong><small>Parks, trails, events, Archie and trail status.</small></button><button class="menuTile" onclick="closeModal();showLegend()"><span>◫</span><strong>Legend</strong><small>What the map symbols and trail lines mean.</small></button><button class="menuTile" onclick="closeModal();resetApp()"><span>↺</span><strong>Reset</strong><small>Return to the clean starting view. Keeps Passport and walks.</small></button><button class="menuTile" onclick="closeModal();toggleEvidence()"><span>⌁</span><strong>Evidence Lens</strong><small>${evidence?'Currently on':'Currently off'} • source-linked record notes.</small></button><button class="menuTile" onclick="closeModal();surprise()"><span>✦</span><strong>Surprise me</strong><small>Pick a park from the current activity filter.</small></button><button class="menuTile" onclick="closeModal();showSavedWalks()"><span>👟</span><strong>Saved walks</strong><small>${savedWalks.length} saved on this device.</small></button><button class="menuTile" onclick="closeModal();showHelp()"><span>?</span><strong>Help & install</strong><small>Trails, walk tracking, location and app install.</small></button><button class="menuTile" onclick="closeModal();showAbout()"><span>i</span><strong>About & privacy</strong><small>How EPR Parks handles sources and your data.</small></button></div>`;document.getElementById('modal').classList.add('open')}
-function showLayers(){document.getElementById('modalCard').innerHTML=`<div class="handle"></div><div style="display:flex;align-items:start;gap:8px"><div style="flex:1"><div class="eyebrow" style="color:#738078;opacity:1">Map controls</div><h2>Layers</h2><p>Turn things on only when they help.</p></div><button class="close" onclick="closeModal()">×</button></div><div class="layerMaster"><button onclick="setAllLayers(true)">Select all</button><button onclick="setAllLayers(false)">Deselect all</button></div><div class="layerRows"><label class="layerRow"><input id="lyParks" type="checkbox" ${parksVisible?'checked':''} onchange="parksVisible=this.checked;renderMarkers()"><span class="copy"><strong>🌳 Parks</strong><small>Mapped park locations.</small></span></label><label class="layerRow"><input id="lyTrails" type="checkbox" ${trailsVisible?'checked':''} onchange="setTrailsVisible(this.checked)"><span class="copy"><strong>🚶 Trails</strong><small>City TrailMaster linework.</small></span></label><label class="layerRow"><input id="lyEvents" type="checkbox" ${eventBadgesVisible?'checked':''} onchange="eventBadgesVisible=this.checked;renderMarkers()"><span class="copy"><strong>📅 Event badges</strong><small>Upcoming park events.</small></span></label><label class="layerRow"><input id="lyArchie" type="checkbox" ${archieVisible?'checked':''} onchange="archieVisible=this.checked;renderMarkers()"><span class="copy"><strong>🦉 Archie stops</strong><small>Guide badges on participating parks.</small></span></label><label class="layerRow"><input type="checkbox" ${trailStatusVisible.existing?'checked':''} onchange="trailStatusVisible.existing=this.checked;rerenderTrails()"><span class="copy"><strong>Solid green • current category</strong><small>Current TrailMaster categories.</small></span></label><label class="layerRow"><input type="checkbox" ${trailStatusVisible.design?'checked':''} onchange="trailStatusVisible.design=this.checked;rerenderTrails()"><span class="copy"><strong>Gold dashed • design/development</strong><small>Not automatically presented as open.</small></span></label><label class="layerRow"><input type="checkbox" ${trailStatusVisible.planned?'checked':''} onchange="trailStatusVisible.planned=this.checked;rerenderTrails()"><span class="copy"><strong>Blue-gray dotted • future/exploration</strong><small>Planning linework, not a promise of a walkable trail.</small></span></label></div>`;document.getElementById('modal').classList.add('open')}
-function setAllLayers(on){parksVisible=on;eventBadgesVisible=on;archieVisible=on;trailStatusVisible={existing:on,design:on,planned:on};setTrailsVisible(on);renderMarkers();rerenderTrails();showLayers()}
-function rerenderTrails(){if(trailFeatures.length)renderTrails({type:'FeatureCollection',features:trailFeatures});updateTrailLegend()}
+function showLayers(){document.getElementById('modalCard').innerHTML=`<div class="handle"></div><div style="display:flex;align-items:start;gap:8px"><div style="flex:1"><div class="eyebrow" style="color:#738078;opacity:1">Map controls</div><h2>Layers</h2><p>Turn things on only when they help. <span class="outdoorIdentity">🌿 EPR Outdoors</span></p></div><button class="close" onclick="closeModal()">×</button></div><div class="layerMaster"><button onclick="setAllLayers(true)">Select all</button><button onclick="setAllLayers(false)">Deselect all</button></div><div class="layerRows"><label class="layerRow"><input id="lyParks" type="checkbox" ${parksVisible?'checked':''} onchange="parksVisible=this.checked;renderMarkers()"><span class="copy"><strong>🌳 Parks</strong><small>Mapped park locations.</small></span></label><label class="layerRow"><input id="lyLabels" type="checkbox" ${roadLabelsVisible?'checked':''} onchange="setRoadLabels(this.checked)"><span class="copy"><strong>🗺 Map labels</strong><small>Smaller labels for orientation; highway shields and POI clutter stay suppressed.</small></span></label><label class="layerRow"><input id="lyTrails" type="checkbox" ${trailsVisible?'checked':''} onchange="setTrailsVisible(this.checked)"><span class="copy"><strong>🚶 Trails</strong><small>City TrailMaster linework.</small></span></label><label class="layerRow"><input id="lyEvents" type="checkbox" ${eventBadgesVisible?'checked':''} onchange="eventBadgesVisible=this.checked;renderMarkers()"><span class="copy"><strong>📅 Event badges</strong><small>Upcoming park events.</small></span></label><label class="layerRow"><input id="lyArchie" type="checkbox" ${archieVisible?'checked':''} onchange="archieVisible=this.checked;renderMarkers()"><span class="copy"><strong>🦉 Archie stops</strong><small>Guide badges on participating parks.</small></span></label><label class="layerRow"><input type="checkbox" ${trailStatusVisible.existing?'checked':''} onchange="trailStatusVisible.existing=this.checked;rerenderTrails()"><span class="copy"><strong>Solid green • current category</strong><small>Current TrailMaster categories.</small></span></label><label class="layerRow"><input type="checkbox" ${trailStatusVisible.design?'checked':''} onchange="trailStatusVisible.design=this.checked;rerenderTrails()"><span class="copy"><strong>Gold dashed • design/development</strong><small>Not automatically presented as open.</small></span></label><label class="layerRow"><input type="checkbox" ${trailStatusVisible.planned?'checked':''} onchange="trailStatusVisible.planned=this.checked;rerenderTrails()"><span class="copy"><strong>Blue-gray dotted • future/exploration</strong><small>Planning linework, not a promise of a walkable trail.</small></span></label></div>`;document.getElementById('modal').classList.add('open')}
+function setAllLayers(on){parksVisible=on;eventBadgesVisible=on;archieVisible=on;setRoadLabels(on);trailStatusVisible={existing:on,design:on,planned:on};setTrailsVisible(on);renderMarkers();rerenderTrails();showLayers()}
+function rerenderTrails(){if(trailFeatures.length)renderTrails({type:'FeatureCollection',features:trailFeatures});syncTrailRasterVisibility();updateTrailLegend()}
 function showLegend(){document.getElementById('modalCard').innerHTML=`<div class="handle"></div><div style="display:flex;align-items:start;gap:8px"><div style="flex:1"><div class="eyebrow" style="color:#738078;opacity:1">Map key</div><h2>Legend</h2></div><button class="close" onclick="closeModal()">×</button></div><div class="legendList"><div class="legendItem"><span class="legendIcon">🌳</span><span><strong>Park marker</strong><small>Tap for amenities, directions, events and public source.</small></span></div><div class="legendItem"><span class="legendIcon">📅</span><span><strong>Event badge</strong><small>An upcoming event is linked to that park in the current EPR event feed.</small></span></div><div class="legendItem"><span class="legendIcon">🦉</span><span><strong>Archie guide</strong><small>A digital self-guided stop is available.</small></span></div><div class="legendItem"><span class="legendIcon">━</span><span><strong>Solid green trail</strong><small>Current City TrailMaster category.</small></span></div><div class="legendItem"><span class="legendIcon">┅</span><span><strong>Gold dashed trail</strong><small>Design/development status.</small></span></div><div class="legendItem"><span class="legendIcon">┈</span><span><strong>Blue-gray dotted trail</strong><small>Exploration/future status.</small></span></div><div class="legendItem"><span class="legendIcon">⌁</span><span><strong>Evidence Lens</strong><small>Shows concise public-record qualifiers. It does not expose EPR’s private research workflow.</small></span></div></div>`;document.getElementById('modal').classList.add('open')}
-function resetApp(){filter='All';evidence=false;parksVisible=true;eventBadgesVisible=true;archieVisible=true;trailStatusVisible={existing:true,design:true,planned:true};document.getElementById('evidenceBtn')?.classList.remove('active');setTrailsVisible(true);renderFilters();renderMarkers();rerenderTrails();closeModal();closeSheet();if(!walkState.active)clearWalkMap();if(heroCollapsed){heroCollapsed=false;document.body.classList.remove('hero-collapsed');localStorage.setItem('epr-parks-hero-collapsed','0')}fitAll();toast(walkState.active?'Map reset • your walk is still recording':'Back to the Parks starting view')}
-function showHelp(){const installText=deferredInstallPrompt?'This device can install EPR Parks now.':'Use your browser menu and choose Add to Home screen / Install app when available.';document.getElementById('modalCard').innerHTML=`<div class="handle"></div><div style="display:flex;align-items:start;gap:8px"><div style="flex:1"><div class="eyebrow" style="color:#738078;opacity:1">Help & install</div><h2>Use Parks your way.</h2></div><button class="close" onclick="closeModal()">×</button></div><div class="record"><div class="recordTop"><span>🚶</span><b>Trails</b></div><p>Tap Trails to show/hide the network. Tap a colored line for status and source. Use Layers when you only want current, design or future categories.</p></div><div class="record"><div class="recordTop"><span>▶</span><b>Walk tracker</b></div><p>Tap Walk. Keep Parks open for the most dependable tracking in this web version. Pause and Finish are always visible while recording. GPS routes stay on the device unless you deliberately export them.</p></div><div class="record"><div class="recordTop"><span>◎</span><b>Location</b></div><p>Near Me asks for location only after you tap it. During a walk, Follow keeps the map centered on you. It can be turned off without stopping the walk.</p></div><div class="installBox"><strong>Install EPR Parks</strong><p>${installText}</p>${deferredInstallPrompt?'<button onclick="installParks()">Install EPR Parks</button>':''}</div><div class="note">Reset restores map state but never erases your Passport, Archie progress, event watches or saved walks.</div>`;document.getElementById('modal').classList.add('open')}
+function resetApp(){filter='All';evidence=false;parksVisible=true;eventBadgesVisible=true;archieVisible=true;roadLabelsVisible=true;setRoadLabels(true);trailStatusVisible={existing:true,design:true,planned:true};document.getElementById('evidenceBtn')?.classList.remove('active');setTrailsVisible(true);renderFilters();renderMarkers();rerenderTrails();closeModal();closeSheet();if(!walkState.active)clearWalkMap();if(heroCollapsed){heroCollapsed=false;document.body.classList.remove('hero-collapsed');localStorage.setItem('epr-parks-hero-collapsed','0')}fitAll();toast(walkState.active?'Map reset • your walk is still recording':'Back to the Parks starting view')}
+function showHelp(){const installText=deferredInstallPrompt?'This device can install EPR Parks now.':'Use your browser menu and choose Add to Home screen / Install app when available.';document.getElementById('modalCard').innerHTML=`<div class="handle"></div><div style="display:flex;align-items:start;gap:8px"><div style="flex:1"><div class="eyebrow" style="color:#738078;opacity:1">Help & install</div><h2>Use Parks your way.</h2></div><button class="close" onclick="closeModal()">×</button></div><div class="record"><div class="recordTop"><span>🚶</span><b>Trails</b></div><p>Tap Trails to show/hide the network. Tap a colored line for status and source. Use Layers when you only want current, design or future categories.</p></div><div class="record"><div class="recordTop"><span>🛣</span><b>Road labels</b></div><p>The default map is intentionally quiet. Turn Road labels on in Layers when you need street-name orientation.</p></div><div class="record"><div class="recordTop"><span>▶</span><b>Walk tracker</b></div><p>Tap Walk. Keep Parks open for the most dependable tracking in this web version. Pause and Finish are always visible while recording. GPS routes stay on the device unless you deliberately export them.</p></div><div class="record"><div class="recordTop"><span>◎</span><b>Location</b></div><p>Near Me asks for location only after you tap it. During a walk, Follow keeps the map centered on you. It can be turned off without stopping the walk.</p></div><div class="installBox"><strong>Install EPR Parks</strong><p>${installText}</p>${deferredInstallPrompt?'<button onclick="installParks()">Install EPR Parks</button>':''}</div><div class="note">Reset restores map state but never erases your Passport, Archie progress, event watches or saved walks.</div>`;document.getElementById('modal').classList.add('open')}
 async function installParks(){if(!deferredInstallPrompt){toast('Use your browser’s Add to Home screen option.');return}deferredInstallPrompt.prompt();try{await deferredInstallPrompt.userChoice}catch(e){}deferredInstallPrompt=null}
-function showSavedWalks(){document.getElementById('modalCard').innerHTML=`<div class="handle"></div><div style="display:flex;align-items:start;gap:8px"><div style="flex:1"><div class="eyebrow" style="color:#738078;opacity:1">Private on this device</div><h2>Saved walks</h2><p>${savedWalks.length?`${savedWalks.length} walk${savedWalks.length===1?'':'s'} saved locally.`:'No saved walks yet.'}</p></div><button class="close" onclick="closeModal()">×</button></div>${savedWalks.map((w,i)=>`<div class="savedWalkRow"><strong>${esc(w.label||'EPR Parks walk')}</strong><small>${new Date(w.start).toLocaleString()} • ${formatMiles(w.distanceM)} • ${formatDuration(w.elapsedS)}</small><div class="eventBtns"><button class="primary" onclick="exportSavedWalk(${i})">Export GPX</button><button onclick="deleteSavedWalk(${i})">Delete</button></div></div>`).join('')||'<div class="privacyCard"><b>Start with the Walk button.</b> You decide whether to save the completed walk.</div>'}<div class="privacyCard"><b>Health/Fitness ready:</b> A7 stores a simple exercise-session record so a future native app can write the workout to Apple Health or Android Health Connect with permission. This web build does not read your health history.</div>`;document.getElementById('modal').classList.add('open')}
+function showSavedWalks(){document.getElementById('modalCard').innerHTML=`<div class="handle"></div><div style="display:flex;align-items:start;gap:8px"><div style="flex:1"><div class="eyebrow" style="color:#738078;opacity:1">Private on this device</div><h2>Saved walks</h2><p>${savedWalks.length?`${savedWalks.length} walk${savedWalks.length===1?'':'s'} saved locally.`:'No saved walks yet.'}</p></div><button class="close" onclick="closeModal()">×</button></div>${savedWalks.map((w,i)=>`<div class="savedWalkRow"><strong>${esc(w.label||'EPR Parks walk')}</strong><small>${new Date(w.start).toLocaleString()} • ${formatMiles(w.distanceM)} • ${formatDuration(w.elapsedS)}</small><div class="eventBtns"><button class="primary" onclick="exportSavedWalk(${i})">Export GPX</button><button onclick="deleteSavedWalk(${i})">Delete</button></div></div>`).join('')||'<div class="privacyCard"><b>Start with the Walk button.</b> You decide whether to save the completed walk.</div>'}<div class="privacyCard"><b>Health/Fitness ready:</b> A7.1 stores a simple exercise-session record so a future native app can write the workout to Apple Health or Android Health Connect with permission. This web build does not read your health history.</div>`;document.getElementById('modal').classList.add('open')}
 function deleteSavedWalk(i){savedWalks.splice(i,1);localStorage.setItem('epr-parks-walks',JSON.stringify(savedWalks));showSavedWalks()}
 function exportSavedWalk(i){const w=savedWalks[i];if(w)exportGPX(w)}
 
@@ -438,13 +584,13 @@ function discardLastWalk(){window.__lastWalk=null;clearWalkMap();closeModal();to
 function exportGPX(w){if(!w||!w.route?.length){toast('No GPS route to export.');return}const pts=w.route.map(p=>`<trkpt lat="${p[0]}" lon="${p[1]}">${p[3]!=null?`<ele>${p[3]}</ele>`:''}<time>${new Date(p[2]).toISOString()}</time></trkpt>`).join('');const xml=`<?xml version="1.0" encoding="UTF-8"?><gpx version="1.1" creator="EPR Parks" xmlns="http://www.topografix.com/GPX/1/1"><metadata><name>${escXml(w.label)}</name></metadata><trk><name>${escXml(w.label)}</name><type>walking</type><trkseg>${pts}</trkseg></trk></gpx>`;const blob=new Blob([xml],{type:'application/gpx+xml'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='epr-parks-walk.gpx';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);safeGtag('parks_walk_export',{format:'gpx'})}
 function escXml(v){return String(v??'').replace(/[<>&\"']/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','\"':'&quot;',"'":'&apos;'}[c]))}
 async function shareWalkSummary(w){if(!w)return;const text=`${w.label}: ${formatMiles(w.distanceM)} in ${formatDuration(w.elapsedS)}${w.distanceM>50?' • '+paceForRecord(w):''}`;if(navigator.share){try{await navigator.share({title:'EPR Parks walk',text});return}catch(e){}}copyText(text)}
-function showHealthInfo(){document.getElementById('modalCard').innerHTML=`<div class="handle"></div><div style="display:flex;align-items:start;gap:8px"><div style="flex:1"><div class="eyebrow" style="color:#738078;opacity:1">Designed for the native app</div><h2>Health / Fitness sync</h2><p>A7’s walk record already stores the core fields a native mobile app will need: activity type, start/end, distance, moving time and route.</p></div><button class="close" onclick="closeModal()">×</button></div><div class="record"><div class="recordTop"><span></span><b>Apple Health / Apple Watch</b></div><p>A future iPhone app can write an approved workout and route to HealthKit after the user explicitly grants permission.</p></div><div class="record"><div class="recordTop"><span>♥</span><b>Android Health Connect</b></div><p>A future Android app can write the completed exercise session and route with the user’s permission.</p></div><div class="privacyCard"><b>A7 does not read your health history.</b> Direct HealthKit/Health Connect access is not available to this web build, so no health permission is requested here.</div>`;document.getElementById('modal').classList.add('open')}
+function showHealthInfo(){document.getElementById('modalCard').innerHTML=`<div class="handle"></div><div style="display:flex;align-items:start;gap:8px"><div style="flex:1"><div class="eyebrow" style="color:#738078;opacity:1">Designed for the native app</div><h2>Health / Fitness sync</h2><p>A7.1’s walk record already stores the core fields a native mobile app will need: activity type, start/end, distance, moving time and route.</p></div><button class="close" onclick="closeModal()">×</button></div><div class="record"><div class="recordTop"><span></span><b>Apple Health / Apple Watch</b></div><p>A future iPhone app can write an approved workout and route to HealthKit after the user explicitly grants permission.</p></div><div class="record"><div class="recordTop"><span>♥</span><b>Android Health Connect</b></div><p>A future Android app can write the completed exercise session and route with the user’s permission.</p></div><div class="privacyCard"><b>A7.1 does not read your health history.</b> Direct HealthKit/Health Connect access is not available to this web build, so no health permission is requested here.</div>`;document.getElementById('modal').classList.add('open')}
 function locate(){if(!navigator.geolocation){toast('Location is not available in this browser.');return}navigator.geolocation.getCurrentPosition(pos=>{const ll=[pos.coords.latitude,pos.coords.longitude];if(map){if(userMarker)userMarker.remove();userMarker=L.circleMarker(ll,{radius:8,weight:3,color:'#153e2d',fillColor:'#f1c55f',fillOpacity:1}).addTo(map).bindTooltip('You are here');map.flyTo(ll,14)}toast('Location found — tap a park to explore.')},()=>toast('Location permission was not granted.'),{enableHighAccuracy:true,timeout:10000})}
 function surprise(){const list=filteredParks();const p=list[Math.floor(Math.random()*list.length)];openPark(p);toast(`Try ${p.name}`)}
 function fitAll(){if(!map)return;const list=filteredParks();map.fitBounds(L.latLngBounds(list.map(p=>[p.lat,p.lng])).pad(.14),{paddingTopLeft:[25,240],paddingBottomRight:[25,160]})}
 function toggleEvidence(){evidence=!evidence;document.getElementById('evidenceBtn')?.classList.toggle('active',evidence);renderMarkers();toast(evidence?'Evidence Lens on':'Evidence Lens off');if(document.getElementById('sheet').classList.contains('open'))closeSheet()}
 function collapseHero(){heroCollapsed=!heroCollapsed;document.body.classList.toggle('hero-collapsed',heroCollapsed);localStorage.setItem('epr-parks-hero-collapsed',heroCollapsed?'1':'0');document.getElementById('collapseHero').textContent=heroCollapsed?'Show intro':'Map first'}
-document.getElementById('nearBtn').onclick=locate;document.getElementById('eventsBtn').onclick=showEvents;document.getElementById('trailBtn').onclick=toggleTrails;document.getElementById('trailLegendBtn').onclick=()=>trailLoadFailed?retryTrails():showTrailAbout();document.getElementById('guideBtn').onclick=openGuideHub;document.getElementById('collapseHero').onclick=collapseHero;document.getElementById('walkBtn').onclick=()=>startWalk(null,'button');document.getElementById('walkPauseBtn').onclick=toggleWalkPause;document.getElementById('walkFinishBtn').onclick=finishWalk;document.getElementById('walkFollowBtn').onclick=toggleWalkFollow;document.getElementById('browseBtn').onclick=()=>showBrowse(false);document.getElementById('passportBtn').onclick=()=>showBrowse(true);document.getElementById('searchBtn').onclick=()=>showBrowse(false);document.getElementById('moreBtn').onclick=showMore;document.getElementById('modal').onclick=e=>{if(e.target.id==='modal')closeModal()};
+document.getElementById('nearBtn').onclick=locate;document.getElementById('eventsBtn').onclick=showEvents;document.getElementById('trailBtn').onclick=toggleTrails;document.getElementById('trailLegendBtn').onclick=showTrailAbout;document.getElementById('guideBtn').onclick=openGuideHub;document.getElementById('collapseHero').onclick=collapseHero;document.getElementById('walkBtn').onclick=()=>startWalk(null,'button');document.getElementById('walkPauseBtn').onclick=toggleWalkPause;document.getElementById('walkFinishBtn').onclick=finishWalk;document.getElementById('walkFollowBtn').onclick=toggleWalkFollow;document.getElementById('browseBtn').onclick=()=>showBrowse(false);document.getElementById('passportBtn').onclick=()=>showBrowse(true);document.getElementById('searchBtn').onclick=()=>showBrowse(false);document.getElementById('moreBtn').onclick=showMore;document.getElementById('modal').onclick=e=>{if(e.target.id==='modal')closeModal()};
 renderFilters();updatePassport();updateTrailLegend();initMap();loadEvents();if(heroCollapsed){document.body.classList.add('hero-collapsed');document.getElementById('collapseHero').textContent='Show intro'}openDeepGuide();
 if('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
