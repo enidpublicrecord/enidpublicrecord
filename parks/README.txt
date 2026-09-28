@@ -1,18 +1,34 @@
-EPR Parks — A7.14 Trail Reliability
+EPR Parks — A7.15 Disc Golf + Scorekeeper
 
 Release class: PUBLIC CANDIDATE
 Date: 2026-09-28
-Rollback: A7.13 Final Dark
+Rollback: A7.14 Trail Reliability
 
-Trail reliability changes:
-- City-rendered trail tiles are shown immediately instead of waiting for the interactive geometry query.
-- Interactive trail geometry loads in the background and replaces the rendered tiles when successful.
-- Both City TrailMaster endpoints are attempted concurrently by JSONP and CORS fetch; the first valid geometry result wins.
-- JSONP/direct-fetch timeouts are shorter so failed geometry attempts do not hang the app.
-- Panning/zooming keeps a larger trail-tile buffer and updates tiles during movement.
-- If interactive geometry is unavailable, the user still gets a usable trail map instead of “Trails not loaded.”
-- Trail Explorer explains whether tap-for-details is currently available.
-- Existing green / design gold / future red-not-usable status treatment remains unchanged.
+Disc Golf:
+- Adds Disc Golf as a recreation filter without adding permanent map clutter.
+- Adds Meadowlake Disc Golf Course and NWOSU-NOC Disc Golf Course.
+- Course-level facts live in publication-safe disc-golf.public.json.
+- Meadowlake uses the existing park/course anchor.
+- NWOSU-NOC resolves 2929 E Randolph against the City GIS address-point service when available.
+- Includes a future-ready tee/basket/hole-line renderer. Individual hole geometry/par/distance remain blank until verified.
 
-A future EPR-controlled publication-safe trail feed is still the preferred long-term architecture.
-Production Atlas is not changed by this patch.
+Scorekeeper:
+- 1–6 players.
+- Hole-by-hole +/- stroke controls.
+- Previous / next hole, full 18-hole scorecard and running totals.
+- Active round survives page reload.
+- Full or partial round finish.
+- Saved-round history stored only on device.
+- Full 18-hole results may show final score relative to the source-supported course total par of 54.
+- Optional share summary.
+- Meadowlake can be manually added to Park Passport after a round.
+- Names and scores are not sent to analytics.
+
+Interaction:
+- Walk tracking and Disc Golf scorekeeping do not run simultaneously in this PWA build.
+
+Preserved:
+- A7.14 trail reliability.
+- A7.13 approved Dark treatment.
+- Fishing, events, Archie, Passport, GPX, Evidence Lens and privacy behavior.
+- Production Atlas is untouched.

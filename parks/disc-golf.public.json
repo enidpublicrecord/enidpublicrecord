@@ -1,0 +1,293 @@
+{
+  "schema": "epr.parks.disc-golf.v1",
+  "updated_at": "2026-09-28",
+  "note": "Course-level facts are source-linked. Individual hole par, distance and tee/basket geometry remain null until verified by EPR.",
+  "courses": [
+    {
+      "id": "dg-meadowlake",
+      "park_id": "meadowlake",
+      "name": "Meadowlake Disc Golf Course",
+      "address": "1200 W Rupe",
+      "holes_count": 18,
+      "course_par": 54,
+      "course_length_ft": 4842,
+      "fee": "Free",
+      "source_authority": "Visit Enid",
+      "source_url": "https://visitenid.org/meadowlake-disc-golf-course/",
+      "location_status": "park_anchor",
+      "hole_data_status": "Hole-by-hole par, distance, tee and basket geometry pending EPR verification",
+      "holes": [
+        {
+          "hole": 1,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 2,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 3,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 4,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 5,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 6,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 7,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 8,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 9,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 10,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 11,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 12,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 13,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 14,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 15,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 16,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 17,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 18,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        }
+      ]
+    },
+    {
+      "id": "dg-nwosu",
+      "park_id": null,
+      "name": "NWOSU-NOC Disc Golf Course",
+      "address": "2929 E Randolph Ave",
+      "holes_count": 18,
+      "course_par": 54,
+      "course_length_ft": 5230,
+      "fee": "Free",
+      "source_authority": "Visit Enid",
+      "source_url": "https://visitenid.org/nwosu-noc-disc-golf-course/",
+      "location_status": "address_only",
+      "lat": null,
+      "lng": null,
+      "hole_data_status": "Hole-by-hole par, distance, tee and basket geometry pending EPR verification",
+      "holes": [
+        {
+          "hole": 1,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 2,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 3,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 4,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 5,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 6,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 7,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 8,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 9,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 10,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 11,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 12,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 13,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 14,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 15,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 16,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 17,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        },
+        {
+          "hole": 18,
+          "par": null,
+          "distance_ft": null,
+          "tee": null,
+          "basket": null
+        }
+      ]
+    }
+  ]
+}

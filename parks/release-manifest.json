@@ -1,19 +1,19 @@
 {
   "app": "EPR Parks",
-  "release": "A7.14",
-  "build": "A7.14-TRAIL-RELIABILITY",
-  "name": "EPR Parks — A7.14 Trail Reliability",
+  "release": "A7.15",
+  "build": "A7.15-DISC-GOLF-SCOREKEEPER",
+  "name": "EPR Parks — A7.15 Disc Golf + Scorekeeper",
   "release_class": "PUBLIC CANDIDATE",
   "date": "2026-09-28",
-  "rollback": "A7.13 Final Dark",
-  "rollback_baseline": "A7.13 Final Dark",
+  "rollback": "A7.14 Trail Reliability",
+  "rollback_baseline": "A7.14 Trail Reliability",
   "changes": [
-    "Shows City-rendered trails immediately while interactive geometry loads",
-    "Attempts both City TrailMaster endpoints concurrently using JSONP and direct CORS fetch",
-    "Keeps raster trails visible if interactive geometry is unavailable",
-    "Improves trail tile buffering and zoom/pan updates",
-    "Clarifies Trail Explorer state without presenting a working raster trail view as an error",
-    "Preserves A7.13 Dark baseline and all other Parks features"
+    "Adds Disc Golf discovery for Meadowlake and NWOSU-NOC",
+    "Adds publication-safe disc-golf.public.json",
+    "Adds future-ready tee/basket/hole-line renderer without guessing hole data",
+    "Adds 1–6 player local-only scorekeeping, active-round recovery, scorecard, saved rounds and optional sharing",
+    "Prevents simultaneous Walk and Disc Golf activity HUDs",
+    "Preserves A7.14 trail reliability and A7.13 Dark baseline"
   ],
   "public_dependencies": [
     "Leaflet 1.9.4",
@@ -36,8 +36,13 @@
   "files": [
     {
       "name": "README.txt",
-      "bytes": 1080,
-      "sha256": "d5d04c78af94164d934db47764a664f14aaa64d177414ca50d72b30d5befefa1"
+      "bytes": 1398,
+      "sha256": "96eced0f467b44d7ced2bf6877a21d80bc195dc323d9cbb3be83e9da6e22bc08"
+    },
+    {
+      "name": "disc-golf.public.json",
+      "bytes": 6536,
+      "sha256": "247dc306ac5308d986e6ecba8f5831903436fe91b4f9753637b70ecee216c85a"
     },
     {
       "name": "events.public.json",
@@ -66,8 +71,8 @@
     },
     {
       "name": "index.html",
-      "bytes": 137558,
-      "sha256": "2c4ba58c9f1fefc3c985981c7ca181065ebf6af25427826e8156d8b735df9fc4"
+      "bytes": 169466,
+      "sha256": "4d68cce139edfa0d83b36790f926ae3be06ea11c66630afcae5852b024f24f56"
     },
     {
       "name": "manifest.webmanifest",
@@ -76,8 +81,8 @@
     },
     {
       "name": "sw.js",
-      "bytes": 1662,
-      "sha256": "7115b7ca5d10134319f466823bcdca0b61cbddb171081d5c16fc31d156ddf0ce"
+      "bytes": 1737,
+      "sha256": "de1e4cd84946e68ef7a92de4ca5e35fad05d6d962c21bc0bf01b03c8264e423b"
     },
     {
       "name": "trail-source.json",
