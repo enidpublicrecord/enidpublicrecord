@@ -1,15 +1,16 @@
-EPR Parks — A7.8 Persistent Dark
+EPR Parks — A7.9 Dark Raster Fix
 
 Release class: PUBLIC CANDIDATE
 Date: 2026-09-28
-Rollback: A7.7 Trail Clarity + Dark Fix
+Rollback: A7.8 Persistent Dark
 
 Key changes
-- Fixes Dark mode reverting immediately after selection on mobile.
-- Dark presentation is applied persistently to the working map canvas while Dark is selected.
-- Future/exploration trails remain red dotted and explicitly labeled NOT USABLE / not for navigation.
-- Start Walk remains disabled on design/development and future planning lines.
-- Fishing, Trail Explorer, walk tracking, events, Archie, Passport, GPX export, Terrain, Satellite and zoom 22 are preserved.
-- Visible version labeling is unified at A7.8 and the PWA cache is bumped.
+- Replaces the unreliable Dark vector-style treatment with a dedicated Leaflet raster basemap pane.
+- Dark uses ordinary OpenStreetMap tiles recolored locally on that dedicated pane, so MapLibre style refreshes cannot repaint it light.
+- Removes the previous Dark dependence on the OpenFreeMap style lifecycle.
+- Keeps zoom to level 22 and preserves Outdoors, Terrain and Satellite.
+- Future/exploration trails remain red dotted and explicitly NOT USABLE / not for navigation.
+- Fishing, Trail Explorer, walk tracking, events, Archie, Passport and GPX export are preserved.
+- Service-worker registration now bypasses HTTP cache for sw.js and the PWA cache is bumped.
 
 Production Atlas is not changed by this patch.

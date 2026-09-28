@@ -1,18 +1,18 @@
 {
   "app": "EPR Parks",
-  "release": "A7.8",
-  "build": "A7.8-PERSISTENT-DARK",
-  "name": "EPR Parks \u2014 A7.8 Persistent Dark",
+  "release": "A7.9",
+  "build": "A7.9-DARK-RASTER-FIX",
+  "name": "EPR Parks — A7.9 Dark Raster Fix",
   "release_class": "PUBLIC CANDIDATE",
   "date": "2026-09-28",
-  "rollback": "A7.7 Trail Clarity + Dark Fix",
-  "rollback_baseline": "A7.7 Trail Clarity + Dark Fix",
+  "rollback": "A7.8 Persistent Dark",
+  "rollback_baseline": "A7.8 Persistent Dark",
   "changes": [
-    "Fixes Dark mode reverting immediately after selection on mobile",
-    "Applies the Dark presentation persistently to the active working map canvas while Dark is selected",
-    "Preserves red dotted Future / not usable trail treatment and disables Start Walk on non-current planning geometry",
-    "Visible version labeling unified to A7.8 and service-worker cache bumped",
-    "Preserves fishing, Trail Explorer, walk tracking, events, Archie, Passport, GPX export, Terrain, Satellite and zoom 22"
+    "Replaces Dark vector restyling with a dedicated Leaflet raster base pane",
+    "Applies the night transformation to the dedicated pane so MapLibre style refreshes cannot revert Dark mode",
+    "Uses no-key OpenStreetMap tiles for Dark and keeps EPR overlays unfiltered above the base pane",
+    "Bumps service-worker cache and disables service-worker script update caching",
+    "Preserves red dotted Future / not usable trails, fishing, Trail Explorer, walk tracking, events, Archie, Passport, Terrain, Satellite and zoom 22"
   ],
   "public_dependencies": [
     "Leaflet 1.9.4",
@@ -35,8 +35,8 @@
   "files": [
     {
       "name": "README.txt",
-      "bytes": 729,
-      "sha256": "d2729c64704129131def84bc27c351151840ae4a2dc056529b7108ec429fd01f"
+      "bytes": 844,
+      "sha256": "12880ace3f2ca5ba15c09afd84607d88c7b789a4d54ef5333afa90cd30e2a1b3"
     },
     {
       "name": "events.public.json",
@@ -65,8 +65,8 @@
     },
     {
       "name": "index.html",
-      "bytes": 135950,
-      "sha256": "39070ba156b272ed600072c5c6cbe48afd3d8376c45b751ad06f7a252ddbc35c"
+      "bytes": 136680,
+      "sha256": "988eec90a607ee2a8cb71c4bacebae8243dd40f8567bfe225de1cfa4341081ee"
     },
     {
       "name": "manifest.webmanifest",
@@ -76,7 +76,7 @@
     {
       "name": "sw.js",
       "bytes": 1659,
-      "sha256": "957b4630d6be2f74a9bfc01e7dd1a4b2cb74c119106a6a6e9f457c57fd9f691a"
+      "sha256": "2a09c53a215459ab7649a6fe2e7588b923fe637bc44796f2843b10230c1850c1"
     },
     {
       "name": "trail-source.json",
