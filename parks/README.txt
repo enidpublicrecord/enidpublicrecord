@@ -1,3 +1,5 @@
+EPR Parks Prototype A7.2 — Smooth Map
+
 EPR Parks — A7.1 EPR Outdoors
 2026-09-27
 
@@ -34,3 +36,10 @@ LIVE QA AFTER UPLOAD
 
 MAP ATTRIBUTION
 The EPR Outdoors vector basemap uses OpenFreeMap / OpenMapTiles with OpenStreetMap data. Attribution is shown on-map.
+
+A7.2 changes:
+- smoother mobile pinch/pan tuning for Leaflet + OpenFreeMap bridge
+- GL canvas made pointer-transparent so Leaflet owns touch gestures
+- fractional zoom snapping and normal zoom animation restored
+- simplified leaf-only EPR Parks icon; no unreadable micro-text
+- main Enid Public Record homepage link moved to About & privacy instead of the top brand, avoiding accidental exits during walks

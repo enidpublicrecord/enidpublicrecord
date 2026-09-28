@@ -5,13 +5,10 @@
   "date": "2026-09-27",
   "rollback_baseline": "A7 Outdoor Mode",
   "changes": [
-    "OpenFreeMap/MapLibre vector basemap gives Parks a distinct outdoor identity",
-    "Smaller labels, suppressed highway shields/POI clutter, softer roads and park-first colors",
-    "OpenStreetMap raster fallback if vector basemap is unavailable",
-    "Trail geometry loading retains JSONP/CORS paths",
-    "ArcGIS rendered-map trail fallback prevents blank trail layer on mobile cross-origin failure",
-    "Current/design/future trail status filters preserved in raster fallback",
-    "A7 Walk, Events, Archie, Passport, Evidence Lens and analytics retained"
+    "Mobile pinch/pan tuning for smoother map gestures",
+    "MapLibre canvas no longer participates in pointer/touch input",
+    "Simplified top-left EPR Parks leaf mark without tiny text",
+    "Main EPR homepage link lives in About & privacy and opens separately"
   ],
   "public_dependencies": [
     "Leaflet 1.9.4",
@@ -73,5 +70,8 @@
       "bytes": 630,
       "sha256": "819a7bdeb651eccecd9a36f6b7f981dc08b14accc071afaf843983cb52f29190"
     }
-  ]
+  ],
+  "release": "A7.2",
+  "name": "EPR Parks \u2014 A7.2 Smooth Map",
+  "rollback": "A7.1 EPR Outdoors"
 }
