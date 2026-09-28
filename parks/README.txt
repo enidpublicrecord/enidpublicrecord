@@ -1,20 +1,15 @@
-EPR Parks — A7.6 Dark Map Fix
+EPR Parks — A7.7 Trail Clarity + Dark Fix
 
-PUBLIC CANDIDATE
+Release class: PUBLIC CANDIDATE
 Date: 2026-09-28
-Rollback: A7.5 Fishing Sites
+Rollback: A7.6 Dark Map Fix
 
-What changed
-- Replaced CARTO Dark Matter raster tiles after the hosted service began returning visible “API KEY REQUIRED” tiles.
-- Dark mode now uses OpenFreeMap's no-key dark vector style through the same MapLibre/Leaflet bridge used by EPR Outdoors.
-- Map-label visibility works in Dark through vector symbol layers.
-- Added a no-key OpenStreetMap darkened fallback if the vector style does not load.
-- Preserves Fishing, Trail Explorer, active walk tracking, events, Archie, Passport, GPX export and max zoom 22.
-- Production Atlas is untouched.
+Key changes
+- Future/exploration trails are red dotted lines and explicitly labeled NOT USABLE / not for navigation.
+- Start Walk is disabled on design/development and future planning lines.
+- Dark mode now uses the same working OpenFreeMap Liberty vector source as Outdoors and applies EPR dark styling locally, avoiding a separate dark-style endpoint.
+- Dark mode retains the no-key OSM-derived raster fallback if vector loading fails.
+- Visible version labeling is unified at A7.7 and the PWA cache is bumped.
+- Existing fishing, events, Archie, Passport, walk tracking, Trail Explorer, Terrain, Satellite and zoom 22 behavior are preserved.
 
-Phone QA
-1. Open More > Map style > Dark. No API-key watermark should appear.
-2. Pinch zoom repeatedly in and out.
-3. Toggle Map labels off/on in Layers while Dark is active.
-4. Confirm park/trail/fishing markers stay above the basemap.
-5. Switch Dark > Outdoors > Satellite > Dark and verify state remains stable.
+Production Atlas is not changed by this patch.

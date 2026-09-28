@@ -1,24 +1,25 @@
 {
   "app": "EPR Parks",
-  "release": "A7.6",
-  "build": "A7.6-DARK-FIX",
-  "name": "EPR Parks \u2014 A7.6 Dark Map Fix",
+  "release": "A7.7",
+  "build": "A7.7-TRAIL-CLARITY-DARK",
+  "name": "EPR Parks \u2014 A7.7 Trail Clarity + Dark Fix",
   "release_class": "PUBLIC CANDIDATE",
   "date": "2026-09-28",
-  "rollback": "A7.5 Fishing Sites",
-  "rollback_baseline": "A7.5 Fishing Sites",
+  "rollback": "A7.6 Dark Map Fix",
+  "rollback_baseline": "A7.6 Dark Map Fix",
   "changes": [
-    "Removed CARTO dark raster dependency that returned API KEY REQUIRED tiles",
-    "Dark mode now uses OpenFreeMap no-key dark vector style",
-    "Dark label toggle uses vector symbol visibility",
-    "Dark vector load has an OpenStreetMap-derived no-key fallback",
-    "Preserves A7.5 Fishing Sites, Trail Explorer, walk tracking, events, Archie, Passport, GPX export and zoom 22"
+    "Future/exploration trails changed to red dotted lines with explicit not-usable/not-for-navigation labeling",
+    "Start Walk disabled on design/development and future planning geometry",
+    "Dark mode rebuilt from the same working OpenFreeMap Liberty source as Outdoors with EPR-local dark recoloring",
+    "Dark mode retains no-key OpenStreetMap raster fallback",
+    "Visible version labeling unified to A7.7 and service-worker cache bumped",
+    "Preserves fishing, Trail Explorer, walk tracking, events, Archie, Passport, GPX export, Terrain, Satellite and zoom 22"
   ],
   "public_dependencies": [
     "Leaflet 1.9.4",
     "MapLibre GL JS 5.24.0",
     "maplibre-gl-leaflet 0.1.3",
-    "OpenFreeMap public vector styles (Liberty + Dark)",
+    "OpenFreeMap public Liberty vector style",
     "OpenStreetMap",
     "OpenTopoMap",
     "Esri World Imagery",
@@ -35,8 +36,8 @@
   "files": [
     {
       "name": "README.txt",
-      "bytes": 967,
-      "sha256": "d0ecd51ffe24d5c5e7052c2be5ce57f391c6139f6b00d9f7edd7ef9aafe3a2e2"
+      "bytes": 816,
+      "sha256": "39d05bdeb2b5f63937a45975b9ab07e75b79e2123dc68d275daa60aba3e07560"
     },
     {
       "name": "events.public.json",
@@ -65,8 +66,8 @@
     },
     {
       "name": "index.html",
-      "bytes": 133237,
-      "sha256": "28055e19977636cb5091da720d5c8415aee2bef77010dbd92240168541329bb4"
+      "bytes": 135833,
+      "sha256": "e57f62858550d9d27710858f0e0df9393424af498166c01cdfb3fb0407d68c55"
     },
     {
       "name": "manifest.webmanifest",
@@ -75,8 +76,8 @@
     },
     {
       "name": "sw.js",
-      "bytes": 1652,
-      "sha256": "b621b1213e51ce1984a52f1c9e3d5bb1a06e9a9bd5c6ed626de9bf5e4d906186"
+      "bytes": 1657,
+      "sha256": "41eb29edc684c562cc78d706a0a7f3d4683ffbde6a7abd3c1b3889252dc2f5bf"
     },
     {
       "name": "trail-source.json",
