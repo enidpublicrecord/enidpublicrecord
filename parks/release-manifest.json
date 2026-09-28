@@ -1,40 +1,42 @@
 {
   "app": "EPR Parks",
-  "build": "A6",
+  "build": "A7",
   "release_class": "PUBLIC CANDIDATE",
-  "rollback_baseline": "A5",
+  "rollback_baseline": "A6.1",
   "changes": [
-    "City TrailMaster live line layer",
-    "trail status styling and cards",
-    "Google Analytics G-6ZVETTNBV4",
-    "A6 service-worker cache"
+    "Outdoor-first control layout",
+    "Reset/Layers/Legend/Help",
+    "publication-safe park events feed",
+    "event badges and local event watch",
+    "privacy-first walk tracker",
+    "saved local walks + GPX export",
+    "health-ready walk schema",
+    "trail status filters",
+    "Google Analytics G-6ZVETTNBV4 retained"
   ],
-  "public_trail_source": "City of Enid TrailMaster",
-  "atlas_changed": false,
-  "qa": {
-    "title_a6": true,
-    "analytics_id": true,
-    "trail_button": true,
-    "trail_legend": true,
-    "trail_endpoints": true,
-    "a6_cache": true,
-    "duplicate_ids": [],
-    "no_password=": true,
-    "no_api_key=": true,
-    "no_apikey=": true,
-    "no_private_key": true,
-    "no_bearer ": true
+  "privacy": {
+    "gps_to_analytics": false,
+    "saved_walks": "localStorage only unless user exports/shares",
+    "event_watches": "localStorage",
+    "health_history_read": false
   },
+  "known_transition": "Trail geometry still refreshes directly from City GIS at runtime. EPR-controlled public trail feed is not yet deployed.",
+  "atlas_changed": false,
   "files": [
     {
       "name": "README.txt",
-      "bytes": 1561,
-      "sha256": "30ba92b149ed9522f77bcea9d5d33f2e59b15377f309ed7c12f1bfc864d3922d"
+      "bytes": 1947,
+      "sha256": "19cd5eb89fe2e5cadb7913c26588fb85e76eda7861c063a31b270ca24e9e0de6"
+    },
+    {
+      "name": "events.public.json",
+      "bytes": 2014,
+      "sha256": "fb998fcaacc6b2ea54a8bb1f95d194b3900d285a4d884d5009ddc951b7d2583e"
     },
     {
       "name": "guide-manifest.json",
-      "bytes": 1823,
-      "sha256": "5a914a32c59b1f88c1970cc813eb92a7b59f4827690afbaf462558de8deda496"
+      "bytes": 1822,
+      "sha256": "0cb295f8f9d73836eb2aaab2fd6253706744153420755d6ed1bdf03e51824686"
     },
     {
       "name": "icon-192.svg",
@@ -48,23 +50,23 @@
     },
     {
       "name": "index.html",
-      "bytes": 63248,
-      "sha256": "ec3e4f97becf7d3ccdb9f98fab9f6bdaa5a3053e749dc95fed807f56e5b12ac8"
+      "bytes": 100040,
+      "sha256": "6a99b1625268efbe6fca6897f0a1b3afea8f2e9cbf09cfb295da22291ee334e5"
     },
     {
       "name": "manifest.webmanifest",
-      "bytes": 299,
-      "sha256": "af1b4ead9a9048ce86ce1318d4837c75dae48495bc3908e4f419ad928427baf6"
+      "bytes": 501,
+      "sha256": "40e2550ad52af0c2474661385a10ef45e060b093a99d359e895d25c7fc77eaad"
     },
     {
       "name": "sw.js",
-      "bytes": 907,
-      "sha256": "f8f13eba711f6079f1df42a4d293fa56d0242f1797c510c96b6a263d2e6d7629"
+      "bytes": 1562,
+      "sha256": "637542f14193ca864bea9ec11a86defdd8e98dff4cae6943ba50629cea5544d6"
     },
     {
       "name": "trail-source.json",
-      "bytes": 1022,
-      "sha256": "55196d2429c88f42ad419f83f91f498be090043425fa3f3ecc011839ff4639b4"
+      "bytes": 1269,
+      "sha256": "3d91772e9351c98f099e8b08e1a6a22d6675a69869dc8cf91da795de263d2376"
     }
   ]
 }

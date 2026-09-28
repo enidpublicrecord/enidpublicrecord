@@ -1,6 +1,6 @@
 {
   "schema": "epr-parks-trails-source/1",
-  "build": "A6",
+  "build": "A7",
   "mode": "live-public-source",
   "primary_layer": "https://gis.enid.org/server/rest/services/city/Enid_Transportation/MapServer/35",
   "fallback_layer": "https://gis.enid.org/server/rest/services/Enid_Trails/MapServer/33",
@@ -28,5 +28,6 @@
     "design": "Description/status contains design",
     "planned": "Description/status contains exploration or future"
   },
-  "publication_note": "A6 does not infer named master-plan corridors when the live GIS attributes do not provide a defensible name."
+  "publication_note": "A6.1 does not infer named master-plan corridors when the live GIS attributes do not provide a defensible name.",
+  "delivery_note": "A7 still refreshes public trail geometry directly from the City GIS at runtime, with an on-device fallback/cache path planned. Moving geometry to an EPR-controlled publication-safe feed remains the next infrastructure step."
 }

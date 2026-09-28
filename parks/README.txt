@@ -1,26 +1,29 @@
-EPR Parks Prototype A6 — Parks + Trails + Archie
+EPR Parks — A7 Outdoor Mode
 
-A6 changes:
-- Adds the City of Enid TrailMaster polyline network as a live map layer.
-- Trails are ON by default and can be toggled with the walking button.
-- Walk filter automatically turns trails on.
-- Preserves City GIS status distinctions: current category, design/development, exploration/future.
-- Tap a trail for length/status/phase/type fields and public source links.
-- Uses the current city/Enid_Transportation TrailMaster layer with the standalone Enid_Trails layer as a public fallback.
-- Does NOT guess named master-plan corridor identities when the GIS attributes do not support the name.
-- Adds Google Analytics property G-6ZVETTNBV4 supplied for EPR Parks.
-- Preserves A5 Archie guides, QR/deep links, 19 mapped park sites, device-local Passport, and A4 map-layout fix.
-- Production Atlas is not touched.
+PURPOSE
+A7 is the usability + outdoors release candidate. It keeps the map visually open while moving advanced tools behind context-sensitive controls.
 
-Deployment:
-Replace the files in /parks/ with this folder. The service-worker cache is bumped to epr-parks-a6. After upload, hard refresh or close/reopen the installed PWA if an old build is still visible.
+NEW IN A7
+- Reset, Layers, Legend, Help/Install and More tools patterned after useful Atlas controls.
+- Park-linked Events feed with official source links and on-map event badges.
+- Local event-watch preferences; app-open change notice foundation. Background push requires a future EPR notification service.
+- Privacy-first Walk tracker: distance, elapsed time, approximate pace, GPS breadcrumb route, pause/resume, follow mode, finish summary, local save, GPX export and summary sharing.
+- Health/Fitness-ready walk record schema for later native Apple Health / Android Health Connect integration. The web build does not read health history.
+- Quieter visible controls: Walk, Trails and Archie stay on the map; Layers/Legend/Reset/Evidence/Help live under More.
+- Trail status layer switches: current, design/development and future/exploration.
+- Google Analytics G-6ZVETTNBV4 retained. No GPS coordinates or search text are sent to analytics by A7 code.
 
-Trail source:
-https://gis.enid.org/server/rest/services/city/Enid_Transportation/MapServer/35
-Master plan:
-https://www.enid.org/Services/Parks-Recreation/Enid-Master-Trails-Project
+EVENT DATA
+The bundled events.public.json is publication-safe and source-linked. It is a snapshot checked 2026-09-27. Official sources control if schedules change.
 
-Important:
-- The live trail feed is public City GIS. If it cannot be reached, the Parks app remains usable and reports that the trail layer is temporarily unavailable.
-- Planned/future trail geometry is not presented as an open trail.
-- No physical QR sign placement is authorized by this package.
+TRAIL DATA
+A7 continues to refresh City TrailMaster geometry directly from the public City GIS at runtime. This is a known transition state. The next infrastructure step is an EPR-controlled publication-safe trail feed; A7 does not claim that migration is complete.
+
+PRIVACY
+Passport, Archie progress, watched parks and saved walks use local device storage. Walk GPS route points are not sent to Google Analytics. Users choose whether to save or export a completed route.
+
+ROLLBACK
+A6.1 remains the known-good immediate rollback baseline. A5 remains the pre-trails rollback baseline.
+
+ATLAS
+Production Atlas is not modified by this package.

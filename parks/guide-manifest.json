@@ -1,6 +1,6 @@
 {
   "schema": "epr-parks-guide/1",
-  "build": "A6",
+  "build": "A7",
   "sign_policy": "DIGITAL FIRST — NO PHYSICAL SIGNAGE AUTHORIZED",
   "route_pattern": "/parks/?guide={guide_id}&stop={NN}",
   "guides": [
