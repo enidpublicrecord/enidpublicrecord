@@ -159,141 +159,364 @@
       "location_status": "supported_course_anchor",
       "lat": 36.39744438714072,
       "lng": -97.84009125083685,
-      "hole_data_status": "Hole-by-hole par, distance, tee and basket geometry pending EPR verification",
+      "hole_data_status": "UDisc publishes par and distance for all 18 holes. EPR course-map geometry is a simplified reference trace, not GPS tee/basket coordinates.",
       "holes": [
         {
           "hole": 1,
-          "par": null,
-          "distance_ft": null,
+          "par": 3,
+          "distance_ft": 336,
           "tee": null,
-          "basket": null
+          "basket": null,
+          "tee_ref": [
+            463,
+            109
+          ],
+          "basket_ref": [
+            547,
+            252
+          ],
+          "curve_ref": [
+            500,
+            190
+          ]
         },
         {
           "hole": 2,
-          "par": null,
-          "distance_ft": null,
+          "par": 3,
+          "distance_ft": 347,
           "tee": null,
-          "basket": null
+          "basket": null,
+          "tee_ref": [
+            577,
+            239
+          ],
+          "basket_ref": [
+            709,
+            216
+          ],
+          "curve_ref": [
+            645,
+            225
+          ]
         },
         {
           "hole": 3,
-          "par": null,
-          "distance_ft": null,
+          "par": 3,
+          "distance_ft": 234,
           "tee": null,
-          "basket": null
+          "basket": null,
+          "tee_ref": [
+            713,
+            253
+          ],
+          "basket_ref": [
+            592,
+            289
+          ],
+          "curve_ref": [
+            650,
+            270
+          ]
         },
         {
           "hole": 4,
-          "par": null,
-          "distance_ft": null,
+          "par": 3,
+          "distance_ft": 260,
           "tee": null,
-          "basket": null
+          "basket": null,
+          "tee_ref": [
+            553,
+            287
+          ],
+          "basket_ref": [
+            655,
+            359
+          ],
+          "curve_ref": [
+            605,
+            320
+          ]
         },
         {
           "hole": 5,
-          "par": null,
-          "distance_ft": null,
+          "par": 3,
+          "distance_ft": 374,
           "tee": null,
-          "basket": null
+          "basket": null,
+          "tee_ref": [
+            646,
+            322
+          ],
+          "basket_ref": [
+            759,
+            391
+          ],
+          "curve_ref": [
+            705,
+            355
+          ]
         },
         {
           "hole": 6,
-          "par": null,
-          "distance_ft": null,
+          "par": 3,
+          "distance_ft": 295,
           "tee": null,
-          "basket": null
+          "basket": null,
+          "tee_ref": [
+            760,
+            312
+          ],
+          "basket_ref": [
+            851,
+            430
+          ],
+          "curve_ref": [
+            802,
+            385
+          ]
         },
         {
           "hole": 7,
-          "par": null,
-          "distance_ft": null,
+          "par": 3,
+          "distance_ft": 374,
           "tee": null,
-          "basket": null
+          "basket": null,
+          "tee_ref": [
+            885,
+            406
+          ],
+          "basket_ref": [
+            879,
+            561
+          ],
+          "curve_ref": [
+            895,
+            480
+          ]
         },
         {
           "hole": 8,
-          "par": null,
-          "distance_ft": null,
+          "par": 3,
+          "distance_ft": 302,
           "tee": null,
-          "basket": null
+          "basket": null,
+          "tee_ref": [
+            943,
+            605
+          ],
+          "basket_ref": [
+            829,
+            637
+          ],
+          "curve_ref": [
+            885,
+            620
+          ]
         },
         {
           "hole": 9,
-          "par": null,
-          "distance_ft": null,
+          "par": 3,
+          "distance_ft": 358,
           "tee": null,
-          "basket": null
+          "basket": null,
+          "tee_ref": [
+            771,
+            659
+          ],
+          "basket_ref": [
+            830,
+            502
+          ],
+          "curve_ref": [
+            820,
+            575
+          ]
         },
         {
           "hole": 10,
-          "par": null,
-          "distance_ft": null,
+          "par": 3,
+          "distance_ft": 231,
           "tee": null,
-          "basket": null
+          "basket": null,
+          "tee_ref": [
+            810,
+            456
+          ],
+          "basket_ref": [
+            653,
+            444
+          ],
+          "curve_ref": [
+            730,
+            445
+          ]
         },
         {
           "hole": 11,
-          "par": null,
-          "distance_ft": null,
+          "par": 3,
+          "distance_ft": 293,
           "tee": null,
-          "basket": null
+          "basket": null,
+          "tee_ref": [
+            585,
+            407
+          ],
+          "basket_ref": [
+            531,
+            435
+          ],
+          "curve_ref": [
+            555,
+            360
+          ]
         },
         {
           "hole": 12,
-          "par": null,
-          "distance_ft": null,
+          "par": 3,
+          "distance_ft": 375,
           "tee": null,
-          "basket": null
+          "basket": null,
+          "tee_ref": [
+            505,
+            291
+          ],
+          "basket_ref": [
+            438,
+            136
+          ],
+          "curve_ref": [
+            470,
+            210
+          ]
         },
         {
           "hole": 13,
-          "par": null,
-          "distance_ft": null,
+          "par": 3,
+          "distance_ft": 329,
           "tee": null,
-          "basket": null
+          "basket": null,
+          "tee_ref": [
+            402,
+            136
+          ],
+          "basket_ref": [
+            390,
+            286
+          ],
+          "curve_ref": [
+            420,
+            220
+          ]
         },
         {
           "hole": 14,
-          "par": null,
-          "distance_ft": null,
+          "par": 3,
+          "distance_ft": 288,
           "tee": null,
-          "basket": null
+          "basket": null,
+          "tee_ref": [
+            468,
+            298
+          ],
+          "basket_ref": [
+            456,
+            331
+          ],
+          "curve_ref": [
+            465,
+            315
+          ]
         },
         {
           "hole": 15,
-          "par": null,
-          "distance_ft": null,
+          "par": 3,
+          "distance_ft": 222,
           "tee": null,
-          "basket": null
+          "basket": null,
+          "tee_ref": [
+            472,
+            438
+          ],
+          "basket_ref": [
+            457,
+            331
+          ],
+          "curve_ref": [
+            462,
+            380
+          ]
         },
         {
           "hole": 16,
-          "par": null,
-          "distance_ft": null,
+          "par": 3,
+          "distance_ft": 327,
           "tee": null,
-          "basket": null
+          "basket": null,
+          "tee_ref": [
+            356,
+            338
+          ],
+          "basket_ref": [
+            335,
+            184
+          ],
+          "curve_ref": [
+            340,
+            255
+          ]
         },
         {
           "hole": 17,
-          "par": null,
-          "distance_ft": null,
+          "par": 3,
+          "distance_ft": 317,
           "tee": null,
-          "basket": null
+          "basket": null,
+          "tee_ref": [
+            300,
+            151
+          ],
+          "basket_ref": [
+            161,
+            89
+          ],
+          "curve_ref": [
+            230,
+            105
+          ]
         },
         {
           "hole": 18,
-          "par": null,
-          "distance_ft": null,
+          "par": 3,
+          "distance_ft": 208,
           "tee": null,
-          "basket": null
+          "basket": null,
+          "tee_ref": [
+            164,
+            57
+          ],
+          "basket_ref": [
+            265,
+            58
+          ],
+          "curve_ref": [
+            215,
+            55
+          ]
         }
       ],
       "location_source": "UDisc course-location anchor",
       "location_source_url": "https://udisc.com/courses/nwosu-noc-edgc-course-7Teo",
       "site_class": "campus_recreation",
       "city_park_inventory": false,
-      "ownership_context": "NWOSU-Enid campus; Visit Enid reports a land-use agreement with neighboring Northern Oklahoma College-Enid."
+      "ownership_context": "NWOSU-Enid campus; Visit Enid reports a land-use agreement with neighboring Northern Oklahoma College-Enid.",
+      "layout_name": "2022 Classic Tees",
+      "layout_par": 54,
+      "layout_length_ft": 5470,
+      "layout_source": "UDisc",
+      "layout_source_url": "https://udisc.com/courses/nwosu-noc-edgc-course-7Teo",
+      "layout_map_url": "https://udisc.com/courses/nwosu-noc-edgc-course-7Teo/v2/course-map",
+      "layout_geometry_status": "reference_schematic_not_gps"
     }
   ],
-  "classification_note": "NWOSU-NOC is a campus recreation course and is not included in the EPR City park/property inventory. Course-location data does not establish parcel ownership."
+  "classification_note": "NWOSU-NOC is a campus recreation course and is not included in the EPR City park/property inventory. Its EPR layout drawing is a simplified orientation schematic derived from public course-map material; it is not an export of exact UDisc GPS tee/basket coordinates."
 }

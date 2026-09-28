@@ -1,18 +1,19 @@
 {
   "app": "EPR Parks",
-  "release": "A7.16",
-  "build": "A7.16-NWOSU-COURSE-FIX",
-  "name": "EPR Parks \u2014 A7.16 NWOSU Course Fix",
+  "release": "A7.17",
+  "build": "A7.17-NWOSU-COURSE-MAP",
+  "name": "EPR Parks \u2014 A7.17 NWOSU Course Map",
   "release_class": "PUBLIC CANDIDATE",
   "date": "2026-09-28",
-  "rollback": "A7.15 Disc Golf + Scorekeeper",
-  "rollback_baseline": "A7.15 Disc Golf + Scorekeeper",
+  "rollback": "A7.16 NWOSU Course Fix",
+  "rollback_baseline": "A7.16 NWOSU Course Fix",
   "changes": [
-    "Makes NWOSU-NOC Disc Golf Course reliably visible with a supported course-location anchor",
-    "Removes City GIS address lookup dependency for NWOSU-NOC",
-    "Keeps NWOSU-NOC outside the City park/property asset inventory",
-    "Adds explicit campus-recreation classification language",
-    "Preserves all A7.15 scorekeeping and Parks features"
+    "Adds NWOSU-NOC 2022 Classic Tees hole-by-hole par and distance",
+    "Adds clickable EPR course-layout schematic with current-hole highlight",
+    "Integrates course map into round scoring and scorecard",
+    "Links to live UDisc course map for exact/current navigation context",
+    "Preserves Visit Enid 5,230-ft course figure separately from UDisc 5,470-ft layout",
+    "Keeps NWOSU-NOC outside City park/property inventory"
   ],
   "public_dependencies": [
     "Leaflet 1.9.4",
@@ -35,13 +36,13 @@
   "files": [
     {
       "name": "README.txt",
-      "bytes": 920,
-      "sha256": "0df8d276657e746b66e05752d029e889c7285b8cf9d3b3eada4c9ee4e66a024e"
+      "bytes": 1493,
+      "sha256": "0fbb5915fcd96dc2b0480e20d35f6a3faf90f62845d28e2f23e7c1ea5cf5e882"
     },
     {
       "name": "disc-golf.public.json",
-      "bytes": 7130,
-      "sha256": "ffb9ef94fa5eb45895f4b2a358168f81a2be0134b1f7b543cbe28c65c2fba43a"
+      "bytes": 11410,
+      "sha256": "09f4651e2d12f634a9a820a787e7d79a0c1d90460ef75c2815fcfc7200d5b883"
     },
     {
       "name": "events.public.json",
@@ -70,8 +71,8 @@
     },
     {
       "name": "index.html",
-      "bytes": 169585,
-      "sha256": "01210a55c7428efe46a857f7803e8961cebc95f420211edfe56fd06c92abf629"
+      "bytes": 179985,
+      "sha256": "7a963187b4bd63878f26fd6758f62f51c712bb884fa6a52c82a0e0f29c678633"
     },
     {
       "name": "manifest.webmanifest",
@@ -81,7 +82,7 @@
     {
       "name": "sw.js",
       "bytes": 1732,
-      "sha256": "95924a22874e28c73de8603d801e3af45996b042fc747cc1952e0172f6743dce"
+      "sha256": "feed992eb1475240456672177898b92d04777abc7b97a935da0a736f52b205f5"
     },
     {
       "name": "trail-source.json",
