@@ -1,0 +1,11 @@
+{
+  "dataset": "Enid TrailMaster",
+  "source": "https://gis.enid.org/server/rest/services/city/Enid_Transportation/MapServer/35",
+  "plan": "https://www.enid.org/Services/Parks-Recreation/Enid-Master-Trails-Project",
+  "delivery": {
+    "preferred": "interactive City GIS geometry (publication-safe fields)",
+    "fallback": "City MapServer rendered trail overlay when mobile browser blocks cross-origin geometry"
+  },
+  "status_rule": "Current / design-development / exploration-future categories are derived only from published City fields; future lines are not represented as necessarily walkable.",
+  "updated": "2026-09-27"
+}

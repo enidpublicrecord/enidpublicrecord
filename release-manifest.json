@@ -1,0 +1,87 @@
+{
+  "app": "EPR Parks",
+  "release": "A7.6",
+  "build": "A7.6-DARK-FIX",
+  "name": "EPR Parks \u2014 A7.6 Dark Map Fix",
+  "release_class": "PUBLIC CANDIDATE",
+  "date": "2026-09-28",
+  "rollback": "A7.5 Fishing Sites",
+  "rollback_baseline": "A7.5 Fishing Sites",
+  "changes": [
+    "Removed CARTO dark raster dependency that returned API KEY REQUIRED tiles",
+    "Dark mode now uses OpenFreeMap no-key dark vector style",
+    "Dark label toggle uses vector symbol visibility",
+    "Dark vector load has an OpenStreetMap-derived no-key fallback",
+    "Preserves A7.5 Fishing Sites, Trail Explorer, walk tracking, events, Archie, Passport, GPX export and zoom 22"
+  ],
+  "public_dependencies": [
+    "Leaflet 1.9.4",
+    "MapLibre GL JS 5.24.0",
+    "maplibre-gl-leaflet 0.1.3",
+    "OpenFreeMap public vector styles (Liberty + Dark)",
+    "OpenStreetMap",
+    "OpenTopoMap",
+    "Esri World Imagery",
+    "City of Enid ArcGIS MapServer",
+    "Oklahoma Department of Wildlife Conservation public fishing pages"
+  ],
+  "privacy": {
+    "gps_to_analytics": false,
+    "walk_storage": "device-local unless user exports/shares",
+    "event_watches": "device-local",
+    "map_style_preference": "device-local"
+  },
+  "atlas_changed": false,
+  "files": [
+    {
+      "name": "README.txt",
+      "bytes": 967,
+      "sha256": "d0ecd51ffe24d5c5e7052c2be5ce57f391c6139f6b00d9f7edd7ef9aafe3a2e2"
+    },
+    {
+      "name": "events.public.json",
+      "bytes": 2014,
+      "sha256": "fb998fcaacc6b2ea54a8bb1f95d194b3900d285a4d884d5009ddc951b7d2583e"
+    },
+    {
+      "name": "fishing-sites.public.json",
+      "bytes": 1971,
+      "sha256": "f1c8ad15e0768ee2a067a9d05af7c1599bb6fdef4f8c0cab30574304d8603f43"
+    },
+    {
+      "name": "guide-manifest.json",
+      "bytes": 1822,
+      "sha256": "0cb295f8f9d73836eb2aaab2fd6253706744153420755d6ed1bdf03e51824686"
+    },
+    {
+      "name": "icon-192.svg",
+      "bytes": 521,
+      "sha256": "d5952d58cbf7bd1679fde21a8d1a875f08d2481fba9d6a01560296c39862d004"
+    },
+    {
+      "name": "icon-512.svg",
+      "bytes": 521,
+      "sha256": "d5952d58cbf7bd1679fde21a8d1a875f08d2481fba9d6a01560296c39862d004"
+    },
+    {
+      "name": "index.html",
+      "bytes": 133237,
+      "sha256": "28055e19977636cb5091da720d5c8415aee2bef77010dbd92240168541329bb4"
+    },
+    {
+      "name": "manifest.webmanifest",
+      "bytes": 561,
+      "sha256": "9589386ff44662b1d6eca475c285b44075e92c01fe1a25a3ed74513789c88b38"
+    },
+    {
+      "name": "sw.js",
+      "bytes": 1652,
+      "sha256": "b621b1213e51ce1984a52f1c9e3d5bb1a06e9a9bd5c6ed626de9bf5e4d906186"
+    },
+    {
+      "name": "trail-source.json",
+      "bytes": 630,
+      "sha256": "819a7bdeb651eccecd9a36f6b7f981dc08b14accc071afaf843983cb52f29190"
+    }
+  ]
+}
