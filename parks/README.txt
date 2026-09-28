@@ -1,45 +1,55 @@
-EPR Parks Prototype A7.2 — Smooth Map
+EPR Parks Prototype A7.3 — Trail Explorer
 
-EPR Parks — A7.1 EPR Outdoors
-2026-09-27
+EPR Parks — A7.3 Trail Explorer
+2026-09-28
 
 PURPOSE
-Phone-test hotfix and cartographic identity pass for EPR Parks.
+Make Enid trails obvious and easy to understand without turning Parks into a cluttered GIS dashboard. Give Parks its own outdoor identity with multiple basemap choices while preserving the privacy-first walk tracker, events, Archie guides, Passport and Evidence Lens.
 
 WHAT CHANGED
-1. EPR Outdoors basemap: Parks now prefers OpenFreeMap vector cartography rather than the Atlas-style raster map. Parks can therefore reduce label size, suppress oversized highway shields/POI clutter, soften roads, and emphasize land/water/park colors.
-2. Fallback map: if the vector basemap cannot load, a softened OpenStreetMap raster appears automatically.
-3. Trails: interactive TrailMaster geometry is still preferred. If the mobile browser blocks the cross-origin geometry request, Parks automatically shows the City TrailMaster through a no-CORS ArcGIS rendered-map overlay rather than displaying “Trails not loaded.”
-4. Trail status controls remain meaningful in fallback mode: current, design/development, and exploration/future are requested as separate City-rendered overlays.
-5. Trail detail cards remain evidence-controlled: segment-specific tap details are only enabled when interactive geometry actually loads.
-6. Map labels remain available from Layers; the default style is already reduced and highway shields are suppressed. Reset returns to the normal EPR Outdoors view.
+1. Trail Explorer is now a first-class destination. “Explore trails” appears in the hero, the right-side trail control, the compact trail card and the More menu.
+2. Current-first trail UX. Reset/default shows only the current City TrailMaster category. Design/development and exploration/future linework are deliberately separated so planning geometry is not mistaken for a currently walkable route.
+3. Trail Explorer choices: Current trails, Trails near me, Full trail map, and Future network.
+4. Interactive trail cards now include evidence-controlled name/status fields, approximate mapped length when geometry is available, Fit trail, City source, and Start walk. Starting a walk from a selected trail carries the trail name into the local walk record.
+5. Four basemap choices:
+   - Outdoors — default EPR park-first vector style using OpenFreeMap/OpenStreetMap.
+   - Terrain — OpenTopoMap topographic context.
+   - Satellite — Esri World Imagery.
+   - Dark — OpenFreeMap dark style for lower-glare use.
+6. Basemap switching does not change EPR park, trail, event or evidence overlays.
+7. The compact lower-left trail card now acts as an invitation to explore rather than exposing technical segment counts first.
+8. A7.2 smooth-pinch behavior, leaf-only EPR Parks mark, and About-page homepage link are preserved.
+
+TRAIL DATA
+Interactive geometry still comes from the City of Enid TrailMaster service. If browser cross-origin behavior prevents the geometry request, the app keeps the City rendered trail-overlay fallback rather than inventing line details.
+
+PRIVACY
+- GPS walk routes remain device-local unless the user deliberately exports/shares them.
+- Coordinates and route traces are not sent to Google Analytics.
+- “Trails near me” asks for location only after the user chooses it.
+- Basemap choice is stored locally for convenience.
 
 PRESERVED
-- A7 walk tracker / Follow mode
-- events and event-watch preferences
+- Walk tracker / Follow mode / GPX export
+- Park events and event-watch preferences
 - Archie guides
 - Park Passport
 - Evidence Lens
 - Google Analytics G-6ZVETTNBV4
-- production Atlas untouched
+- Production Atlas untouched
 
 ROLLBACK
-A7 Outdoor Mode remains the protected production rollback baseline until A7.1 passes hosted Android QA.
+A7.2 Smooth Map is the immediate rollback candidate. Earlier A7/A7.1 packages remain historical fallbacks.
 
-LIVE QA AFTER UPLOAD
-- Confirm the basemap has smaller labels and no dominant US-60/US-412 shield.
-- Confirm trails become interactive colored lines OR a visible City trail overlay instead of “Trails not loaded.”
-- If fallback trails are active, tap the trail legend and confirm the app explains that segment details are unavailable rather than guessing.
-- Toggle More > Layers > Map labels off/on.
-- Start/Pause/Resume/Finish Walk.
-- Confirm Passport, Archie, Events and Reset still work.
+LIVE ANDROID QA AFTER UPLOAD
+- Confirm Explore trails is obvious without opening More.
+- Open Trail Explorer > Current trails and confirm only the current category is shown.
+- Open Future network and confirm current lines are not presented as part of that view.
+- Try Outdoors, Terrain, Satellite and Dark. Confirm map switching preserves parks/trails and pinch zoom remains smooth.
+- Tap an interactive trail line if available; confirm Fit trail and Start walk work.
+- Test Trails near me only after deliberately granting location.
+- Start/Pause/Resume/Finish a trail walk.
+- Confirm Reset returns to Outdoors + current trails without erasing Passport, saved walks, Archie progress or event watches.
 
 MAP ATTRIBUTION
-The EPR Outdoors vector basemap uses OpenFreeMap / OpenMapTiles with OpenStreetMap data. Attribution is shown on-map.
-
-A7.2 changes:
-- smoother mobile pinch/pan tuning for Leaflet + OpenFreeMap bridge
-- GL canvas made pointer-transparent so Leaflet owns touch gestures
-- fractional zoom snapping and normal zoom animation restored
-- simplified leaf-only EPR Parks icon; no unreadable micro-text
-- main Enid Public Record homepage link moved to About & privacy instead of the top brand, avoiding accidental exits during walks
+Attribution is shown on-map for the active basemap. Outdoors/Dark use OpenFreeMap/OpenMapTiles with OpenStreetMap data. Terrain uses OpenTopoMap with OpenStreetMap and SRTM/Sonny DEM attribution. Satellite uses Esri imagery attribution.
