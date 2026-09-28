@@ -1,15 +1,15 @@
-EPR Parks — A7.12 Dark Forest Polish
+EPR Parks — A7.13 Final Dark
 
 Release class: PUBLIC CANDIDATE
 Date: 2026-09-28
-Rollback: A7.11 True Dark
+Rollback: A7.12 Dark Forest Polish
 
-Dark-mode polish:
-- Lifts the deepest shadows so streets and water context remain visible.
-- Reduces saturation so highway orange/red no longer competes with trails.
-- Keeps the current trail network and EPR park markers bright and dominant.
-- Softens the overall road/label background without changing EPR overlay styling.
-- Outdoors remains the startup/default view; reload returns to Outdoors.
+Final Dark-mode polish:
+- Lifts the darkest parts of the night basemap by roughly 5–8%.
+- Keeps the established A7.12 color balance.
+- Preserves bright EPR trails and park markers.
+- Leaves Outdoors as the startup/default map.
+- Reloading returns to Outdoors.
 
-All A7.11 trail, fishing, events, walk, Archie, Passport and privacy behavior is preserved.
+All A7.12 trail, fishing, events, walk, Archie, Passport and privacy behavior is preserved.
 Production Atlas is not changed by this patch.

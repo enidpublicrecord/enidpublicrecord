@@ -1,17 +1,17 @@
 {
   "app": "EPR Parks",
-  "release": "A7.12",
-  "build": "A7.12-DARK-FOREST-POLISH",
-  "name": "EPR Parks — A7.12 Dark Forest Polish",
+  "release": "A7.13",
+  "build": "A7.13-FINAL-DARK",
+  "name": "EPR Parks — A7.13 Final Dark",
   "release_class": "PUBLIC CANDIDATE",
   "date": "2026-09-28",
-  "rollback": "A7.11 True Dark",
-  "rollback_baseline": "A7.11 True Dark",
+  "rollback": "A7.12 Dark Forest Polish",
+  "rollback_baseline": "A7.12 Dark Forest Polish",
   "changes": [
-    "Lifts Dark-mode shadows for better street/water context",
-    "Reduces basemap saturation so highway colors do not compete with trails",
-    "Keeps EPR trail and park overlays visually dominant",
-    "Preserves Outdoors as startup/default and all A7.11 features"
+    "Raises Dark-mode shadow brightness by roughly 5–8%",
+    "Keeps A7.12 road saturation, trail prominence and park marker hierarchy",
+    "Preserves Outdoors as startup/default",
+    "Preserves all A7.12 features and privacy behavior"
   ],
   "public_dependencies": [
     "Leaflet 1.9.4",
@@ -34,8 +34,8 @@
   "files": [
     {
       "name": "README.txt",
-      "bytes": 653,
-      "sha256": "7fe4fe313fd8e0f71612722d70c09d3dc5b4279ddcdce0dc350c5f594c1af5ed"
+      "bytes": 519,
+      "sha256": "57e880ee61937b54594e9a078d9cc25c92489c3ee8a3ee93b96e7f508c5d8cc3"
     },
     {
       "name": "events.public.json",
@@ -64,8 +64,8 @@
     },
     {
       "name": "index.html",
-      "bytes": 136930,
-      "sha256": "3256ba08062f5dc388ddf5f2c8ecd343a1314b87a14948861345c286eb165917"
+      "bytes": 136907,
+      "sha256": "0dbc5e423667d3b9b1d997ca9fce1d9ea11845fe34c554337843eb2ac64d78ad"
     },
     {
       "name": "manifest.webmanifest",
@@ -74,8 +74,8 @@
     },
     {
       "name": "sw.js",
-      "bytes": 1663,
-      "sha256": "201593a178fc64df80102dd21419fd2f3be606764ff83ba306221d7e9fc84afa"
+      "bytes": 1655,
+      "sha256": "36c119418f84615796717ce0af056ea16cdef6ef6a8e3a104427a713a4b4169b"
     },
     {
       "name": "trail-source.json",
