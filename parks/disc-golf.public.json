@@ -149,16 +149,16 @@
       "id": "dg-nwosu",
       "park_id": null,
       "name": "NWOSU-NOC Disc Golf Course",
-      "address": "2929 E Randolph Ave",
+      "address": "NWOSU-Enid, 2929 E Randolph Ave",
       "holes_count": 18,
       "course_par": 54,
       "course_length_ft": 5230,
       "fee": "Free",
       "source_authority": "Visit Enid",
       "source_url": "https://visitenid.org/nwosu-noc-disc-golf-course/",
-      "location_status": "address_only",
-      "lat": null,
-      "lng": null,
+      "location_status": "supported_course_anchor",
+      "lat": 36.39744438714072,
+      "lng": -97.84009125083685,
       "hole_data_status": "Hole-by-hole par, distance, tee and basket geometry pending EPR verification",
       "holes": [
         {
@@ -287,7 +287,13 @@
           "tee": null,
           "basket": null
         }
-      ]
+      ],
+      "location_source": "UDisc course-location anchor",
+      "location_source_url": "https://udisc.com/courses/nwosu-noc-edgc-course-7Teo",
+      "site_class": "campus_recreation",
+      "city_park_inventory": false,
+      "ownership_context": "NWOSU-Enid campus; Visit Enid reports a land-use agreement with neighboring Northern Oklahoma College-Enid."
     }
-  ]
+  ],
+  "classification_note": "NWOSU-NOC is a campus recreation course and is not included in the EPR City park/property inventory. Course-location data does not establish parcel ownership."
 }
