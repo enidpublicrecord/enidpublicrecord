@@ -1,18 +1,17 @@
 {
   "app": "EPR Parks",
-  "release": "A7.9",
-  "build": "A7.9-DARK-RASTER-FIX",
-  "name": "EPR Parks — A7.9 Dark Raster Fix",
+  "release": "A7.10",
+  "build": "A7.10-OUTDOORS-DEFAULT",
+  "name": "EPR Parks — A7.10 Outdoors Default",
   "release_class": "PUBLIC CANDIDATE",
   "date": "2026-09-28",
-  "rollback": "A7.8 Persistent Dark",
-  "rollback_baseline": "A7.8 Persistent Dark",
+  "rollback": "A7.9 Dark Raster Fix",
+  "rollback_baseline": "A7.9 Dark Raster Fix",
   "changes": [
-    "Replaces Dark vector restyling with a dedicated Leaflet raster base pane",
-    "Applies the night transformation to the dedicated pane so MapLibre style refreshes cannot revert Dark mode",
-    "Uses no-key OpenStreetMap tiles for Dark and keeps EPR overlays unfiltered above the base pane",
-    "Bumps service-worker cache and disables service-worker script update caching",
-    "Preserves red dotted Future / not usable trails, fishing, Trail Explorer, walk tracking, events, Archie, Passport, Terrain, Satellite and zoom 22"
+    "Always start the app in EPR Outdoors",
+    "Stop persisting map-style choice across reloads",
+    "Clear stale epr-parks-map-style localStorage from earlier builds",
+    "Preserve A7.9 dedicated Dark raster pane and all other Parks features"
   ],
   "public_dependencies": [
     "Leaflet 1.9.4",
@@ -35,8 +34,8 @@
   "files": [
     {
       "name": "README.txt",
-      "bytes": 844,
-      "sha256": "12880ace3f2ca5ba15c09afd84607d88c7b789a4d54ef5333afa90cd30e2a1b3"
+      "bytes": 599,
+      "sha256": "85f6cedb46c3ffea7f48dcec9e7c68ad247bb87c7ce7f53671e28a3fbb8134b4"
     },
     {
       "name": "events.public.json",
@@ -65,8 +64,8 @@
     },
     {
       "name": "index.html",
-      "bytes": 136680,
-      "sha256": "988eec90a607ee2a8cb71c4bacebae8243dd40f8567bfe225de1cfa4341081ee"
+      "bytes": 136686,
+      "sha256": "cbefbb9d21042e7bfa8357143eaaf49b507eb9aabae6f8cd9e4c1cbe7e4721a6"
     },
     {
       "name": "manifest.webmanifest",
@@ -75,8 +74,8 @@
     },
     {
       "name": "sw.js",
-      "bytes": 1659,
-      "sha256": "2a09c53a215459ab7649a6fe2e7588b923fe637bc44796f2843b10230c1850c1"
+      "bytes": 1661,
+      "sha256": "cd09c8b6fd24d09ea819cd1e349a4932747fc4d7c9b96c90cdf71e391ed3b6c9"
     },
     {
       "name": "trail-source.json",
