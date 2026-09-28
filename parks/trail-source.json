@@ -1,0 +1,32 @@
+{
+  "schema": "epr-parks-trails-source/1",
+  "build": "A6",
+  "mode": "live-public-source",
+  "primary_layer": "https://gis.enid.org/server/rest/services/city/Enid_Transportation/MapServer/35",
+  "fallback_layer": "https://gis.enid.org/server/rest/services/Enid_Trails/MapServer/33",
+  "master_plan": "https://www.enid.org/Services/Parks-Recreation/Enid-Master-Trails-Project",
+  "public_fields": [
+    "OBJECTID",
+    "TYPE",
+    "LENGTH",
+    "LENGTH_MI",
+    "PARKS",
+    "SCHOOLS",
+    "COMMUNITY",
+    "PHASE2",
+    "YEAR_FIN",
+    "STATUS",
+    "width",
+    "Funding_Amount",
+    "Funding_Source",
+    "Mixed_Use",
+    "Phase",
+    "Description"
+  ],
+  "status_presentation": {
+    "current": "Description/status not marked design, exploration, or future",
+    "design": "Description/status contains design",
+    "planned": "Description/status contains exploration or future"
+  },
+  "publication_note": "A6 does not infer named master-plan corridors when the live GIS attributes do not provide a defensible name."
+}

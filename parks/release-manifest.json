@@ -1,0 +1,70 @@
+{
+  "app": "EPR Parks",
+  "build": "A6",
+  "release_class": "PUBLIC CANDIDATE",
+  "rollback_baseline": "A5",
+  "changes": [
+    "City TrailMaster live line layer",
+    "trail status styling and cards",
+    "Google Analytics G-6ZVETTNBV4",
+    "A6 service-worker cache"
+  ],
+  "public_trail_source": "City of Enid TrailMaster",
+  "atlas_changed": false,
+  "qa": {
+    "title_a6": true,
+    "analytics_id": true,
+    "trail_button": true,
+    "trail_legend": true,
+    "trail_endpoints": true,
+    "a6_cache": true,
+    "duplicate_ids": [],
+    "no_password=": true,
+    "no_api_key=": true,
+    "no_apikey=": true,
+    "no_private_key": true,
+    "no_bearer ": true
+  },
+  "files": [
+    {
+      "name": "README.txt",
+      "bytes": 1561,
+      "sha256": "30ba92b149ed9522f77bcea9d5d33f2e59b15377f309ed7c12f1bfc864d3922d"
+    },
+    {
+      "name": "guide-manifest.json",
+      "bytes": 1823,
+      "sha256": "5a914a32c59b1f88c1970cc813eb92a7b59f4827690afbaf462558de8deda496"
+    },
+    {
+      "name": "icon-192.svg",
+      "bytes": 521,
+      "sha256": "d5952d58cbf7bd1679fde21a8d1a875f08d2481fba9d6a01560296c39862d004"
+    },
+    {
+      "name": "icon-512.svg",
+      "bytes": 521,
+      "sha256": "d5952d58cbf7bd1679fde21a8d1a875f08d2481fba9d6a01560296c39862d004"
+    },
+    {
+      "name": "index.html",
+      "bytes": 63248,
+      "sha256": "ec3e4f97becf7d3ccdb9f98fab9f6bdaa5a3053e749dc95fed807f56e5b12ac8"
+    },
+    {
+      "name": "manifest.webmanifest",
+      "bytes": 299,
+      "sha256": "af1b4ead9a9048ce86ce1318d4837c75dae48495bc3908e4f419ad928427baf6"
+    },
+    {
+      "name": "sw.js",
+      "bytes": 907,
+      "sha256": "f8f13eba711f6079f1df42a4d293fa56d0242f1797c510c96b6a263d2e6d7629"
+    },
+    {
+      "name": "trail-source.json",
+      "bytes": 1022,
+      "sha256": "55196d2429c88f42ad419f83f91f498be090043425fa3f3ecc011839ff4639b4"
+    }
+  ]
+}
