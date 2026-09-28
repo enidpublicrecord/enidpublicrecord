@@ -1,17 +1,17 @@
 {
   "app": "EPR Parks",
-  "release": "A7.10",
-  "build": "A7.10-OUTDOORS-DEFAULT",
-  "name": "EPR Parks — A7.10 Outdoors Default",
+  "release": "A7.11",
+  "build": "A7.11-TRUE-DARK",
+  "name": "EPR Parks — A7.11 True Dark",
   "release_class": "PUBLIC CANDIDATE",
   "date": "2026-09-28",
-  "rollback": "A7.9 Dark Raster Fix",
-  "rollback_baseline": "A7.9 Dark Raster Fix",
+  "rollback": "A7.10 Outdoors Default",
+  "rollback_baseline": "A7.10 Outdoors Default",
   "changes": [
-    "Always start the app in EPR Outdoors",
-    "Stop persisting map-style choice across reloads",
-    "Clear stale epr-parks-map-style localStorage from earlier builds",
-    "Preserve A7.9 dedicated Dark raster pane and all other Parks features"
+    "Keeps Outdoors as the startup/default map",
+    "Strengthens Dark into a true night palette instead of a washed gray treatment",
+    "Preserves the dedicated Leaflet Dark pane and non-persistent map-style behavior",
+    "Preserves all A7.10 Parks features and privacy behavior"
   ],
   "public_dependencies": [
     "Leaflet 1.9.4",
@@ -34,8 +34,8 @@
   "files": [
     {
       "name": "README.txt",
-      "bytes": 599,
-      "sha256": "85f6cedb46c3ffea7f48dcec9e7c68ad247bb87c7ce7f53671e28a3fbb8134b4"
+      "bytes": 540,
+      "sha256": "4f723deaf8a721560cd5dd9d52da432635ea95773fedc40a5fdfb6c99b86bddb"
     },
     {
       "name": "events.public.json",
@@ -64,8 +64,8 @@
     },
     {
       "name": "index.html",
-      "bytes": 136686,
-      "sha256": "cbefbb9d21042e7bfa8357143eaaf49b507eb9aabae6f8cd9e4c1cbe7e4721a6"
+      "bytes": 136863,
+      "sha256": "933265c9b4e164bad55c442c62a7eb89525b4d535a21e1a494781be7dcee1cdb"
     },
     {
       "name": "manifest.webmanifest",
@@ -74,8 +74,8 @@
     },
     {
       "name": "sw.js",
-      "bytes": 1661,
-      "sha256": "cd09c8b6fd24d09ea819cd1e349a4932747fc4d7c9b96c90cdf71e391ed3b6c9"
+      "bytes": 1654,
+      "sha256": "9afa5b2c691be02786fa0559a87194738fcb60482b1e3e46bd00853ad7f88c59"
     },
     {
       "name": "trail-source.json",
