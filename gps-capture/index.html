@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EPR Meadowlake GPS Capture</title>
+<style>
+:root{color-scheme:dark}body{font-family:system-ui,sans-serif;background:#101b20;color:#eef8f7;max-width:650px;margin:auto;padding:18px}h1{font-size:1.5rem}p{line-height:1.5}.panel{background:#1d3036;border:1px solid #3c5c61;border-radius:12px;padding:15px;margin:12px 0}button,select,input{font:inherit;padding:12px;border-radius:9px;border:1px solid #70989b}button{background:#36d4c2;color:#062525;font-weight:700;cursor:pointer;margin:4px 4px 4px 0}button.secondary{background:#304e57;color:white}button.danger{background:#713638;color:white}select,input{background:#12252a;color:white;max-width:100%}label{display:block;margin:8px 0}small{color:#bfd0d1}.ok{color:#66f0b3}.warn{color:#ffd27c}li{margin-bottom:8px}#status{font-weight:700}</style></head><body>
+<h1>📍 EPR Meadowlake GPS Capture</h1>
+<p>Record disc golf tee pads and baskets. Every captured point is <b>automatically saved on this device</b>. Export a backup before clearing browser data or switching devices.</p>
+<div class="panel">
+<label>Hole <select id="hole"></select></label>
+<label>Point type <select id="kind"><option value="tee">Tee pad</option><option value="basket">Basket</option><option value="waypoint">Fairway waypoint</option></select></label>
+<label>Notes (optional) <input id="notes" placeholder="e.g., alternate tee"></label>
+<button id="capture">Capture GPS &amp; Save</button>
+<p id="status" role="status">Ready. Allow location access when prompted.</p>
+<small>Location access requires HTTPS or a browser-supported secure context. A downloaded file may not receive location permission in some mobile browsers; hosting this file at an HTTPS address is more reliable.</small>
+</div>
+<div class="panel"><b id="count">0 saved points</b><p id="coverage"></p>
+<button id="json" class="secondary">Download JSON backup</button>
+<button id="csv" class="secondary">Download CSV backup</button>
+<button id="clear" class="danger">Delete local points</button>
+</div>
+<div class="panel"><h2>Saved points</h2><ol id="points"></ol></div>
+<script>
+const KEY='epr_meadowlake_gps_v1';
+const hole=document.getElementById('hole'),kind=document.getElementById('kind'),notes=document.getElementById('notes'),status=document.getElementById('status');
+for(let i=1;i<=18;i++){const o=document.createElement('option');o.value=i;o.textContent='Hole '+i;hole.append(o)}
+function load(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return []}}
+let points=load();
+function render(){
+document.getElementById('count').textContent=points.length+' saved point'+(points.length===1?'':'s');
+const tees=new Set(points.filter(p=>p.type==='tee').map(p=>p.hole));
+const baskets=new Set(points.filter(p=>p.type==='basket').map(p=>p.hole));
+document.getElementById('coverage').textContent=`Tee pads: ${tees.size}/18 · Baskets: ${baskets.size}/18`;
+const ol=document.getElementById('points');ol.replaceChildren();
+[...points].reverse().forEach(p=>{const li=document.createElement('li');li.textContent=`Hole ${p.hole} ${p.type}: ${p.latitude.toFixed(7)}, ${p.longitude.toFixed(7)} (±${Math.round(p.accuracy_m)} m) — ${new Date(p.timestamp).toLocaleString()}${p.notes?' — '+p.notes:''}`;ol.append(li)});
+}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(points));return true}catch(e){status.textContent='SAVE FAILED: '+e.message;status.className='warn';return false}}
+document.getElementById('capture').onclick=()=>{
+if(!navigator.geolocation){status.textContent='GPS unavailable in this browser.';status.className='warn';return}
+status.textContent='Getting GPS fix…';status.className='';
+navigator.geolocation.getCurrentPosition(pos=>{
+const p={id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),course:'Meadowlake DGC',hole:Number(hole.value),type:kind.value,notes:notes.value.trim(),latitude:pos.coords.latitude,longitude:pos.coords.longitude,accuracy_m:pos.coords.accuracy,altitude_m:pos.coords.altitude,timestamp:new Date(pos.timestamp).toISOString()};
+points.push(p);
+if(persist()){status.textContent=`✓ SAVED locally: hole ${p.hole} ${p.type}, accuracy ±${Math.round(p.accuracy_m)} m`;status.className='ok';notes.value='';render()}
+else points.pop();
+},err=>{status.textContent='GPS error: '+err.message+' — check location permissions and HTTPS.';status.className='warn'},{enableHighAccuracy:true,timeout:25000,maximumAge:0});
+};
+function download(content,mime,ext){const b=new Blob([content],{type:mime});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download='EPR-Meadowlake-GPS-'+new Date().toISOString().slice(0,10)+'.'+ext;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000)}
+document.getElementById('json').onclick=()=>download(JSON.stringify({course:'Meadowlake DGC',exported_at:new Date().toISOString(),points},null,2),'application/json','json');
+document.getElementById('csv').onclick=()=>{const fields=['id','course','hole','type','latitude','longitude','accuracy_m','altitude_m','timestamp','notes'];const esc=v=>'"'+String(v??'').replaceAll('"','""')+'"';download([fields.join(','),...points.map(p=>fields.map(f=>esc(p[f])).join(','))].join('\r\n'),'text/csv','csv')};
+document.getElementById('clear').onclick=()=>{if(confirm('Delete ALL locally saved Meadowlake points? Export a backup first.')){points=[];if(persist()){render();status.textContent='Local points deleted.'}}};
+render();
+</script></body></html>
