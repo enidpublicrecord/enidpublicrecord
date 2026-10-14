@@ -2,3 +2,5 @@ User-agent: *
 Allow: /
 
 Sitemap: https://enidpublicrecord.com/sitemap.xml
+Sitemap: https://enidpublicrecord.com/image-sitemap.xml
+Sitemap: https://enidpublicrecord.com/feed.xml
